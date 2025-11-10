@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useEffect, useState } from "react"
 
@@ -28,6 +28,7 @@ export default function ComingSoonPage() {
 
       {/* Content container with fade-in animation */}
       <div
+        suppressHydrationWarning
         className={`relative z-10 flex flex-col items-center justify-center text-center transition-all duration-1000 ${
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
         }`}
