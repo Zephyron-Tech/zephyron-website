@@ -45,13 +45,12 @@ function StackTile({ t: item }: { t: StackItem }) {
       onMouseLeave={() => setHover(false)}
       style={{
         background: hover ? 'var(--surface-alt)' : 'var(--surface)',
-        padding: '28px 24px',
+        padding: 'clamp(20px, 2.5vw, 28px) clamp(16px, 2vw, 24px)',
         display: 'flex',
         flexDirection: 'column',
         gap: 16,
         position: 'relative',
         transition: 'background 200ms var(--ease-out)',
-        minHeight: 200,
         cursor: 'default',
       }}
     >
@@ -160,7 +159,7 @@ export function TechStack() {
             </h2>
             <p
               style={{
-                fontSize: 17,
+                fontSize: 'clamp(15px, 1.6vw, 17px)',
                 color: 'var(--fg-muted)',
                 lineHeight: 1.55,
                 maxWidth: '50ch',

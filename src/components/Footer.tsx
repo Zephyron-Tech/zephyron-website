@@ -80,7 +80,7 @@ export function Footer() {
       style={{
         background: 'var(--navy-950)',
         borderTop: '1px solid var(--border)',
-        padding: '64px 0 32px',
+        padding: 'clamp(40px, 6vw, 64px) 0 clamp(24px, 3vw, 32px)',
         position: 'relative',
       }}
     >
@@ -90,8 +90,8 @@ export function Footer() {
           style={{
             display: 'grid',
             gridTemplateColumns: '1.4fr 1fr 1fr 1fr',
-            gap: 48,
-            paddingBottom: 56,
+            gap: 'clamp(28px, 4vw, 48px)',
+            paddingBottom: 'clamp(36px, 5vw, 56px)',
             borderBottom: '1px solid var(--border)',
           }}
           className="zt-footer-grid"

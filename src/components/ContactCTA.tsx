@@ -103,7 +103,7 @@ export function ContactCTA() {
 
         <p
           style={{
-            fontSize: 18,
+            fontSize: 'clamp(15px, 1.6vw, 18px)',
             color: 'var(--fg-muted)',
             maxWidth: '52ch',
             margin: '0 0 44px',
@@ -132,6 +132,8 @@ export function ContactCTA() {
             borderBottom: `1.5px solid ${hover ? 'var(--accent-bright)' : 'rgba(255,255,255,0.2)'}`,
             transition: 'color 200ms var(--ease-out), border-color 200ms var(--ease-out)',
             cursor: 'pointer',
+            maxWidth: '100%',
+            wordBreak: 'break-all',
           }}
         >
           {/* Email text with sweep overlay */}

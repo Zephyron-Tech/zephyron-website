@@ -120,7 +120,7 @@ function LegalContent({
         style={{
           fontSize: 13,
           color: 'var(--fg-subtle)',
-          margin: '0 0 56px',
+          margin: '0 0 clamp(28px, 4vw, 56px)',
           letterSpacing: '0.01em',
         }}
       >

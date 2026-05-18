@@ -12,6 +12,8 @@ interface ButtonProps {
   href?: string;
   onClick?: () => void;
   size?: 'sm' | 'md' | 'lg';
+  style?: React.CSSProperties;
+  className?: string;
 }
 
 export function Button({
@@ -22,6 +24,8 @@ export function Button({
   href,
   onClick,
   size = 'md',
+  style: styleProp,
+  className,
 }: ButtonProps) {
   const [hover, setHover] = useState(false);
   const [press, setPress] = useState(false);
@@ -70,7 +74,7 @@ export function Button({
     },
   };
 
-  const style = { ...base, ...variantStyles[variant] };
+  const style = { ...base, ...variantStyles[variant], ...styleProp };
 
   const handlers = {
     onMouseEnter: () => setHover(true),
@@ -81,7 +85,7 @@ export function Button({
 
   if (href) {
     return (
-      <a href={href} style={style} {...handlers}>
+      <a href={href} style={style} className={className} {...handlers}>
         {icon && <Icon name={icon} size={16} />}
         <span>{children}</span>
         {iconRight && (
@@ -100,7 +104,7 @@ export function Button({
   }
 
   return (
-    <button type="button" style={style} onClick={onClick} {...handlers}>
+    <button type="button" style={style} className={className} onClick={onClick} {...handlers}>
       {icon && <Icon name={icon} size={16} />}
       <span>{children}</span>
       {iconRight && (

@@ -76,7 +76,7 @@ function SectionHead({
         {lead && (
           <p
             style={{
-              fontSize: 17,
+              fontSize: 'clamp(15px, 1.6vw, 17px)',
               color: 'var(--fg-muted)',
               lineHeight: 1.55,
               maxWidth: '50ch',
@@ -209,7 +209,7 @@ function ProjectCard({ project }: { project: ProjectData }) {
         flexDirection: 'column',
         gap: 20,
         transition: 'border-color 200ms var(--ease-out)',
-        minHeight: 360,
+        minHeight: 'clamp(260px, 35vw, 360px)',
       }}
     >
       <div
@@ -229,7 +229,7 @@ function ProjectCard({ project }: { project: ProjectData }) {
         style={{
           fontFamily: 'var(--font-display)',
           fontWeight: 600,
-          fontSize: 26,
+          fontSize: 'clamp(20px, 2.4vw, 26px)',
           letterSpacing: '-0.02em',
           margin: 0,
           color: 'var(--fg)',
