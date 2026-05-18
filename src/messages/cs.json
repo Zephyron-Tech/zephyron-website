@@ -88,7 +88,12 @@
     "emailPlaceholder": "jan@firma.cz",
     "project": "Co stavíte?",
     "projectPlaceholder": "Problém, omezení, kde jste teď...",
-    "submit": "Odeslat dotaz"
+    "submit": "Odeslat dotaz",
+    "sending": "Odesílám...",
+    "successTitle": "Zpráva odeslána",
+    "successMessage": "Ozveme se do dvou pracovních dnů.",
+    "successClose": "Zavřít",
+    "errorMessage": "Něco se pokazilo. Napište nám přímo na hello@zephyron.tech."
   },
   "footer": {
     "tagline": "Zakázkový software — webové platformy, datové systémy, mobilní aplikace, interní nástroje.",

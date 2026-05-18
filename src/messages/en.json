@@ -88,7 +88,12 @@
     "emailPlaceholder": "jan@company.com",
     "project": "What are you building?",
     "projectPlaceholder": "The problem, the constraints, where you are now...",
-    "submit": "Send inquiry"
+    "submit": "Send inquiry",
+    "sending": "Sending...",
+    "successTitle": "Message sent",
+    "successMessage": "We'll get back to you within two business days.",
+    "successClose": "Close",
+    "errorMessage": "Something went wrong. Try emailing us directly at hello@zephyron.tech."
   },
   "footer": {
     "tagline": "Custom software engineering — web platforms, data systems, mobile apps, internal tools.",

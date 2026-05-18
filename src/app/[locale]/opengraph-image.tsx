@@ -1,6 +1,5 @@
 import { ImageResponse } from 'next/og';
 import { readFileSync } from 'fs';
-import { join } from 'path';
 
 export const alt = 'Zephyron Tech — Custom software engineering';
 export const size = { width: 1200, height: 630 };
@@ -25,13 +24,13 @@ export default async function Image({
   const [line1, line2] = HEADLINE[locale] ?? HEADLINE.en;
   const tagline = TAGLINE[locale] ?? TAGLINE.en;
 
-  // Load local Surgena font (used for all headlines on site)
+  // Load local Surgena font — import.meta.url lets Next.js trace this at build time
   const surgena = readFileSync(
-    join(process.cwd(), 'public/fonts/surgenapersonaluseonlysembd-q2qwd.ttf'),
+    new URL('../../../public/fonts/surgenapersonaluseonlysembd-q2qwd.ttf', import.meta.url),
   );
 
   // Load logo mark
-  const markRaw  = readFileSync(join(process.cwd(), 'public/mark-color.png'));
+  const markRaw = readFileSync(new URL('../../../public/mark-color.png', import.meta.url));
   const markSrc  = `data:image/png;base64,${markRaw.toString('base64')}`;
 
   return new ImageResponse(
