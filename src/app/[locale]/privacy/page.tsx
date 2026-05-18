@@ -1,5 +1,31 @@
+import type { Metadata } from 'next';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
+
+const BASE = 'https://zephyron.tech';
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const isCs = locale === 'cs';
+  return {
+    title: isCs ? 'Zásady ochrany osobních údajů' : 'Privacy Policy',
+    description: isCs
+      ? 'Zásady ochrany osobních údajů společnosti Zephyron Tech s.r.o. — jak zpracováváme vaše osobní údaje v souladu s GDPR.'
+      : 'Privacy Policy of Zephyron Tech s.r.o. — how we handle your personal data in compliance with GDPR.',
+    alternates: {
+      canonical: isCs ? `${BASE}/cs/privacy` : `${BASE}/privacy`,
+      languages: {
+        'en':        `${BASE}/privacy`,
+        'cs':        `${BASE}/cs/privacy`,
+        'x-default': `${BASE}/privacy`,
+      },
+    },
+  };
+}
 
 const en = {
   title: 'Privacy Policy',

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { Eyebrow } from './ui/Eyebrow';
 import { Icon } from './ui/Icon';
 import {
@@ -114,7 +114,9 @@ function StackTile({ t: item }: { t: StackItem }) {
 
 export function TechStack() {
   const t = useTranslations('techstack');
+  const locale = useLocale();
   const items = t.raw('items') as StackItem[];
+  const technologiesHref = locale === 'en' ? '/technologies' : `/cs/technologies`;
 
   return (
     <section
@@ -186,6 +188,27 @@ export function TechStack() {
           {items.map((item, i) => (
             <StackTile key={i} t={item} />
           ))}
+        </div>
+
+        {/* Link to full tech glossary */}
+        <div style={{ marginTop: 32, display: 'flex', justifyContent: 'flex-end' }}>
+          <a
+            href={technologiesHref}
+            style={{
+              fontSize: 14,
+              fontWeight: 600,
+              color: 'var(--fg-subtle)',
+              textDecoration: 'none',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 6,
+              transition: 'color 150ms var(--ease-out)',
+            }}
+            onMouseOver={(e) => (e.currentTarget.style.color = 'var(--fg)')}
+            onMouseOut={(e) => (e.currentTarget.style.color = 'var(--fg-subtle)')}
+          >
+            {locale === 'cs' ? 'Přehled celého stacku' : 'Full stack overview'} →
+          </a>
         </div>
       </div>
 

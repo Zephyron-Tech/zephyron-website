@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
@@ -17,13 +17,38 @@ export async function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
+export const viewport: Viewport = {
+  themeColor: '#010F22',
+};
+
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'meta' });
+
+  const base = 'https://zephyron.tech';
+  const url  = locale === 'en' ? base : `${base}/${locale}`;
+
   return {
-    title: t('title'),
+    metadataBase: new URL(base),
+    title: {
+      default:  t('title'),
+      template: `%s | Zephyron Tech`,
+    },
     description: t('description'),
     icons: { icon: '/favicon.ico' },
+    openGraph: {
+      title:       t('title'),
+      description: t('description'),
+      url,
+      siteName: 'Zephyron Tech',
+      type:     'website',
+      locale:   locale === 'cs' ? 'cs_CZ' : 'en_US',
+    },
+    twitter: {
+      card:        'summary_large_image',
+      title:       t('title'),
+      description: t('description'),
+    },
   };
 }
 

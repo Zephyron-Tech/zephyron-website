@@ -1,5 +1,31 @@
+import type { Metadata } from 'next';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
+
+const BASE = 'https://zephyron.tech';
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const isCs = locale === 'cs';
+  return {
+    title: isCs ? 'Podmínky použití' : 'Terms of Service',
+    description: isCs
+      ? 'Podmínky použití webových stránek Zephyron Tech s.r.o.'
+      : 'Terms of Service for the Zephyron Tech s.r.o. website.',
+    alternates: {
+      canonical: isCs ? `${BASE}/cs/terms` : `${BASE}/terms`,
+      languages: {
+        'en':        `${BASE}/terms`,
+        'cs':        `${BASE}/cs/terms`,
+        'x-default': `${BASE}/terms`,
+      },
+    },
+  };
+}
 
 const en = {
   title: 'Terms of Service',

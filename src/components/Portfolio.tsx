@@ -37,9 +37,11 @@ function PlaceholderVisual({ src, alt }: { src?: string; alt?: string }) {
 // ── Auto-cycling slideshow visual ──────────────────────────────────────────
 function SlideshowVisual({
   slides,
+  slideAlts = [],
   interval = 3500,
 }: {
   slides: string[];
+  slideAlts?: string[];
   interval?: number;
 }) {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -63,7 +65,7 @@ function SlideshowVisual({
         <img
           key={src}
           src={src}
-          alt=""
+          alt={slideAlts[i] ?? ''}
           style={{
             position: 'absolute',
             inset: 0,
@@ -253,7 +255,7 @@ function FlagshipCard() {
           overflow: 'hidden',
         }}
       >
-        <PlaceholderVisual src="/screenshots/clearway.webp" alt="ClearWay dashboard" />
+        <PlaceholderVisual src="/screenshots/clearway.webp" alt="ClearWay GIS dashboard — road surface inspection and drone telemetry visualisation" />
       </div>
 
       <style>{`
@@ -276,11 +278,15 @@ interface ProjectData {
 function ProjectCard({
   project,
   src,
+  alt,
   slides,
+  slideAlts,
 }: {
   project: ProjectData;
   src?: string;
+  alt?: string;
   slides?: string[];
+  slideAlts?: string[];
 }) {
   const [hover, setHover] = useState(false);
 
@@ -311,9 +317,9 @@ function ProjectCard({
         }}
       >
         {slides && slides.length > 0 ? (
-          <SlideshowVisual slides={slides} />
+          <SlideshowVisual slides={slides} slideAlts={slideAlts} />
         ) : (
-          <PlaceholderVisual src={src} />
+          <PlaceholderVisual src={src} alt={alt} />
         )}
       </div>
 
@@ -407,12 +413,17 @@ export function Portfolio() {
             <ProjectCard
               project={gridtime}
               src="/screenshots/gridtime.webp"
+              alt="GridTime — motorsport calendar and scheduling platform"
             />
             <ProjectCard
               project={b2b}
               slides={[
                 '/screenshots/autoskola.webp',
                 '/screenshots/esnuwb.webp',
+              ]}
+              slideAlts={[
+                'Driving school landing page — web development by Zephyron Tech',
+                'ESN UWB Pilsen student association landing page — web development by Zephyron Tech',
               ]}
             />
           </div>
