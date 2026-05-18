@@ -1,37 +1,30 @@
 import { ImageResponse } from 'next/og';
-import { readFileSync } from 'fs';
 
 export const alt = 'Zephyron Tech — Custom software engineering';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
-const HEADLINE: Record<string, [string, string]> = {
-  en: ['We build software.', 'Properly.'],
-  cs: ['Tvoříme software.', 'Jak má být.'],
-};
-
-const TAGLINE: Record<string, string> = {
-  en: 'Custom software engineering — web platforms, data systems, GIS, internal tools.',
-  cs: 'Zakázkový software — webové platformy, datové systémy, GIS, interní nástroje.',
-};
+// Always English — Surgena doesn't have full Czech glyph coverage
+const HEADLINE: [string, string] = ['We build software.', 'Properly.'];
+const TAGLINE = 'Custom software engineering — web platforms, data systems, GIS, internal tools.';
 
 export default async function Image({
-  params,
+  params: _params,
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
-  const [line1, line2] = HEADLINE[locale] ?? HEADLINE.en;
-  const tagline = TAGLINE[locale] ?? TAGLINE.en;
+  const base = process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : 'http://localhost:3000';
 
-  // Load local Surgena font — import.meta.url lets Next.js trace this at build time
-  const surgena = readFileSync(
-    new URL('../../../public/fonts/surgenapersonaluseonlysembd-q2qwd.ttf', import.meta.url),
-  );
+  const [surgena, logoBuf] = await Promise.all([
+    fetch(`${base}/fonts/surgenapersonaluseonlysembd-q2qwd.ttf`).then((r) => r.arrayBuffer()),
+    fetch(`${base}/logo-horizontal-color.png`).then((r) => r.arrayBuffer()),
+  ]);
+  // logo-horizontal-color.png: 5693×2713 → ratio ~2.098
+  const logoSrc = `data:image/png;base64,${Buffer.from(logoBuf).toString('base64')}`;
 
-  // Load logo mark
-  const markRaw = readFileSync(new URL('../../../public/mark-color.png', import.meta.url));
-  const markSrc  = `data:image/png;base64,${markRaw.toString('base64')}`;
+  const [line1, line2] = HEADLINE;
 
   return new ImageResponse(
     (
@@ -87,35 +80,14 @@ export default async function Image({
             justifyContent: 'space-between',
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={markSrc} width={40} height={40} alt="" style={{ display: 'flex' }} />
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
-              <span
-                style={{
-                  fontSize: 22,
-                  fontWeight: 600,
-                  color: '#F0F4FF',
-                  letterSpacing: '-0.02em',
-                  lineHeight: 1.1,
-                  display: 'flex',
-                }}
-              >
-                ZEPHYRON
-              </span>
-              <span
-                style={{
-                  fontSize: 11,
-                  fontWeight: 600,
-                  color: 'rgba(160,180,220,0.7)',
-                  letterSpacing: '0.14em',
-                  display: 'flex',
-                }}
-              >
-                TECH
-              </span>
-            </div>
-          </div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={logoSrc}
+            width={178}
+            height={85}
+            alt="Zephyron Tech"
+            style={{ display: 'flex' }}
+          />
 
           <span
             style={{
@@ -125,7 +97,7 @@ export default async function Image({
               display: 'flex',
             }}
           >
-            Plzeň, Czech Republic
+            Pilsen, Czech Republic
           </span>
         </div>
 
@@ -176,7 +148,7 @@ export default async function Image({
               display: 'flex',
             }}
           >
-            {tagline}
+            {TAGLINE}
           </span>
           <span
             style={{
