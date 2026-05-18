@@ -1,11 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { Eyebrow } from './ui/Eyebrow';
 import { Tag } from './ui/Tag';
 
-// Pass src="/screenshots/project.jpg" once ready — shows gradient until then
+// ── Static visual (single screenshot or gradient fallback) ─────────────────
 function PlaceholderVisual({ src, alt }: { src?: string; alt?: string }) {
   if (src) {
     return (
@@ -34,6 +34,85 @@ function PlaceholderVisual({ src, alt }: { src?: string; alt?: string }) {
   );
 }
 
+// ── Auto-cycling slideshow visual ──────────────────────────────────────────
+function SlideshowVisual({
+  slides,
+  interval = 3500,
+}: {
+  slides: string[];
+  interval?: number;
+}) {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  useEffect(() => {
+    if (paused || slides.length <= 1) return;
+    const id = setInterval(() => {
+      setActiveIndex((i) => (i + 1) % slides.length);
+    }, interval);
+    return () => clearInterval(id);
+  }, [paused, slides.length, interval]);
+
+  return (
+    <div
+      style={{ position: 'absolute', inset: 0 }}
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      {slides.map((src, i) => (
+        <img
+          key={src}
+          src={src}
+          alt=""
+          style={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            objectPosition: 'top center',
+            opacity: i === activeIndex ? 1 : 0,
+            transition: 'opacity 700ms ease-in-out',
+          }}
+        />
+      ))}
+
+      {/* Progress bar */}
+      <div
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: 2,
+          background: 'rgba(255,255,255,0.08)',
+        }}
+      >
+        {!paused && (
+          <span
+            key={activeIndex}
+            style={{
+              display: 'block',
+              height: '100%',
+              width: 0,
+              background: 'var(--accent-bright)',
+              animation: `zt-progress ${interval}ms linear forwards`,
+            }}
+          />
+        )}
+      </div>
+
+      <style>{`
+        @keyframes zt-progress {
+          from { width: 0; }
+          to   { width: 100%; }
+        }
+      `}</style>
+    </div>
+  );
+}
+
+// ── Section heading ────────────────────────────────────────────────────────
 function SectionHead({
   num,
   eyebrow,
@@ -96,6 +175,7 @@ function SectionHead({
   );
 }
 
+// ── Flagship card (ClearWay) ───────────────────────────────────────────────
 function FlagshipCard() {
   const t = useTranslations('portfolio.flagship');
   const [hover, setHover] = useState(false);
@@ -163,7 +243,6 @@ function FlagshipCard() {
         </div>
       </div>
 
-      {/* Placeholder — same as other cards */}
       <div
         style={{
           position: 'relative',
@@ -174,7 +253,7 @@ function FlagshipCard() {
           overflow: 'hidden',
         }}
       >
-        <PlaceholderVisual />
+        <PlaceholderVisual src="/screenshots/clearway.webp" alt="ClearWay dashboard" />
       </div>
 
       <style>{`
@@ -186,6 +265,7 @@ function FlagshipCard() {
   );
 }
 
+// ── Project card ───────────────────────────────────────────────────────────
 interface ProjectData {
   name: string;
   kicker: string;
@@ -193,7 +273,15 @@ interface ProjectData {
   tags: string[];
 }
 
-function ProjectCard({ project }: { project: ProjectData }) {
+function ProjectCard({
+  project,
+  src,
+  slides,
+}: {
+  project: ProjectData;
+  src?: string;
+  slides?: string[];
+}) {
   const [hover, setHover] = useState(false);
 
   return (
@@ -222,7 +310,11 @@ function ProjectCard({ project }: { project: ProjectData }) {
           overflow: 'hidden',
         }}
       >
-        <PlaceholderVisual />
+        {slides && slides.length > 0 ? (
+          <SlideshowVisual slides={slides} />
+        ) : (
+          <PlaceholderVisual src={src} />
+        )}
       </div>
 
       <h3
@@ -271,6 +363,7 @@ function ProjectCard({ project }: { project: ProjectData }) {
   );
 }
 
+// ── Portfolio section ──────────────────────────────────────────────────────
 export function Portfolio() {
   const t = useTranslations('portfolio');
 
@@ -311,8 +404,17 @@ export function Portfolio() {
             style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32 }}
             className="zt-projects-row"
           >
-            <ProjectCard project={gridtime} />
-            <ProjectCard project={b2b} />
+            <ProjectCard
+              project={gridtime}
+              src="/screenshots/gridtime.webp"
+            />
+            <ProjectCard
+              project={b2b}
+              slides={[
+                '/screenshots/autoskola.webp',
+                '/screenshots/esnuwb.webp',
+              ]}
+            />
           </div>
         </div>
       </div>
