@@ -1,0 +1,114 @@
+{
+  "meta": {
+    "title": "Zephyron Tech — We build software. Properly.",
+    "description": "Custom software engineering for companies that need it to work in production. Data pipelines, GIS systems, web platforms, internal tools — built end to end."
+  },
+  "header": {
+    "nav": {
+      "projects": "Projects",
+      "techStack": "Tech Stack",
+      "contact": "Contact"
+    },
+    "cta": "Discuss a project"
+  },
+  "hero": {
+    "headline": "We build software.",
+    "headlineAccent": "Properly.",
+    "subheadline": "Custom software for companies that need it built right — web platforms, data systems, mobile apps, internal tools. We take it from the first conversation to production.",
+    "cta": {
+      "primary": "Explore Our Work",
+      "secondary": "Get in touch"
+    }
+  },
+  "portfolio": {
+    "eyebrow": "Selected projects",
+    "title": "Some of what we've built.",
+    "lead": "A mix of live systems and projects in active development. We handle design, engineering, and delivery end to end.",
+    "flagship": {
+      "badge": "Flagship",
+      "name": "ClearWay",
+      "kicker": "Urban Infrastructure Analysis System",
+      "description": "An end-to-end data pipeline that processes raw road-surface telemetry from on-vehicle sensors into a GIS web visualisation — engineered for a municipality managing city-scale road infrastructure.",
+      "tags": ["GIS", "Data Engineering", "Hardware Integration"],
+      "cta": "Discuss this project",
+      "pipeline": {
+        "stage01": "Hardware\nsensors",
+        "stage01sub": "IMU · GNSS · LiDAR",
+        "stage02": "Mobile\ncollection",
+        "stage02sub": "iOS · Android",
+        "stage03": "Map matching\n+ preprocessing",
+        "stage03sub": "OSM · postGIS",
+        "stage04": "GIS web\nvisualization",
+        "stage04sub": "WebGL tiles"
+      }
+    },
+    "gridtime": {
+      "name": "GridTime",
+      "kicker": "Motorsport calendar platform",
+      "description": "A cross-platform motorsport calendar aggregating schedules from scrapers and third-party APIs across every racing series. Handles timezone conversion, series filtering, and a high-performance data API. Web app in development — native mobile app (Expo) in progress.",
+      "tags": ["Next.js 15", "FastAPI", "Expo", "Data Ingestion"]
+    },
+    "b2b": {
+      "name": "Client Websites",
+      "kicker": "Web development for clients",
+      "description": "Production websites for two clients — a driving school and a university student association. Custom-built, deployed to Vercel, with a CMS for content management. No templates.",
+      "tags": ["Next.js", "Vercel", "CMS", "TypeScript"]
+    }
+  },
+  "techstack": {
+    "eyebrow": "Core expertise",
+    "title": "Our defaults.\nNot our limits.",
+    "lead": "These are the tools we reach for on day one. We adapt to what you already have — and we're not precious about it.",
+    "items": [
+      { "name": "TypeScript", "group": "Language", "desc": "Strict, end-to-end typed surfaces — UI to API." },
+      { "name": "Python", "group": "Language", "desc": "Backends, pipelines, scientific tooling." },
+      { "name": "FastAPI", "group": "Framework", "desc": "High-throughput async APIs with OpenAPI baked in." },
+      { "name": "Next.js", "group": "Framework", "desc": "Edge-rendered web apps, React server components." },
+      { "name": "GIS / GeoData", "group": "Domain", "desc": "PostGIS, map matching, vector tiles, WebGL." },
+      { "name": "PostgreSQL", "group": "Datastore", "desc": "OLTP + spatial + full-text in one engine." },
+      { "name": "Docker", "group": "Infra", "desc": "Reproducible images, multi-stage, slim." },
+      { "name": "CI/CD", "group": "Infra", "desc": "GitHub Actions, ephemeral previews, signed builds." }
+    ]
+  },
+  "contact": {
+    "eyebrow": "Discuss a project",
+    "title": "Building something that touches the",
+    "titleAccent": "real world?",
+    "body": "Tell us about your project — the problem, the constraints, where you are now. We'll get back to you within two business days.",
+    "email": "hello@zephyron.tech",
+    "copyHint": "Click to copy email address",
+    "copied": "Copied to clipboard"
+  },
+  "modal": {
+    "title": "Discuss a project",
+    "subtitle": "Tell us what you're building. We'll get back to you within two business days.",
+    "name": "Your name",
+    "namePlaceholder": "Jan Novák",
+    "email": "Your email",
+    "emailPlaceholder": "jan@company.com",
+    "project": "What are you building?",
+    "projectPlaceholder": "The problem, the constraints, where you are now...",
+    "submit": "Send inquiry"
+  },
+  "footer": {
+    "tagline": "Custom software engineering — web platforms, data systems, mobile apps, internal tools.",
+    "nav": {
+      "company": "Company",
+      "projects": "Projects",
+      "techStack": "Tech Stack",
+      "contact": "Contact",
+      "legal": "Legal",
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service",
+      "office": "Registered office"
+    },
+    "address": "Zephyron Tech s.r.o.\nČermákova 2587/60\nJižní Předměstí\n301 00 Plzeň",
+    "legal": {
+      "companyNumber": "Company number",
+      "registeredAs": "Registered as",
+      "registeredAsValue": "s.r.o. (Czech Republic)",
+      "contact": "Contact"
+    },
+    "copyright": "© 2026 Zephyron Tech s.r.o. — All rights reserved."
+  }
+}
