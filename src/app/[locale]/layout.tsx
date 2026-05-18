@@ -43,11 +43,21 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       siteName: 'Zephyron Tech',
       type:     'website',
       locale:   locale === 'cs' ? 'cs_CZ' : 'en_US',
+      images: [
+        {
+          url:    '/og-image.webp',
+          width:  1200,
+          height: 630,
+          alt:    'Zephyron Tech — Custom software engineering',
+          type:   'image/webp',
+        },
+      ],
     },
     twitter: {
       card:        'summary_large_image',
       title:       t('title'),
       description: t('description'),
+      images:      ['/og-image.webp'],
     },
   };
 }
