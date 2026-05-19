@@ -64,8 +64,12 @@
       { "name": "Python", "group": "Language", "desc": "Backends, pipelines, scientific tooling." },
       { "name": "FastAPI", "group": "Framework", "desc": "High-throughput async APIs with OpenAPI baked in." },
       { "name": "Next.js", "group": "Framework", "desc": "Edge-rendered web apps, React server components." },
+      { "name": "Spring Boot", "group": "Framework", "desc": "Production-grade Java services with auto-configuration, embedded servers, and the full Spring ecosystem." },
+      { "name": "Expo", "group": "Framework", "desc": "Cross-platform iOS + Android from a single TypeScript codebase. EAS Build, OTA updates." },
       { "name": "GIS / GeoData", "group": "Domain", "desc": "PostGIS, map matching, vector tiles, WebGL." },
       { "name": "PostgreSQL", "group": "Datastore", "desc": "OLTP + spatial + full-text in one engine." },
+      { "name": "Redis", "group": "Datastore", "desc": "Sub-millisecond caching, session storage, pub/sub, and atomic counters at scale." },
+      { "name": "Kafka", "group": "Infra", "desc": "Distributed event streaming for real-time data pipelines, IoT telemetry, and decoupled microservices." },
       { "name": "Docker", "group": "Infra", "desc": "Reproducible images, multi-stage, slim." },
       { "name": "CI/CD", "group": "Infra", "desc": "GitHub Actions, ephemeral previews, signed builds." }
     ]

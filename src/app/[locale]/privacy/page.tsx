@@ -4,30 +4,17 @@ import { Footer } from '@/components/Footer';
 
 const BASE = 'https://zephyron.tech';
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}): Promise<Metadata> {
-  const { locale } = await params;
-  const isCs = locale === 'cs';
+export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: isCs ? 'Zásady ochrany osobních údajů' : 'Privacy Policy',
-    description: isCs
-      ? 'Zásady ochrany osobních údajů společnosti Zephyron Tech s.r.o. — jak zpracováváme vaše osobní údaje v souladu s GDPR.'
-      : 'Privacy Policy of Zephyron Tech s.r.o. — how we handle your personal data in compliance with GDPR.',
+    title: 'Privacy Policy',
+    description: 'Privacy Policy of Zephyron Tech s.r.o. — how we handle your personal data in compliance with GDPR.',
     alternates: {
-      canonical: isCs ? `${BASE}/cs/privacy` : `${BASE}/privacy`,
-      languages: {
-        'en':        `${BASE}/privacy`,
-        'cs':        `${BASE}/cs/privacy`,
-        'x-default': `${BASE}/privacy`,
-      },
+      canonical: `${BASE}/privacy`,
     },
   };
 }
 
-const en = {
+const content = {
   title: 'Privacy Policy',
   updated: 'Last updated: May 2026',
   sections: [
@@ -58,61 +45,19 @@ const en = {
   ],
 };
 
-const cs = {
-  title: 'Zásady ochrany osobních údajů',
-  updated: 'Poslední aktualizace: květen 2026',
-  sections: [
-    {
-      heading: 'Správce',
-      body: 'Zephyron Tech s.r.o., IČO 23793538, Čermákova 2587/60, 301 00 Plzeň, Česká republika. Kontakt: hello@zephyron.tech',
-    },
-    {
-      heading: 'Co zpracováváme',
-      body: 'Pokud nás kontaktujete prostřednictvím formuláře nebo emailem, zpracováváme vaše jméno (pokud ho poskytnete), emailovou adresu a informace o projektu. Na tomto webu nepoužíváme sledovací cookies ani analytické nástroje.',
-    },
-    {
-      heading: 'Proč to zpracováváme',
-      body: 'Výhradně za účelem odpovědi na váš dotaz. Právní základ: čl. 6 odst. 1 písm. b) GDPR (kroky před uzavřením smlouvy) nebo čl. 6 odst. 1 písm. f) GDPR (oprávněný zájem reagovat na obchodní dotazy).',
-    },
-    {
-      heading: 'Doba uchování',
-      body: 'Údaje z dotazů uchováváme nejvýše 2 roky od posledního kontaktu, nebo dokud nás nepožádáte o jejich smazání.',
-    },
-    {
-      heading: 'Vaše práva',
-      body: 'Dle GDPR máte právo na přístup, opravu, výmaz, omezení zpracování nebo přenositelnost svých osobních údajů a právo vznést námitku. Žádost zašlete na hello@zephyron.tech — odpovíme do 30 dnů.',
-    },
-    {
-      heading: 'Dozorový úřad',
-      body: 'Stížnost můžete podat u Úřadu pro ochranu osobních údajů (ÚOOÚ) na uoou.cz.',
-    },
-  ],
-};
-
-export default async function PrivacyPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = await params;
-  const content = locale === 'cs' ? cs : en;
-
+export default function PrivacyPage() {
   return (
     <>
       <Header />
       <main>
-        <LegalContent content={content} />
+        <LegalContent />
       </main>
       <Footer />
     </>
   );
 }
 
-function LegalContent({
-  content,
-}: {
-  content: { title: string; updated: string; sections: { heading: string; body: string }[] };
-}) {
+function LegalContent() {
   return (
     <article
       style={{

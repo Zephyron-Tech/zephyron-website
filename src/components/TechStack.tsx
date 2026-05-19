@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useTranslations, useLocale } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import { Eyebrow } from './ui/Eyebrow';
 import { Icon } from './ui/Icon';
 import {
@@ -12,6 +12,10 @@ import {
   SiPostgresql,
   SiDocker,
   SiGithubactions,
+  SiSpring,
+  SiExpo,
+  SiRedis,
+  SiApachekafka,
 } from 'react-icons/si';
 
 // Brand icon by tech name — returns a React node
@@ -25,6 +29,10 @@ function BrandIcon({ name, size = 28 }: { name: string; size?: number }) {
     case 'PostgreSQL':    return <SiPostgresql style={style} />;
     case 'Docker':        return <SiDocker style={style} />;
     case 'CI/CD':         return <SiGithubactions style={style} />;
+    case 'Spring Boot':   return <SiSpring style={style} />;
+    case 'Expo':          return <SiExpo style={style} />;
+    case 'Redis':         return <SiRedis style={style} />;
+    case 'Kafka':         return <SiApachekafka style={style} />;
     // GIS has no brand icon — use a Lucide icon
     default:              return <Icon name="Map" size={size} strokeWidth={1.5} />;
   }
@@ -114,9 +122,7 @@ function StackTile({ t: item }: { t: StackItem }) {
 
 export function TechStack() {
   const t = useTranslations('techstack');
-  const locale = useLocale();
   const items = t.raw('items') as StackItem[];
-  const technologiesHref = locale === 'en' ? '/technologies' : `/cs/technologies`;
 
   return (
     <section
@@ -193,7 +199,7 @@ export function TechStack() {
         {/* Link to full tech glossary */}
         <div style={{ marginTop: 32, display: 'flex', justifyContent: 'flex-end' }}>
           <a
-            href={technologiesHref}
+            href="/technologies"
             style={{
               fontSize: 14,
               fontWeight: 600,
@@ -207,7 +213,7 @@ export function TechStack() {
             onMouseOver={(e) => (e.currentTarget.style.color = 'var(--fg)')}
             onMouseOut={(e) => (e.currentTarget.style.color = 'var(--fg-subtle)')}
           >
-            {locale === 'cs' ? 'Přehled celého stacku' : 'Full stack overview'} →
+            Full stack overview →
           </a>
         </div>
       </div>

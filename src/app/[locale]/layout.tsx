@@ -42,7 +42,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       url,
       siteName: 'Zephyron Tech',
       type:     'website',
-      locale:   locale === 'cs' ? 'cs_CZ' : 'en_US',
+      locale:   'en_US',
       images: [
         {
           url:    '/og-image.webp',

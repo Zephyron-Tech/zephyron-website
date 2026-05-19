@@ -4,30 +4,17 @@ import { Footer } from '@/components/Footer';
 
 const BASE = 'https://zephyron.tech';
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}): Promise<Metadata> {
-  const { locale } = await params;
-  const isCs = locale === 'cs';
+export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: isCs ? 'Podmínky použití' : 'Terms of Service',
-    description: isCs
-      ? 'Podmínky použití webových stránek Zephyron Tech s.r.o.'
-      : 'Terms of Service for the Zephyron Tech s.r.o. website.',
+    title: 'Terms of Service',
+    description: 'Terms of Service for the Zephyron Tech s.r.o. website.',
     alternates: {
-      canonical: isCs ? `${BASE}/cs/terms` : `${BASE}/terms`,
-      languages: {
-        'en':        `${BASE}/terms`,
-        'cs':        `${BASE}/cs/terms`,
-        'x-default': `${BASE}/terms`,
-      },
+      canonical: `${BASE}/terms`,
     },
   };
 }
 
-const en = {
+const content = {
   title: 'Terms of Service',
   updated: 'Last updated: May 2026',
   sections: [
@@ -62,65 +49,19 @@ const en = {
   ],
 };
 
-const cs = {
-  title: 'Podmínky použití',
-  updated: 'Poslední aktualizace: květen 2026',
-  sections: [
-    {
-      heading: 'Provozovatel',
-      body: 'Tento web provozuje Zephyron Tech s.r.o., IČO 23793538, Čermákova 2587/60, 301 00 Plzeň, Česká republika.',
-    },
-    {
-      heading: 'Použití webu',
-      body: 'Tento web slouží pouze pro informační účely. Snažíme se udržovat obsah přesný a aktuální, ale neposkytujeme žádné záruky — výslovné ani předpokládané — ohledně jeho úplnosti nebo vhodnosti pro konkrétní účel.',
-    },
-    {
-      heading: 'Duševní vlastnictví',
-      body: 'Veškerý obsah na tomto webu — včetně textů, grafiky, log a kódu — je majetkem společnosti Zephyron Tech s.r.o. a nesmí být reprodukován bez předchozího písemného souhlasu.',
-    },
-    {
-      heading: 'Dotazy',
-      body: 'Odeslání kontaktního formuláře nebo emailu představuje dotaz, nikoli závaznou nabídku nebo smlouvu. Případné angažování našich služeb podléhá samostatné písemné smlouvě.',
-    },
-    {
-      heading: 'Odpovědnost',
-      body: 'V rozsahu povoleném platným právem nenese Zephyron Tech s.r.o. odpovědnost za nepřímé nebo následné škody vzniklé v důsledku použití tohoto webu.',
-    },
-    {
-      heading: 'Rozhodné právo',
-      body: 'Tyto podmínky se řídí právem České republiky. Případné spory budou řešeny příslušnými českými soudy.',
-    },
-    {
-      heading: 'Kontakt',
-      body: 'hello@zephyron.tech',
-    },
-  ],
-};
-
-export default async function TermsPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = await params;
-  const content = locale === 'cs' ? cs : en;
-
+export default function TermsPage() {
   return (
     <>
       <Header />
       <main>
-        <LegalContent content={content} />
+        <LegalContent />
       </main>
       <Footer />
     </>
   );
 }
 
-function LegalContent({
-  content,
-}: {
-  content: { title: string; updated: string; sections: { heading: string; body: string }[] };
-}) {
+function LegalContent() {
   return (
     <article
       style={{

@@ -4,25 +4,13 @@ import { Footer } from '@/components/Footer';
 
 const BASE = 'https://zephyron.tech';
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}): Promise<Metadata> {
-  const { locale } = await params;
-  const isCs = locale === 'cs';
+export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: isCs ? 'Technologie' : 'Technologies',
-    description: isCs
-      ? 'Přehled technologií, které Zephyron Tech používá při vývoji — TypeScript, Python, FastAPI, Next.js, PostgreSQL, Docker, CI/CD a GIS.'
-      : 'An overview of the technologies Zephyron Tech uses in development — TypeScript, Python, FastAPI, Next.js, PostgreSQL, Docker, CI/CD and GIS.',
+    title: 'Technologies — Our Engineering Stack',
+    description:
+      'A deep dive into the technologies Zephyron Tech uses in production: TypeScript, Python, FastAPI, Next.js, Spring Boot, Expo, PostgreSQL, Redis, Apache Kafka, GIS, Docker, and CI/CD.',
     alternates: {
-      canonical: isCs ? `${BASE}/cs/technologies` : `${BASE}/technologies`,
-      languages: {
-        'en':        `${BASE}/technologies`,
-        'cs':        `${BASE}/cs/technologies`,
-        'x-default': `${BASE}/technologies`,
-      },
+      canonical: `${BASE}/technologies`,
     },
   };
 }
@@ -37,153 +25,102 @@ interface TechEntry {
   when: string;
 }
 
-const en: { title: string; lead: string; back: string; cta: string; items: TechEntry[] } = {
-  title:  'Our tech stack',
-  lead:   'These are the tools we reach for first — proven in production, chosen for reason. We adapt to what you already have, but below is where we start.',
-  back:   '← Back to home',
-  cta:    'Discuss a project',
-  items: [
-    {
-      name:  'TypeScript',
-      group: 'Language',
-      what:  'TypeScript is a statically typed superset of JavaScript that compiles to plain JavaScript. It adds optional type annotations, interfaces, and compile-time checks to JavaScript code.',
-      why:   'We use TypeScript across the full stack — from Next.js front-ends to Node.js tooling. Strict typing catches entire classes of bugs before they reach production and makes large codebases significantly easier to navigate and refactor.',
-      when:  'Any project with a JavaScript front-end or Node.js back-end. Especially valuable when the team grows or when the codebase needs to be maintained for years.',
-    },
-    {
-      name:  'Python',
-      group: 'Language',
-      what:  'Python is a high-level, general-purpose programming language known for its readability and vast ecosystem of libraries — particularly in data science, machine learning, and automation.',
-      why:   'Python is our language of choice for back-end services, data pipelines, and scientific computing. The ecosystem (NumPy, Pandas, Shapely, GDAL) is unmatched for geospatial and data-heavy work.',
-      when:  'Data pipelines, REST APIs, geospatial processing, automation scripts, and any project that interfaces with scientific or ML libraries.',
-    },
-    {
-      name:  'FastAPI',
-      group: 'Framework',
-      what:  'FastAPI is a modern Python web framework for building APIs. It is based on standard Python type hints, delivers automatic OpenAPI documentation, and is one of the fastest Python frameworks available thanks to its async architecture.',
-      why:   'FastAPI gives us a highly productive API development experience with automatic validation, serialisation, and documentation — without sacrificing performance. Async support means it handles concurrent workloads efficiently.',
-      when:  'Any Python-based REST or WebSocket API. Particularly effective for data-heavy services that need to expose clean, documented interfaces.',
-    },
-    {
-      name:  'Next.js',
-      group: 'Framework',
-      what:  'Next.js is a React framework from Vercel that supports server-side rendering, static site generation, and React Server Components out of the box. It handles routing, bundling, and deployment optimisation automatically.',
-      why:   'Next.js lets us ship production-grade web applications with excellent performance characteristics — edge rendering, automatic image optimisation, and zero-config deployment to Vercel. It is the foundation of this very website.',
-      when:  'Marketing sites, web applications, dashboards, and any project where web performance and developer experience both matter.',
-    },
-    {
-      name:  'GIS / GeoData',
-      group: 'Domain',
-      what:  'Geographic Information Systems (GIS) encompass software, data formats, and algorithms for capturing, storing, analysing, and visualising spatial data. Key technologies include PostGIS, OpenStreetMap, vector tiles, and WebGL-based map renderers.',
-      why:   'Geospatial capability is a core differentiator for us. We have built production systems that process raw sensor telemetry (IMU, GNSS, LiDAR) into map-matched road surface assessments rendered as WebGL tile layers.',
-      when:  'Infrastructure inspection, logistics, urban planning, asset tracking, environmental monitoring, and any domain where "where" is as important as "what".',
-    },
-    {
-      name:  'PostgreSQL',
-      group: 'Datastore',
-      what:  'PostgreSQL is a powerful open-source relational database system. With the PostGIS extension it becomes a fully-featured spatial database. It also supports full-text search, JSON documents, and time-series data natively.',
-      why:   'A single PostgreSQL instance can replace three or four specialised databases in many projects. OLTP workloads, geospatial queries, full-text search, and JSON storage all in one engine — with strong transactional guarantees.',
-      when:  'Almost every persistent data layer. We default to PostgreSQL unless the project has very specific requirements that justify a different engine (e.g. pure document storage or vector search at scale).',
-    },
-    {
-      name:  'Docker',
-      group: 'Infrastructure',
-      what:  'Docker is a platform for building, shipping, and running applications in isolated containers. Containers package code and dependencies together, ensuring consistent behaviour across development, staging, and production environments.',
-      why:   'Docker eliminates "works on my machine" problems entirely. Multi-stage builds produce minimal production images, and container orchestration (Docker Compose, Kubernetes) makes scaling predictable.',
-      when:  'Every back-end service we ship. Front-ends deployed to Vercel do not need Docker, but any Python service, data pipeline, or self-hosted tool is containerised from day one.',
-    },
-    {
-      name:  'CI/CD',
-      group: 'Infrastructure',
-      what:  'Continuous Integration and Continuous Delivery (CI/CD) are practices and tooling that automate testing, building, and deploying software. We use GitHub Actions as the primary platform, with support for ephemeral preview environments and signed build artefacts.',
-      why:   'Automated pipelines mean every commit is tested and every merge to main can be deployed in minutes. Ephemeral previews let stakeholders review changes before they go live. Signed builds provide a verifiable chain of custody from code to production.',
-      when:  'Every project. CI/CD is not optional — it is the baseline for any software that needs to be maintained, updated, and trusted in production.',
-    },
-  ],
-};
-
-const cs: typeof en = {
-  title: 'Náš tech stack',
-  lead:  'Tyto nástroje sáhneme po nich jako první — prověřené v produkci, vybrané s rozmyslem. Přizpůsobíme se tomu, co už máte, ale níže je náš výchozí bod.',
-  back:  '← Zpět na hlavní stránku',
-  cta:   'Probrat projekt',
-  items: [
-    {
-      name:  'TypeScript',
-      group: 'Jazyk',
-      what:  'TypeScript je staticky typovaná nadmnožina JavaScriptu, která se kompiluje do čistého JS. Přidává volitelné typové anotace, rozhraní a kontroly v čase kompilace.',
-      why:   'TypeScript používáme napříč celým stackem — od Next.js front-endů po Node.js nástroje. Striktní typování zachytí celé třídy chyb ještě před nasazením a velké kódové základny jsou výrazně snazší na navigaci a refactoring.',
-      when:  'Každý projekt s JS front-endem nebo Node.js back-endem. Zvláště hodnotný když tým roste nebo kdy kód musí být udržován léta.',
-    },
-    {
-      name:  'Python',
-      group: 'Jazyk',
-      what:  'Python je vysokoúrovňový jazyk pro obecné použití, známý čitelností a rozsáhlým ekosystémem — zejména v datové vědě, strojovém učení a automatizaci.',
-      why:   'Python je naším jazykem volby pro back-endové služby, datové pipeline a vědecké výpočty. Ekosystém (NumPy, Pandas, Shapely, GDAL) je v oblasti geoprostorových a datově náročných prací nesrovnatelný.',
-      when:  'Datové pipeline, REST API, geoprostorové zpracování, automatizační skripty a každý projekt napojený na vědecké nebo ML knihovny.',
-    },
-    {
-      name:  'FastAPI',
-      group: 'Framework',
-      what:  'FastAPI je moderní Python framework pro tvorbu API. Zakládá se na standardních Python typových nápovědách, generuje automatickou OpenAPI dokumentaci a díky asynchronní architektuře patří mezi nejrychlejší Python frameworky.',
-      why:   'FastAPI nabízí velmi produktivní vývojářský zážitek s automatickou validací, serializací a dokumentací — bez ztráty výkonu. Async podpora znamená efektivní zpracování souběžných úloh.',
-      when:  'Každé Python-based REST nebo WebSocket API. Zvláště efektivní pro datově náročné služby, které potřebují vystavit čistá, zdokumentovaná rozhraní.',
-    },
-    {
-      name:  'Next.js',
-      group: 'Framework',
-      what:  'Next.js je React framework od Vercelu, který podporuje server-side rendering, statické generování stránek a React Server Components. Routing, bundling a optimalizace nasazení řeší automaticky.',
-      why:   'Next.js nám umožňuje vydat produkční webové aplikace s vynikající výkonností — edge rendering, automatická optimalizace obrázků, nasazení na Vercel bez konfigurace. Je to základ i tohoto webu.',
-      when:  'Marketingové weby, webové aplikace, dashboardy a každý projekt kde záleží na výkonu i developer experience.',
-    },
-    {
-      name:  'GIS / GeoData',
-      group: 'Doména',
-      what:  'Geografické informační systémy (GIS) zahrnují software, datové formáty a algoritmy pro sběr, ukládání, analýzu a vizualizaci prostorových dat. Klíčové technologie: PostGIS, OpenStreetMap, vektorové dlaždice a WebGL renderery map.',
-      why:   'Geoprostorové schopnosti jsou naší klíčovou odlišností. Postavili jsme produkční systémy, které zpracovávají surovou telemetrii senzorů (IMU, GNSS, LiDAR) do map-matchovaných hodnocení povrchu vozovky renderovaných jako WebGL vrstvy.',
-      when:  'Inspekce infrastruktury, logistika, urban planning, sledování majetku, environmentální monitoring a každá doména kde "kde" je stejně důležité jako "co".',
-    },
-    {
-      name:  'PostgreSQL',
-      group: 'Úložiště',
-      what:  'PostgreSQL je výkonný open-source relační databázový systém. S rozšířením PostGIS se stává plnohodnotnou prostorovou databází. Nativně podporuje také fulltextové vyhledávání, JSON dokumenty a časové řady.',
-      why:   'Jedna instance PostgreSQL v mnoha projektech nahradí tři nebo čtyři specializované databáze. OLTP workloady, geoprostorové dotazy, fulltextové vyhledávání i JSON ukládání — v jednom enginu, se silnými transakčními zárukami.',
-      when:  'Téměř každá vrstva perzistentních dat. Defaultně volíme PostgreSQL, pokud projekt nemá specifické požadavky ospravedlňující jiný engine (např. čistě dokumentové úložiště nebo vektorové vyhledávání ve velkém měřítku).',
-    },
-    {
-      name:  'Docker',
-      group: 'Infrastruktura',
-      what:  'Docker je platforma pro sestavování, distribuci a spouštění aplikací v izolovaných kontejnerech. Kontejnery balí kód a závislosti dohromady a zajišťují konzistentní chování ve vývojovém, testovacím i produkčním prostředí.',
-      why:   'Docker zcela eliminuje problém "funguje na mém stroji". Multi-stage buildy produkují minimální produkční image a orchestrace kontejnerů (Docker Compose, Kubernetes) dělá škálování předvídatelným.',
-      when:  'Každá back-endová služba, kterou nasazujeme. Front-endy nasazované na Vercel Docker nepotřebují, ale každá Python služba, datový pipeline nebo self-hosted nástroj je kontejnerizovaný od prvního dne.',
-    },
-    {
-      name:  'CI/CD',
-      group: 'Infrastruktura',
-      what:  'Continuous Integration a Continuous Delivery (CI/CD) jsou postupy a nástroje pro automatizaci testování, sestavení a nasazování softwaru. Jako primární platformu používáme GitHub Actions s podporou dočasných preview prostředí a podepsaných artefaktů.',
-      why:   'Automatizované pipeline znamenají, že každý commit je otestován a každý merge do main lze nasadit v minutách. Dočasná preview prostředí umožňují zainteresovaným stranám zkontrolovat změny před spuštěním. Podepsané buildy poskytují ověřitelný řetězec důvěry od kódu po produkci.',
-      when:  'Každý projekt. CI/CD není volitelné — je to základ pro každý software, který musí být udržován, aktualizován a v produkci důvěryhodný.',
-    },
-  ],
-};
+const items: TechEntry[] = [
+  {
+    name:  'TypeScript',
+    group: 'Language',
+    what:  'TypeScript is a statically typed superset of JavaScript that compiles to plain JavaScript. It adds optional type annotations, interfaces, and compile-time checks to JavaScript, catching entire categories of bugs before code ever runs.',
+    why:   'We use TypeScript across the full stack — from Next.js front-ends to Node.js tooling and Expo mobile apps. Strict typing catches entire classes of bugs before they reach production and makes large codebases significantly easier to navigate and refactor. It is especially valuable in long-lived projects where the team changes over time.',
+    when:  'Any project with a JavaScript front-end, Node.js back-end, or React Native mobile app. Particularly effective when the team grows or when the codebase needs to be maintained for years without accumulated technical debt.',
+  },
+  {
+    name:  'Python',
+    group: 'Language',
+    what:  'Python is a high-level, general-purpose programming language known for its readability and vast ecosystem of libraries — particularly in data science, geospatial processing, machine learning, and automation. Its concise syntax and rich standard library make it exceptionally productive for back-end development.',
+    why:   'Python is our language of choice for back-end services, data pipelines, and scientific computing. The geospatial ecosystem (NumPy, Pandas, Shapely, Fiona, GDAL, PyProj, GeoPandas) is unmatched for spatial data processing. Combined with FastAPI, Python delivers performant, maintainable REST and WebSocket services.',
+    when:  'Data pipelines, REST APIs, geospatial processing, ETL workflows, automation scripts, and any project that interfaces with scientific, ML, or geographic data libraries.',
+  },
+  {
+    name:  'FastAPI',
+    group: 'Framework',
+    what:  'FastAPI is a modern Python web framework for building APIs. It is based on standard Python type hints and delivers automatic OpenAPI documentation, request validation, and response serialisation out of the box. Its async architecture — built on Starlette and Pydantic — makes it one of the fastest Python frameworks available.',
+    why:   'FastAPI gives us a highly productive API development workflow: write a function with typed parameters and FastAPI generates validation, serialisation, and interactive Swagger docs automatically. Async support means it handles concurrent workloads efficiently without threading complexity. We use it as the primary API layer for our Python-based microservices.',
+    when:  'Any Python-based REST or WebSocket API. Particularly effective for data-heavy services and machine learning inference endpoints that need to expose clean, self-documenting interfaces at production scale.',
+  },
+  {
+    name:  'Next.js',
+    group: 'Framework',
+    what:  'Next.js is a React framework from Vercel that supports server-side rendering (SSR), static site generation (SSG), incremental static regeneration (ISR), and React Server Components. It handles routing, bundling, image optimisation, and deployment to the edge automatically.',
+    why:   'Next.js lets us ship production-grade web applications with excellent Core Web Vitals — server rendering for SEO and first paint, client-side navigation for interactivity, and edge rendering for global performance. The App Router and React Server Components let us minimise client-side JavaScript while keeping the development model familiar. This website runs on Next.js 15.',
+    when:  'Marketing sites, web applications, customer dashboards, SaaS products, and any project where web performance, SEO, and developer experience all need to be excellent simultaneously.',
+  },
+  {
+    name:  'Spring Boot',
+    group: 'Framework',
+    what:  'Spring Boot is an opinionated, convention-over-configuration Java framework built on top of the Spring ecosystem. It provides auto-configuration, embedded Tomcat/Jetty servers, and production-ready defaults, enabling developers to build stand-alone, production-grade Java applications with minimal boilerplate. The Spring ecosystem includes Spring Data JPA, Spring Security, Spring Batch, and Spring Cloud.',
+    why:   'Spring Boot is the de facto standard for enterprise Java back-ends. It provides a mature, battle-tested foundation for REST APIs, microservices, and data-processing services — with deep support for transactions, security, dependency injection, and database migrations via Liquibase. For clients with existing Java infrastructure, Spring Boot lets us integrate cleanly without requiring a technology rewrite.',
+    when:  'Enterprise back-end services, microservice architectures, data processing pipelines, and any project where Java is the primary language or an existing Java codebase needs to be extended with modern practices.',
+  },
+  {
+    name:  'Expo',
+    group: 'Framework',
+    what:  'Expo is a framework and platform for building cross-platform mobile applications using React and TypeScript. It sits on top of React Native and provides a managed workflow, over-the-air (OTA) updates via EAS Update, and access to device APIs through a unified JavaScript interface. EAS Build compiles native iOS and Android artefacts in the cloud.',
+    why:   'Expo lets us ship production iOS and Android apps from a single TypeScript codebase — the same language and component model as the web, with access to native device capabilities. OTA updates mean bug fixes reach users without an App Store review cycle. EAS Build removes the need for dedicated macOS build machines for Android. We use Expo in GridTime, our cross-platform motorsport calendar app.',
+    when:  'Mobile applications that need to run on both iOS and Android, where native UI fidelity and access to device APIs are required, but maintaining two separate native codebases would be impractical or cost-prohibitive.',
+  },
+  {
+    name:  'GIS / GeoData',
+    group: 'Domain',
+    what:  'Geographic Information Systems (GIS) encompass software, data formats, and algorithms for capturing, storing, analysing, and visualising spatial data. Key technologies include PostGIS (spatial SQL), OpenStreetMap, map matching algorithms, vector tiles (MVT/PMTiles), and WebGL-based map renderers such as MapLibre GL and Mapbox GL.',
+    why:   'Geospatial capability is a core differentiator for us. We have built production systems that process raw sensor telemetry (IMU, GNSS, LiDAR) into map-matched road surface assessments rendered as WebGL tile layers — the ClearWay platform. Our stack covers the full pipeline: raw coordinate ingestion → PostGIS processing → map matching against OSM road network → vector tile generation → interactive WebGL visualisation.',
+    when:  'Infrastructure inspection and asset management, logistics and routing optimisation, urban planning, environmental monitoring, fleet tracking, and any domain where spatial relationships are central to the data model.',
+  },
+  {
+    name:  'PostgreSQL',
+    group: 'Datastore',
+    what:  'PostgreSQL is a powerful open-source relational database system with over 35 years of active development. With the PostGIS extension it becomes a fully-featured spatial database capable of storing and querying geographic objects. It also supports full-text search, JSONB documents, time-series data via TimescaleDB, and advanced indexing strategies (GIN, GiST, BRIN).',
+    why:   'A single PostgreSQL instance can replace three or four specialised databases in many projects. OLTP workloads, geospatial queries with PostGIS, full-text search, and JSON document storage all in one engine — with strong ACID transactional guarantees and excellent query planner performance. We pair it with Liquibase for schema migration management and PgBouncer for connection pooling in high-load deployments.',
+    when:  'Almost every persistent data layer. We default to PostgreSQL unless the project has very specific requirements that justify a different engine — such as pure vector search at scale (pgvector), time-series-first workloads (InfluxDB), or a document-primary schema (MongoDB).',
+  },
+  {
+    name:  'Redis',
+    group: 'Datastore',
+    what:  'Redis is an open-source, in-memory data structure store that functions as a database, cache, message broker, and streaming engine simultaneously. It supports strings, hashes, lists, sets, sorted sets, bitmaps, hyperloglogs, and streams — all with sub-millisecond latency and atomic operations. Redis Cluster and Redis Sentinel provide horizontal scalability and high availability.',
+    why:   'Redis is our first choice for caching hot database query results, storing short-lived session tokens, implementing rate limiting with sliding window counters, and powering real-time pub/sub notifications. Its atomic operations (INCR, LPUSH, ZADD) make it ideal for coordination problems — like distributed locks or leaderboards — that would be expensive or race-condition-prone in a relational database.',
+    when:  'API response caching, session management, distributed rate limiting, real-time leaderboards, task queues with Celery or BullMQ, pub/sub event distribution, and any workload where microsecond latency or atomic counter operations are required.',
+  },
+  {
+    name:  'Kafka',
+    group: 'Infra',
+    what:  'Apache Kafka is a distributed event streaming platform designed for high-throughput, fault-tolerant, persistent messaging at scale. It maintains ordered, immutable logs of events (topics) that can be replayed from any offset, and supports both real-time stream processing and batch consumption. Kafka Connect and Kafka Streams extend it with out-of-the-box connectors and a stream processing DSL.',
+    why:   'Kafka is the backbone of our data pipeline architecture. In ClearWay, vehicle sensor telemetry flows through Kafka topics before being consumed, map-matched, and written to PostGIS. Its durability guarantees mean no telemetry events are lost even during processing failures, and the replay capability is invaluable for re-running historical data through updated algorithms without re-collecting sensor data. Decoupling producers from consumers also lets us scale ingestion and processing independently.',
+    when:  'Real-time IoT telemetry ingestion, event-driven microservice architectures, audit and event logs that require replay, ETL pipelines where producers and consumers need independent scalability, and any system where guaranteed message delivery and ordering at high throughput are non-negotiable.',
+  },
+  {
+    name:  'Docker',
+    group: 'Infra',
+    what:  'Docker is a platform for building, shipping, and running applications in isolated containers. Containers package application code together with all dependencies into a single artefact, ensuring identical behaviour across development, CI, staging, and production environments. Multi-stage Dockerfiles produce minimal production images by discarding build-time dependencies.',
+    why:   'Docker eliminates environment inconsistencies entirely. Multi-stage builds produce slim, auditable production images. Docker Compose provides a reproducible local development environment that mirrors production. In Kubernetes deployments, our container images are the unit of deployment and rollback — built once, promoted through environments without modification.',
+    when:  'Every back-end service we ship. Front-ends deployed to Vercel do not require Docker, but every Python service, Java service, data pipeline worker, and self-hosted tool is containerised from day one — ensuring portability regardless of the target infrastructure.',
+  },
+  {
+    name:  'CI/CD',
+    group: 'Infra',
+    what:  'Continuous Integration and Continuous Delivery (CI/CD) are engineering practices and tooling that automate the testing, building, and deployment of software. We use GitHub Actions as the primary platform, with support for ephemeral preview environments, container image signing with Sigstore/Cosign, and branch protection rules that enforce passing pipelines before merge.',
+    why:   'Automated pipelines mean every commit is tested, every pull request gets a live preview environment, and every merge to main can be deployed in minutes with full confidence. Signed build artefacts provide a verifiable chain of custody from source code to the running container in production. We treat CI/CD configuration as code — versioned, reviewed, and audited the same as application code.',
+    when:  'Every project, without exception. CI/CD is not an optional enhancement — it is the baseline quality assurance layer for any software that needs to be maintained, updated, and trusted in production over months or years.',
+  },
+];
 
 // ── Page ───────────────────────────────────────────────────────────────────
 
-export default async function TechnologiesPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = await params;
-  const c = locale === 'cs' ? cs : en;
-  const localePath = (path: string) => locale === 'en' ? path : `/${locale}${path}`;
-
+export default function TechnologiesPage() {
   const itemListSchema = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    name: c.title,
-    url: locale === 'en' ? `${BASE}/technologies` : `${BASE}/cs/technologies`,
-    itemListElement: c.items.map((item, i) => ({
+    name: 'Zephyron Tech Engineering Stack',
+    url: `${BASE}/technologies`,
+    itemListElement: items.map((item, i) => ({
       '@type': 'ListItem',
       position: i + 1,
       name: item.name,
@@ -208,7 +145,7 @@ export default async function TechnologiesPage({
         >
           {/* Back link */}
           <a
-            href={localePath('/')}
+            href="/"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -219,7 +156,7 @@ export default async function TechnologiesPage({
               transition: 'color 120ms',
             }}
           >
-            {c.back}
+            ← Back to home
           </a>
 
           <h1
@@ -233,7 +170,7 @@ export default async function TechnologiesPage({
               margin: '0 0 20px',
             }}
           >
-            {c.title}
+            Our tech stack
           </h1>
           <p
             style={{
@@ -244,12 +181,13 @@ export default async function TechnologiesPage({
               maxWidth: '60ch',
             }}
           >
-            {c.lead}
+            These are the tools we reach for first — proven in production, chosen for a reason.
+            We adapt to what you already have, but below is where we start.
           </p>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
-            {c.items.map((item, i) => (
-              <TechItem key={item.name} item={item} index={i} total={c.items.length} />
+            {items.map((item, i) => (
+              <TechItem key={item.name} item={item} index={i} total={items.length} />
             ))}
           </div>
 
@@ -271,12 +209,11 @@ export default async function TechnologiesPage({
                 lineHeight: 1.6,
               }}
             >
-              {locale === 'cs'
-                ? 'Máte projekt, kde by některá z těchto technologií přišla vhod? Nebo potřebujete jiný stack — rádi se přizpůsobíme.'
-                : 'Have a project where one of these technologies would be a good fit? Or need a different stack — we adapt.'}
+              Have a project where one of these technologies would be a good fit?
+              Or need a different stack — we adapt.
             </p>
             <a
-              href={localePath('/#contact')}
+              href="/#contact"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -287,7 +224,7 @@ export default async function TechnologiesPage({
                 textDecoration: 'none',
               }}
             >
-              {c.cta} →
+              Discuss a project →
             </a>
           </div>
         </article>

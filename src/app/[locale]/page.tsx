@@ -8,33 +8,15 @@ import { Footer } from '@/components/Footer';
 
 const BASE = 'https://zephyron.tech';
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}): Promise<Metadata> {
-  const { locale } = await params;
-  const url = locale === 'en' ? `${BASE}/` : `${BASE}/${locale}/`;
-
+export async function generateMetadata(): Promise<Metadata> {
   return {
     alternates: {
-      canonical: url,
-      languages: {
-        'en':        `${BASE}/`,
-        'cs':        `${BASE}/cs/`,
-        'x-default': `${BASE}/`,
-      },
+      canonical: `${BASE}/`,
     },
   };
 }
 
-export default async function HomePage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = await params;
-
+export default function HomePage() {
   const orgSchema = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
@@ -63,11 +45,8 @@ export default async function HomePage({
     '@type': 'WebSite',
     name: 'Zephyron Tech',
     url: BASE,
-    description:
-      locale === 'cs'
-        ? 'Zakázkový software pro firmy, které potřebují aby to fungovalo v produkci.'
-        : 'Custom software engineering for companies that need it to work in production.',
-    inLanguage: ['en', 'cs'],
+    description: 'Custom software engineering for companies that need it to work in production.',
+    inLanguage: 'en',
   };
 
   return (
