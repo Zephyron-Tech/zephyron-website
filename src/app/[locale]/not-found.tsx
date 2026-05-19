@@ -1,10 +1,91 @@
-import { Header } from '@/components/Header';
-import { Footer } from '@/components/Footer';
+import Image from 'next/image';
+
+// Minimal header — no next-intl dependency (this page may render without NextIntlClientProvider
+// when notFound() is called from [locale]/layout.tsx before the provider is mounted)
+function NotFoundHeader() {
+  return (
+    <header
+      style={{
+        position: 'sticky',
+        top: 0,
+        zIndex: 40,
+        background: 'transparent',
+        borderBottom: '1px solid transparent',
+      }}
+    >
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          height: 88,
+          padding: '0 clamp(20px, 5vw, 56px)',
+          maxWidth: 1280,
+          margin: '0 auto',
+        }}
+      >
+        <a href="/" aria-label="Zephyron Tech home" style={{ textDecoration: 'none', flexShrink: 0 }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 12 }}>
+            <Image
+              src="/mark-color.png"
+              alt="Zephyron Tech mark"
+              width={36}
+              height={36}
+              style={{ width: 'auto', height: 36 }}
+              priority
+            />
+            <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1, gap: 3 }}>
+              <span
+                style={{
+                  fontFamily: 'var(--font-display)',
+                  fontWeight: 600,
+                  fontSize: 28,
+                  letterSpacing: '-0.02em',
+                  color: 'var(--fg)',
+                }}
+              >
+                Zephyron
+              </span>
+              <span
+                style={{
+                  fontFamily: 'var(--font-sans)',
+                  fontWeight: 600,
+                  fontSize: 11,
+                  letterSpacing: '0.32em',
+                  color: 'var(--fg-muted)',
+                }}
+              >
+                TECH
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </header>
+  );
+}
+
+function NotFoundFooter() {
+  return (
+    <footer
+      style={{
+        background: 'var(--navy-950)',
+        borderTop: '1px solid var(--border)',
+        padding: '24px clamp(20px, 5vw, 56px)',
+        textAlign: 'center',
+        fontSize: 13,
+        color: 'var(--fg-subtle)',
+      }}
+    >
+      © {new Date().getFullYear()} Zephyron Tech s.r.o.
+    </footer>
+  );
+}
 
 export default function NotFound() {
   return (
     <>
-      <Header />
+      <NotFoundHeader />
       <main
         style={{
           minHeight: '62vh',
@@ -107,7 +188,7 @@ export default function NotFound() {
           </a>
         </div>
       </main>
-      <Footer />
+      <NotFoundFooter />
     </>
   );
 }
