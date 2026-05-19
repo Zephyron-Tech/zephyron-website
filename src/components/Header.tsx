@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
+import { usePathname } from 'next/navigation';
 import { Logo } from './ui/Logo';
 import { Button } from './ui/Button';
 import { Icon } from './ui/Icon';
@@ -9,6 +10,8 @@ import { ContactModal } from './ContactModal';
 
 export function Header() {
   const t = useTranslations('header');
+  const pathname = usePathname();
+  const isHome = pathname === '/' || pathname === '/en';
   const [scrolled, setScrolled] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -34,10 +37,12 @@ export function Header() {
     return () => window.removeEventListener('keydown', onKey);
   }, [drawerOpen]);
 
+  const a = (anchor: string) => isHome ? anchor : `/${anchor}`;
+
   const navLinks: [string, string][] = [
-    [t('nav.projects'), '#projects'],
-    [t('nav.techStack'), '#stack'],
-    [t('nav.contact'), '#contact'],
+    [t('nav.projects'), a('#projects')],
+    [t('nav.techStack'), a('#stack')],
+    [t('nav.contact'), a('#contact')],
   ];
 
   const openModal = () => {
@@ -69,7 +74,7 @@ export function Header() {
             gap: 40,
           }}
         >
-          <a href="#top" aria-label="Zephyron Tech home" style={{ flexShrink: 0 }}>
+          <a href={isHome ? '#top' : '/'} aria-label="Zephyron Tech home" style={{ flexShrink: 0 }}>
             <Logo height={36} />
           </a>
 
