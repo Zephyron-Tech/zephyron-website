@@ -84,11 +84,11 @@ function NotFoundFooter() {
 
 export default function NotFound() {
   return (
-    <>
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <NotFoundHeader />
       <main
         style={{
-          minHeight: '62vh',
+          flex: 1,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -189,6 +189,6 @@ export default function NotFound() {
         </div>
       </main>
       <NotFoundFooter />
-    </>
+    </div>
   );
 }
