@@ -3,9 +3,11 @@ enabled   = true
 filter    = zephyron-postgres
 backend   = auto
 logpath   = /var/lib/docker/containers/*/*-json.log
-# Published Docker ports bypass INPUT; bans must go into DOCKER-USER (post-DNAT, container port 5432).
-banaction = iptables-allports[chain=DOCKER-USER]
-port      = all
+# Published Docker ports bypass INPUT; bans must go into DOCKER-USER, which sees traffic after DNAT,
+# i.e. the container port 5432. Only that port is blocked, so a banned IP keeps access to the
+# other published services (Traefik sites, etc.).
+banaction = iptables-multiport[chain=DOCKER-USER]
+port      = 5432
 maxretry  = 5
 findtime  = 10m
 bantime   = 1h
