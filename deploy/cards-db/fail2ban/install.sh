@@ -6,6 +6,7 @@ cd "$(dirname "$0")"
 install -m 644 filter.d/zephyron-postgres.conf /etc/fail2ban/filter.d/
 install -m 644 jail.d/zephyron-postgres.local  /etc/fail2ban/jail.d/
 fail2ban-client -t
-systemctl reload fail2ban
+# restart, not reload: a reload kept the jail without its ban action (bans were counted but never enforced)
+systemctl restart fail2ban
 sleep 2
 fail2ban-client status zephyron-postgres
