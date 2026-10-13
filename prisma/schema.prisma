@@ -1,0 +1,44 @@
+// Prisma 7: the connection URL lives in prisma.config.ts, not here.
+// The generated client is gitignored and imported from `@/lib/generated/prisma/client`.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum CardMode {
+  DEFAULT
+  EVENT
+}
+
+model Member {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  name        String
+  titles      String?
+  role        String
+  phone       String?
+  email       String   @unique
+  linkedinUrl String?
+  bookingUrl  String?
+  mode        CardMode @default(DEFAULT)
+  redirectUrl String?
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  scans       Scan[]
+}
+
+model Scan {
+  id        String   @id @default(cuid())
+  memberId  String
+  member    Member   @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  scannedAt DateTime @default(now())
+  device    String
+
+  @@index([memberId, scannedAt])
+}

@@ -1,0 +1,4 @@
+# Only the migrate image (deploy/cards-db/migrate.Dockerfile) builds from this context.
+*
+!prisma
+!prisma.config.ts

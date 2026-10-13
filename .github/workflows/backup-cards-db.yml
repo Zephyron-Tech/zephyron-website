@@ -1,0 +1,28 @@
+name: Backup cards DB
+
+# Daily pg_dump on the VPS, 7 days of retention. No backup container (see deploy/cards-db): the data
+# is a few hundred rows, a dump is a few KB. Dumps stay on the VPS in 0700 dir, plain gzip.
+on:
+  schedule:
+    - cron: "17 3 * * *"
+  workflow_dispatch:
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: appleboy/ssh-action@v1.2.5
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            set -eu
+            cd /opt/docker/zephyron-cards
+            umask 077
+            mkdir -p backups
+            set -a; . ./.env; set +a
+            f="backups/${POSTGRES_DB}_$(date -u +%Y%m%dT%H%M%SZ).sql.gz"
+            docker compose exec -T postgres pg_dump -U "$POSTGRES_USER" -d "$POSTGRES_DB" | gzip > "$f"
+            test -s "$f"
+            find backups -name '*.sql.gz' -mtime +7 -delete

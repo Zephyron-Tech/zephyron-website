@@ -1,0 +1,16 @@
+# Local development Postgres (no TLS, loopback only):
+#   docker compose -f deploy/cards-db/docker-compose.dev.yml up -d
+#   DATABASE_URL=postgresql://cards:cards@127.0.0.1:5432/cards
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: cards
+      POSTGRES_PASSWORD: cards
+      POSTGRES_DB: cards
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - cards_dev_data:/var/lib/postgresql/data
+volumes:
+  cards_dev_data:

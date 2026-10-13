@@ -1,0 +1,80 @@
+# Production compose for the business-cards Postgres (/opt/docker/zephyron-cards/docker-compose.yml).
+# Deployed by .github/workflows/deploy-cards-db.yml. Sized for a few hundred rows: hard memory/CPU
+# caps and tiny Postgres buffers so it stays cheap on the shared 4 GB Hetzner box.
+#
+# Deliberate deviation from the wiki's "DB not reachable from outside": the web app runs on Vercel
+# (no static IPs), so 5432 is published, but ONLY over TLS (pg_hba.conf has hostssl rules only,
+# scram-sha-256) and the app user owns just this one database.
+#
+# Not on web_proxy: Postgres is a raw TCP service, Traefik doesn't route it.
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: zephyron_cards_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    command:
+      - postgres
+      - -c
+      - hba_file=/etc/postgresql/pg_hba.conf
+      - -c
+      - ssl=on
+      - -c
+      - ssl_cert_file=/certs/server.crt
+      - -c
+      - ssl_key_file=/certs/server.key
+      - -c
+      - password_encryption=scram-sha-256
+      # Small-footprint tuning (a few hundred rows, serverless clients with pool max 3)
+      - -c
+      - max_connections=20
+      - -c
+      - shared_buffers=32MB
+      - -c
+      - effective_cache_size=96MB
+      - -c
+      - work_mem=2MB
+      - -c
+      - maintenance_work_mem=16MB
+      - -c
+      - max_wal_size=128MB
+      - -c
+      - min_wal_size=32MB
+      - -c
+      - wal_compression=on
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+      - ./pg_hba.conf:/etc/postgresql/pg_hba.conf:ro
+      - ./certs:/certs:ro
+    mem_limit: 256m
+    cpus: 0.5
+    pids_limit: 100
+    logging:
+      driver: json-file
+      options:
+        max-size: "5m"
+        max-file: "2"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # One-shot `prisma migrate deploy` (idempotent). Run by the pipeline:
+  #   docker compose run --rm migrate
+  migrate:
+    image: ghcr.io/zephyron-tech/zephyron-cards-migrate:latest
+    profiles: ["migrate"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      # Internal hop still goes over TLS (pg_hba is hostssl-only); the self-signed cert is
+      # accepted here because the traffic never leaves the Docker network.
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}?sslmode=require&sslaccept=accept_invalid_certs
+    mem_limit: 512m
