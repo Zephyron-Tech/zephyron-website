@@ -116,16 +116,25 @@ jobs:
               cat certs/server.crt
             fi
 
+      # The migrate image is a private GHCR package and this VPS has no standing login that can
+      # read it, so log in with the run's short-lived GITHUB_TOKEN and log out again afterwards.
       - name: Pull, start Postgres, migrate
         uses: appleboy/ssh-action@v1.2.5
+        env:
+          GHCR_USER: ${{ github.actor }}
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_KEY }}
+          envs: GHCR_USER,GHCR_TOKEN
           script: |
             set -eu
             cd ${{ env.PROJECT_DIR }}
+            printf '%s' "$GHCR_TOKEN" | docker login ghcr.io -u "$GHCR_USER" --password-stdin
+            trap 'docker logout ghcr.io >/dev/null 2>&1 || true' EXIT
             docker compose pull
+            docker compose --profile migrate pull migrate
             # No --force-recreate: unlike stateless services, restarting the DB on every deploy
             # is pointless downtime. Compose recreates it only when its config/image changed.
             docker compose up -d --wait postgres
