@@ -59,13 +59,13 @@ jobs:
             sudo mkdir -p ${{ env.PROJECT_DIR }}
             sudo chown "$(whoami):$(whoami)" ${{ env.PROJECT_DIR }}
 
-      - name: Copy compose and pg_hba.conf to server
+      - name: Copy compose, pg_hba.conf and fail2ban config to server
         uses: appleboy/scp-action@v1.0.0
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_KEY }}
-          source: "deploy/cards-db/docker-compose.yml,deploy/cards-db/pg_hba.conf"
+          source: "deploy/cards-db/docker-compose.yml,deploy/cards-db/pg_hba.conf,deploy/cards-db/fail2ban"
           target: ${{ env.PROJECT_DIR }}
           strip_components: 2
 
