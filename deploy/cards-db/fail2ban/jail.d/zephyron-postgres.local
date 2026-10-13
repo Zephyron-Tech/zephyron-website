@@ -1,0 +1,16 @@
+[zephyron-postgres]
+enabled   = true
+filter    = zephyron-postgres
+backend   = auto
+logpath   = /var/lib/docker/containers/*/*-json.log
+# Published Docker ports bypass INPUT; bans must go into DOCKER-USER (post-DNAT, container port 5432).
+banaction = iptables-allports[chain=DOCKER-USER]
+port      = all
+maxretry  = 5
+findtime  = 10m
+bantime   = 1h
+bantime.increment = true
+bantime.factor    = 24
+bantime.maxtime   = 4w
+# Docker networks (migrate job, internal clients) and loopback are never banned.
+ignoreip  = 127.0.0.0/8 ::1 172.16.0.0/12

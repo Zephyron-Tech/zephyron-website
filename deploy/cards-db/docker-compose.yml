@@ -28,6 +28,9 @@ services:
       - ssl_key_file=/certs/server.key
       - -c
       - password_encryption=scram-sha-256
+      # Client host before the level, so fail2ban can ban failed logins (see fail2ban/).
+      - -c
+      - "log_line_prefix=%m [%p] %h "
       # Small-footprint tuning (a few hundred rows, serverless clients with pool max 3)
       - -c
       - max_connections=20
