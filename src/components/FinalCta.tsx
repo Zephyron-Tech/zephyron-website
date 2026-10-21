@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import { Button } from './ui/Button';
 import { CopyEmail } from './CopyEmail';
 
@@ -14,29 +13,16 @@ export function FinalCta({
   return (
     <section className="section-y">
       <div className="container-page">
-        <div className="grid gap-10 rounded-[32px] bg-accent px-6 py-12 text-white sm:px-12 sm:py-16 lg:grid-cols-[1.3fr_0.7fr] lg:items-center">
+        <div className="grid gap-10 rounded-[32px] bg-accent px-6 py-10 text-white sm:px-12 sm:py-12 lg:grid-cols-[1fr_auto] lg:items-end lg:gap-16">
           <div>
             <h2 className="text-3xl text-white sm:text-5xl">{title}</h2>
             <p className="mt-5 max-w-xl text-lg leading-relaxed text-white/80">{lead}</p>
-            <CopyEmail tone="accent" className="mt-9" />
-            <div className="mt-9">
-              <Button href="/kontakt" variant="onDark" size="lg" arrow track="cta_final">
-                Domluvit konzultaci
-              </Button>
-            </div>
           </div>
-          <div className="flex items-center gap-4 lg:justify-self-end">
-            <Image
-              src="/assets/vandlicek-pfp.jpg"
-              alt="Ing. Jan Vandlíček"
-              width={80}
-              height={80}
-              className="size-16 rounded-full object-cover"
-            />
-            <div className="text-sm leading-snug">
-              <div className="font-medium">Ing. Jan Vandlíček</div>
-              <div className="text-white/70">Ozve se vám osobně</div>
-            </div>
+          <div className="flex flex-col items-start gap-7">
+            <CopyEmail tone="accent" />
+            <Button href="/kontakt" variant="onDark" size="lg" arrow track="cta_final">
+              Domluvit konzultaci
+            </Button>
           </div>
         </div>
       </div>
