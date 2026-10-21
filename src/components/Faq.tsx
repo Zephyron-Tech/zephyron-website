@@ -8,6 +8,9 @@ interface FaqProps {
   items: FaqItem[];
   title?: string;
   lead?: string;
+  /** Where "ask your own" leads; a page with its own form points to it. */
+  askHref?: string;
+  askLabel?: string;
 }
 
 // Questions are white cards one tone step above the page; one is open at a
@@ -17,6 +20,8 @@ export function Faq({
   items,
   title = 'Časté otázky',
   lead = 'Na tohle se nás firmy ptají nejčastěji, než se pustíme do práce.',
+  askHref = '/kontakt',
+  askLabel = 'Položit vlastní otázku',
 }: FaqProps) {
   return (
     <section className="section-y">
@@ -32,10 +37,10 @@ export function Faq({
               <p className="font-medium text-ink">Nenašli jste odpověď?</p>
               <p className="mt-1 text-ink-2">Napište nám. Odpovídá ten, kdo to staví, ne obchodník.</p>
               <Link
-                href="/kontakt"
+                href={askHref}
                 className="group mt-4 inline-flex items-center gap-2 text-[15px] font-medium text-accent"
               >
-                Položit vlastní otázku
+                {askLabel}
                 <ArrowRight
                   size={16}
                   aria-hidden

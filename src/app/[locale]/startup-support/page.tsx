@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { setRequestLocale } from 'next-intl/server';
-import { Check } from 'lucide-react';
+import { Check, Mail, Phone } from 'lucide-react';
 import { SITE } from '@/content/site';
 import { caseStudies } from '@/content/case-studies';
 import type { FaqItem } from '@/content/faq';
@@ -9,6 +9,7 @@ import { SectionHeader } from '@/components/ui/SectionHeader';
 import { Button } from '@/components/ui/Button';
 import { CaseCards } from '@/components/CaseCards';
 import { ContactForm } from '@/components/ContactForm';
+import { ContactTile } from '@/components/ContactTile';
 import { Faq } from '@/components/Faq';
 import { JsonLd } from '@/components/JsonLd';
 import { breadcrumbSchema, faqSchema } from '@/lib/schema';
@@ -100,13 +101,17 @@ export default async function StartupSupportPage({ params }: { params: Promise<{
         title="Technický partner pro zakladatele"
         lead="Pomáháme lidem, kteří mají dobrý nápad a znají svůj obor, ale chybí jim vývojáři. Do vybraných projektů vstupujeme jako dlouhodobý technický partner: od návrhu přes první verzi až po provoz. Podmínky přizpůsobujeme fázi projektu."
       >
-        <div className="flex flex-col gap-3 sm:flex-row">
+        {/* One action; the second way in is a text link, as on the landing page. */}
+        <div className="flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:gap-8">
           <Button href="#prihlaska" size="lg" arrow track="cta_startup_hero">
             Napsat nám o projektu
           </Button>
-          <Button href="#jak-to-funguje" size="lg" variant="secondary">
+          <a
+            href="#jak-to-funguje"
+            className="text-[15px] font-medium text-ink underline decoration-line-strong decoration-[1.5px] underline-offset-[6px] transition-colors hover:decoration-ink"
+          >
             Jak to funguje
-          </Button>
+          </a>
         </div>
       </PageHero>
 
@@ -125,16 +130,22 @@ export default async function StartupSupportPage({ params }: { params: Promise<{
       </section>
 
       <section className="section-y">
-        <div className="container-page grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
+        <div className="container-page grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
           <SectionHeader
             title="Projekty si vybíráme"
             lead="Nejsme investiční fond ani agentura, která vezme cokoliv. Do projektu jdeme, když v něj sami věříme."
+            className="lg:sticky lg:top-28 lg:self-start"
           />
-          <ul className="flex flex-col gap-1">
+          <ul className="space-y-5 rounded-2xl bg-card p-6 sm:p-8">
             {criteria.map((c) => (
-              <li key={c} className="flex gap-4 py-5 text-lg text-ink">
-                <Check size={20} strokeWidth={2} className="mt-1 shrink-0 text-accent" aria-hidden />
-                {c}
+              <li key={c} className="flex items-start gap-4 text-lg text-ink">
+                <span
+                  aria-hidden
+                  className="inline-flex size-8 shrink-0 items-center justify-center rounded-full bg-accent-soft text-accent"
+                >
+                  <Check size={16} strokeWidth={2.25} />
+                </span>
+                <span className="text-pretty pt-0.5">{c}</span>
               </li>
             ))}
           </ul>
@@ -160,20 +171,38 @@ export default async function StartupSupportPage({ params }: { params: Promise<{
         <div className="container-page">
           <SectionHeader title="S kým se právě rozjíždíme" />
           <div className="mt-14">
-            <CaseCards items={startups} />
+            <CaseCards items={startups} showMeta={false} />
           </div>
         </div>
       </section>
 
-      <Faq items={faq} />
+      <Faq items={faq} askHref="#prihlaska" askLabel="Napsat nám o projektu" />
 
       <section id="prihlaska" className="section-y scroll-mt-20">
-        <div className="container-page grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
-          <SectionHeader
-            title="Máte zajímavý projekt?"
-            lead="Napište pár vět o problému, který řešíte, a kde teď jste. Ozveme se."
-          />
-          <ContactForm defaultTopic="startup" />
+        {/* Mirrored against the FAQ above: form left, heading right, so the two
+            neighbouring splits do not read as one. On a phone the heading leads. */}
+        <div className="container-page grid gap-12 lg:grid-cols-[1.2fr_0.8fr] lg:gap-16">
+          {/* Holds beside the long form, as the FAQ heading does. */}
+          <div className="lg:sticky lg:top-28 lg:order-2 lg:self-start">
+            <SectionHeader
+              title="Máte zajímavý projekt?"
+              lead="Napište pár vět o problému, který řešíte, a kde teď jste. Ozveme se."
+            />
+            <p className="mt-10 font-medium text-ink">Raději napřímo?</p>
+            <div className="mt-3 grid max-w-sm gap-3">
+              <ContactTile tone="card" icon={Mail} label="E-mail" value={SITE.email} href={`mailto:${SITE.email}`} />
+              <ContactTile
+                tone="card"
+                icon={Phone}
+                label="Telefon"
+                value={SITE.phone}
+                href={`tel:${SITE.phone.replace(/\s/g, '')}`}
+              />
+            </div>
+          </div>
+          <div className="lg:order-1">
+            <ContactForm defaultTopic="startup" />
+          </div>
         </div>
       </section>
     </>
