@@ -181,7 +181,7 @@ p { text-wrap: pretty; }
 .bulb-tint {
   inset: 0;
   background: radial-gradient(ellipse 60% 45% at 51% 37%, #FFE6B3 0, #FFC46B 45%, transparent 100%); /* taste-skill-ignore: the lamp's light on the glass */
-  mask: url('/print/bulb-light.png') center / 100% 100% no-repeat;
+  mask: var(--bulb-mask) center / 100% 100% no-repeat;
 }
 
 .bulb-filament { inset: 0; }
@@ -195,6 +195,17 @@ p { text-wrap: pretty; }
 .bulb-filament-warm::before { background: #FF8A2A; }
 .bulb-filament-hot { filter: drop-shadow(0 0 3px #FFF1D0) drop-shadow(0 0 14px #FFB85C); } /* taste-skill-ignore: glowing filament */
 .bulb-filament-hot::before { background: #FFF6E4; }
+
+/* On paper the room is already lit: the halo is a warmer, smaller haze and the
+   white-hot core gets a darker amber rim so it still reads against the ground. */
+.bulb[data-tone='paper'] .bulb-glow {
+  background: radial-gradient(circle at 51% 42%, rgb(255 180 70 / 0.38) 0, rgb(255 170 70 / 0.12) 11%, transparent 26%); /* taste-skill-ignore: the lamp's own light */
+}
+.bulb[data-tone='paper'] .bulb-tint {
+  background: radial-gradient(ellipse 34% 22% at 51% 37%, #F59E2E 0, #F2A33A 40%, transparent 100%); /* taste-skill-ignore: the lamp's light on the glass */
+}
+.bulb[data-tone='paper'] .bulb-filament-hot { filter: drop-shadow(0 0 1px #C2560A) drop-shadow(0 0 8px #FF9F2E); } /* taste-skill-ignore: glowing filament */
+.bulb[data-tone='paper'] .bulb-filament-hot::before { background: #FFC44D; }
 
 /* Mains stutter while the filament heats, then it holds. */
 @keyframes bulb-on {

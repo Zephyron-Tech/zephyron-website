@@ -2,6 +2,7 @@ import { ChevronRight } from 'lucide-react';
 import { Link } from '@/navigation';
 import { SectionHeader } from './ui/SectionHeader';
 import { PrintObject } from './PrintObject';
+import { LitBulb } from './home/LitBulb';
 import type { PrintArtKey } from '@/content/print-art';
 
 interface PageHeroProps {
@@ -43,7 +44,10 @@ export function PageHero({ title, lead, crumbs = [], art, children }: PageHeroPr
             <SectionHeader as="h1" title={title} lead={lead} className="rise" />
             {children && <div className="rise rise-2 mt-9">{children}</div>}
           </div>
-          {art && (
+          {art === 'bulb' ? (
+            // The one header object that does something: it switches on.
+            <LitBulb name="bulb" sizes="(min-width: 1024px) 320px, 0px" priority className="hidden h-[340px] lg:block" />
+          ) : art && (
             <PrintObject
               name={art}
               sizes="(min-width: 1024px) 320px, 0px"
