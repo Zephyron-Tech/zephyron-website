@@ -2,43 +2,36 @@ import Image from 'next/image';
 
 interface LogoProps {
   height?: number;
+  dark?: boolean;
 }
 
-export function Logo({ height = 28 }: LogoProps) {
+// Wordmark set in Surgena (brand typeface). Surgena has no diacritics, so it
+// is used only here.
+export function Logo({ height = 30, dark = false }: LogoProps) {
   return (
-    <div style={{ display: 'inline-flex', alignItems: 'center', gap: 12 }}>
+    <span className="inline-flex items-center gap-2.5">
       <Image
-        src="/mark-color.png"
-        alt="Zephyron Tech mark"
-        width={height}
-        height={height}
-        style={{ width: 'auto', height }}
+        src="/mark-256.png"
+        alt=""
+        width={256}
+        height={196}
+        style={{ height, width: 'auto' }}
         priority
       />
-      <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1, gap: 3 }}>
+      <span className="flex flex-col leading-none" style={{ gap: height * 0.08 }}>
         <span
-          style={{
-            fontFamily: 'var(--font-display)',
-            fontWeight: 600,
-            fontSize: height * 0.78,
-            letterSpacing: '-0.02em',
-            color: 'var(--fg)',
-          }}
+          className={dark ? 'text-white' : 'text-ink'}
+          style={{ fontFamily: 'var(--font-brand)', fontWeight: 600, fontSize: height * 0.74, letterSpacing: '-0.01em' }}
         >
           Zephyron
         </span>
         <span
-          style={{
-            fontFamily: 'var(--font-sans)',
-            fontWeight: 600,
-            fontSize: height * 0.32,
-            letterSpacing: '0.32em',
-            color: 'var(--fg-muted)',
-          }}
+          className={`self-end ${dark ? 'text-white/70' : 'text-ink-2'}`}
+          style={{ fontFamily: 'var(--font-brand)', fontWeight: 600, fontSize: height * 0.26, letterSpacing: '0.45em', marginRight: '-0.45em' }}
         >
           TECH
         </span>
-      </div>
-    </div>
+      </span>
+    </span>
   );
 }

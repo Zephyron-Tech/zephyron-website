@@ -1,287 +1,104 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { usePathname } from 'next/navigation';
+import { Menu, X } from 'lucide-react';
+import { Link, usePathname } from '@/navigation';
+import { NAV } from '@/content/site';
 import { Logo } from './ui/Logo';
 import { Button } from './ui/Button';
-import { Icon } from './ui/Icon';
-import { ContactModal } from './ContactModal';
 
 export function Header() {
-  const t = useTranslations('header');
+  const t = useTranslations('nav');
   const pathname = usePathname();
-  const isHome = pathname === '/' || pathname === '/en';
+  const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [drawerOpen, setDrawerOpen] = useState(false);
 
-  // Scroll-aware blur
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Scroll lock while drawer is open
+  useEffect(() => setOpen(false), [pathname]);
+
   useEffect(() => {
-    document.body.style.overflow = drawerOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
-  }, [drawerOpen]);
+    // Lock the root scroller, not body: overflow on body would make it the
+    // sticky header's scroll container and push the header out of view.
+    const root = document.documentElement;
+    root.style.overflowY = open ? 'hidden' : '';
+    return () => {
+      root.style.overflowY = '';
+    };
+  }, [open]);
 
-  // Escape closes drawer
-  useEffect(() => {
-    if (!drawerOpen) return;
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setDrawerOpen(false); };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [drawerOpen]);
-
-  const a = (anchor: string) => isHome ? anchor : `/${anchor}`;
-
-  const navLinks: [string, string][] = [
-    [t('nav.projects'), a('#projects')],
-    [t('nav.techStack'), a('#stack')],
-    [t('nav.contact'), a('#contact')],
-  ];
-
-  const openModal = () => {
-    setDrawerOpen(false);
-    setModalOpen(true);
-  };
+  const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
 
   return (
-    <>
-      <header
-        style={{
-          position: 'sticky',
-          top: 0,
-          zIndex: 40,
-          background: scrolled ? 'rgba(1, 15, 34, 0.72)' : 'transparent',
-          backdropFilter: scrolled ? 'blur(14px) saturate(160%)' : 'none',
-          WebkitBackdropFilter: scrolled ? 'blur(14px) saturate(160%)' : 'none',
-          borderBottom: `1px solid ${scrolled ? 'var(--border)' : 'transparent'}`,
-          transition: 'all 200ms var(--ease-out)',
-        }}
-      >
-        <div
-          className="container zt-header-inner"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            height: 88,
-            gap: 40,
-          }}
-        >
-          <a href={isHome ? '#top' : '/'} aria-label="Zephyron Tech home" style={{ flexShrink: 0 }}>
-            <Logo height={36} />
-          </a>
+    <header
+      className={`sticky top-0 z-40 bg-paper transition-[border-color] duration-200 border-b ${
+        scrolled || open ? 'border-line' : 'border-transparent'
+      }`}
+    >
+      <div className="container-page flex h-[72px] items-center justify-between gap-6">
+        <Link href="/" aria-label={t('home')} className="shrink-0">
+          <Logo height={30} />
+        </Link>
 
-          {/* Desktop nav */}
-          <nav
-            style={{ display: 'flex', gap: 36 }}
-            className="zt-header-nav"
-          >
-            {navLinks.map(([label, href]) => (
-              <NavLink key={label} href={href} label={label} />
-            ))}
-          </nav>
-
-          {/* Desktop CTA */}
-          <Button
-            onClick={openModal}
-            variant="ghost"
-            size="sm"
-            iconRight="ArrowUpRight"
-            className="zt-header-cta"
-          >
-            {t('cta')}
-          </Button>
-
-          {/* Hamburger — mobile only */}
-          <button
-            onClick={() => setDrawerOpen(true)}
-            aria-label="Open menu"
-            className="zt-hamburger"
-            style={{
-              display: 'none',
-              alignItems: 'center',
-              justifyContent: 'center',
-              width: 44,
-              height: 44,
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              color: 'var(--fg)',
-              flexShrink: 0,
-              marginRight: -8,
-            }}
-          >
-            <Icon name="Menu" size={22} strokeWidth={1.5} />
-          </button>
-        </div>
-
-        <style>{`
-          @media (max-width: 720px) {
-            .zt-header-nav  { display: none !important; }
-            .zt-header-cta  { display: none !important; }
-            .zt-hamburger   { display: flex !important; }
-            .zt-header-inner { height: 72px !important; gap: 16px !important; }
-          }
-        `}</style>
-      </header>
-
-      {/* ── Mobile drawer (full-screen overlay) ───────────────────────── */}
-
-      {/* Drawer panel */}
-      <div
-        role="dialog"
-        aria-modal="true"
-        aria-label="Navigation menu"
-        style={{
-          position: 'fixed',
-          inset: 0,
-          zIndex: 50,
-          background: 'var(--navy-950)',
-          display: 'flex',
-          flexDirection: 'column',
-          transform: drawerOpen ? 'translateY(0)' : 'translateY(-100%)',
-          transition: 'transform 340ms cubic-bezier(0.32, 0, 0.15, 1)',
-          willChange: 'transform',
-          overflowY: 'auto',
-        }}
-      >
-        {/* Drawer header row — matches sticky header height */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            height: 72,
-            flexShrink: 0,
-            padding: '0 clamp(20px, 5vw, 56px)',
-            borderBottom: '1px solid var(--border)',
-          }}
-        >
-          <Logo height={28} />
-          <button
-            onClick={() => setDrawerOpen(false)}
-            aria-label="Close menu"
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              width: 44,
-              height: 44,
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              color: 'var(--fg-muted)',
-              marginRight: -10,
-            }}
-          >
-            <Icon name="X" size={22} strokeWidth={1.5} />
-          </button>
-        </div>
-
-        {/* Nav links */}
-        <nav
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            flex: 1,
-            padding: '8px clamp(20px, 5vw, 56px) 0',
-          }}
-        >
-          {navLinks.map(([label, href]) => (
-            <DrawerLink
-              key={label}
-              href={href}
-              label={label}
-              onClick={() => setDrawerOpen(false)}
-            />
+        <nav aria-label="Hlavní navigace" className="hidden items-center gap-1 lg:flex">
+          {NAV.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              aria-current={isActive(item.href) ? 'page' : undefined}
+              className={`rounded-full px-4 py-2 text-[15px] transition-colors ${
+                isActive(item.href) ? 'text-ink bg-paper-2' : 'text-ink-2 hover:text-ink'
+              }`}
+            >
+              {t(item.key)}
+            </Link>
           ))}
         </nav>
 
-        {/* CTA */}
-        <div style={{ padding: '32px clamp(20px, 5vw, 56px) 48px', flexShrink: 0 }}>
-          <Button
-            onClick={openModal}
-            variant="primary"
-            size="lg"
-            iconRight="ArrowUpRight"
-            style={{ width: '100%', justifyContent: 'center' }}
-          >
+        <div className="hidden lg:block">
+          <Button href="/kontakt" track="cta_header">
             {t('cta')}
           </Button>
         </div>
+
+        <button
+          type="button"
+          className="-mr-2 inline-flex size-11 items-center justify-center rounded-full text-ink lg:hidden"
+          aria-expanded={open}
+          aria-controls="mobile-menu"
+          aria-label={open ? t('close') : t('menu')}
+          onClick={() => setOpen((v) => !v)}
+        >
+          {open ? <X size={24} strokeWidth={1.75} /> : <Menu size={24} strokeWidth={1.75} />}
+        </button>
       </div>
 
-      <ContactModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
-    </>
-  );
-}
-
-// ── Desktop nav link ──────────────────────────────────────────────────────
-function NavLink({ href, label }: { href: string; label: string }) {
-  const [hover, setHover] = useState(false);
-  return (
-    <a
-      href={href}
-      style={{
-        fontSize: 15,
-        fontWeight: 500,
-        color: hover ? 'var(--fg)' : 'var(--fg-muted)',
-        transition: 'color 120ms var(--ease-out)',
-      }}
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-    >
-      {label}
-    </a>
-  );
-}
-
-// ── Drawer nav link ───────────────────────────────────────────────────────
-function DrawerLink({
-  href,
-  label,
-  onClick,
-}: {
-  href: string;
-  label: string;
-  onClick: () => void;
-}) {
-  const [hover, setHover] = useState(false);
-  return (
-    <a
-      href={href}
-      onClick={onClick}
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: '20px 0',
-        fontFamily: 'var(--font-display)',
-        fontSize: 'clamp(28px, 7vw, 40px)',
-        fontWeight: 600,
-        letterSpacing: '-0.02em',
-        color: hover ? 'var(--fg)' : 'var(--fg-muted)',
-        borderBottom: '1px solid var(--border)',
-        transition: 'color 120ms var(--ease-out)',
-        textDecoration: 'none',
-      }}
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-    >
-      {label}
-      <Icon
-        name="ArrowRight"
-        size={20}
-        strokeWidth={1.5}
-        style={{ opacity: hover ? 1 : 0.25, transition: 'opacity 120ms', flexShrink: 0 }}
-      />
-    </a>
+      {open && (
+        <div id="mobile-menu" className="fixed inset-x-0 bottom-0 top-[72px] z-40 overflow-y-auto bg-paper lg:hidden">
+          <nav aria-label="Mobilní navigace" className="container-page flex flex-col py-6">
+            {[...NAV, { href: '/kontakt', key: 'contact' } as const].map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="border-b border-line py-4 font-display text-2xl font-semibold tracking-tight text-ink"
+              >
+                {t(item.key)}
+              </Link>
+            ))}
+            <div className="mt-8">
+              <Button href="/kontakt" size="lg" arrow track="cta_mobile_menu" className="w-full">
+                {t('cta')}
+              </Button>
+            </div>
+          </nav>
+        </div>
+      )}
+    </header>
   );
 }

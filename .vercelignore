@@ -1,0 +1,6 @@
+# Keep local-only material out of CLI deployments.
+brand_guidelines/
+zephyron-tech-landing-page/
+.claude/
+.env*
+!.env.example

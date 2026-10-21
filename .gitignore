@@ -45,3 +45,4 @@ zephyron-tech-landing-page/
 # prisma generated client
 /src/lib/generated
 !.env.example
+brand_guidelines/

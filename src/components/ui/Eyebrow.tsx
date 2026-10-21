@@ -1,32 +1,20 @@
 interface EyebrowProps {
-  num?: number;
   children: React.ReactNode;
+  num?: number;
+  dark?: boolean;
   className?: string;
-  style?: React.CSSProperties;
 }
 
-export function Eyebrow({ num, children, className, style }: EyebrowProps) {
+export function Eyebrow({ children, num, dark = false, className = '' }: EyebrowProps) {
   return (
     <div
-      className={className}
-      style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        gap: 12,
-        fontSize: 11,
-        fontWeight: 600,
-        color: 'var(--violet-300)',
-        letterSpacing: '0.08em',
-        textTransform: 'uppercase',
-        ...style,
-      }}
+      className={`inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.12em] ${
+        dark ? 'text-white/60' : 'text-muted'
+      } ${className}`}
     >
-      {num !== undefined && (
-        <span style={{ color: 'var(--violet-400)' }}>
-          [ {String(num).padStart(2, '0')} ]
-        </span>
-      )}
-      <span style={{ color: 'var(--fg-muted)' }}>{children}</span>
+      <span aria-hidden className="inline-block size-1.5 rounded-full bg-accent" />
+      {num !== undefined && <span>{String(num).padStart(2, '0')} /</span>}
+      <span>{children}</span>
     </div>
   );
 }

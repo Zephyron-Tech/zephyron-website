@@ -1,9 +1,13 @@
 import type { Metadata, Viewport } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
-import { getMessages, getTranslations } from 'next-intl/server';
+import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
-import { SmoothScroll } from '@/components/SmoothScroll';
+import { SITE } from '@/content/site';
+import { Header } from '@/components/Header';
+import { Footer } from '@/components/Footer';
+import { TrackClicks } from '@/components/TrackClicks';
+import { JsonLd } from '@/components/JsonLd';
 
 type Locale = (typeof routing.locales)[number];
 
@@ -12,54 +16,63 @@ interface LayoutProps {
   params: Promise<{ locale: string }>;
 }
 
-export async function generateStaticParams() {
+export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
 export const viewport: Viewport = {
-  themeColor: '#010F22',
+  themeColor: '#FAF8F5',
 };
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'meta' });
 
-  const base = 'https://zephyron.tech';
-  const url  = locale === 'en' ? base : `${base}/${locale}`;
-
   return {
-    metadataBase: new URL(base),
+    metadataBase: new URL(SITE.url),
     title: {
-      default:  t('title'),
-      template: `%s | Zephyron Tech`,
+      default: t('title'),
+      template: '%s | Zephyron Tech',
     },
     description: t('description'),
-    icons: { icon: '/favicon.ico' },
-    openGraph: {
-      title:       t('title'),
-      description: t('description'),
-      url,
-      siteName: 'Zephyron Tech',
-      type:     'website',
-      locale:   'en_US',
-      images: [
-        {
-          url:    '/og-image.webp',
-          width:  1200,
-          height: 630,
-          alt:    'Zephyron Tech — Custom software engineering',
-          type:   'image/webp',
-        },
+    icons: {
+      icon: [
+        { url: '/favicon.ico', sizes: 'any' },
+        { url: '/favicon-96x96.png', type: 'image/png', sizes: '96x96' },
       ],
+      apple: '/apple-touch-icon.png',
     },
-    twitter: {
-      card:        'summary_large_image',
-      title:       t('title'),
-      description: t('description'),
-      images:      ['/og-image.webp'],
+    manifest: '/site.webmanifest',
+    openGraph: {
+      siteName: 'Zephyron Tech',
+      type: 'website',
+      locale: 'cs_CZ',
     },
+    twitter: { card: 'summary_large_image' },
   };
 }
+
+const orgSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  '@id': `${SITE.url}/#organization`,
+  name: SITE.name,
+  legalName: SITE.legalName,
+  url: SITE.url,
+  logo: `${SITE.url}/mark-color.png`,
+  image: `${SITE.url}/opengraph-image`,
+  email: SITE.email,
+  telephone: SITE.phone,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: SITE.address.street,
+    addressLocality: SITE.address.city,
+    postalCode: SITE.address.zip,
+    addressCountry: 'CZ',
+  },
+  areaServed: 'CZ',
+  identifier: { '@type': 'PropertyValue', name: 'IČO', value: SITE.ico },
+};
 
 export default async function LocaleLayout({ children, params }: LayoutProps) {
   const { locale } = await params;
@@ -67,13 +80,17 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
   if (!routing.locales.includes(locale as Locale)) {
     notFound();
   }
+  setRequestLocale(locale);
 
   const messages = await getMessages();
 
   return (
     <NextIntlClientProvider messages={messages}>
-      <SmoothScroll />
-      {children}
+      <JsonLd data={orgSchema} />
+      <TrackClicks />
+      <Header />
+      <main>{children}</main>
+      <Footer />
     </NextIntlClientProvider>
   );
 }
