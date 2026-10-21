@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
 import { setRequestLocale } from 'next-intl/server';
+import { Building2, Hash, Mail, MapPin } from 'lucide-react';
 import { SITE } from '@/content/site';
 import { PageHero } from '@/components/PageHero';
 import { SectionHeader } from '@/components/ui/SectionHeader';
-import { Tag } from '@/components/ui/Tag';
+import { ContactTile } from '@/components/ContactTile';
 import { TeamCards } from '@/components/TeamCards';
 import { FinalCta } from '@/components/FinalCta';
 import { JsonLd } from '@/components/JsonLd';
@@ -64,32 +65,48 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
       </section>
 
       <section className="section-y">
-        <div className="container-page">
-          <SectionHeader title="Čeho se držíme" />
-          <div className="mt-14 grid gap-3 sm:grid-cols-2">
-            {principles.map((p) => (
-              <div key={p.title} className="rounded-2xl bg-card p-7 sm:p-9">
-                <h3 className="text-2xl text-ink">{p.title}</h3>
-                <p className="mt-3 leading-relaxed text-ink-2">{p.text}</p>
-              </div>
+        <div className="container-page grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+          <SectionHeader
+            title="Čeho se držíme"
+            lead="Čtyři pravidla, podle kterých se rozhodujeme u každé zakázky."
+            className="lg:sticky lg:top-28 lg:self-start"
+          />
+          <ol className="space-y-6 rounded-2xl bg-card p-6 sm:p-8">
+            {principles.map((p, i) => (
+              <li key={p.title} className="flex gap-4">
+                <span
+                  aria-hidden
+                  className="inline-flex size-8 shrink-0 items-center justify-center rounded-full bg-accent-soft text-sm font-semibold text-accent"
+                >
+                  {i + 1}
+                </span>
+                <div className="pt-0.5">
+                  <h3 className="text-lg font-medium text-ink">{p.title}</h3>
+                  <p className="mt-1 text-pretty leading-relaxed text-ink-2">{p.text}</p>
+                </div>
+              </li>
             ))}
-          </div>
+          </ol>
         </div>
       </section>
 
       <section className="section-y">
-        <div className="container-page grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
+        <div className="container-page">
           <SectionHeader
             title="S čím pracujeme"
             lead="Nástroje volíme podle zadání. Tohle jsou ty, se kterými máme nejvíc zkušeností."
           />
-          <dl className="flex flex-col gap-1">
+          {/* One card across the width, a column per group; the chips sit on the
+              page tone inside it so they read. */}
+          <dl className="mt-10 grid gap-8 rounded-2xl bg-card p-6 sm:grid-cols-2 sm:p-8 lg:grid-cols-4">
             {stack.map((s) => (
-              <div key={s.group} className="grid gap-3 py-6 sm:grid-cols-[0.35fr_0.65fr]">
-                <dt className="text-sm font-medium text-ink-2 sm:pt-1.5">{s.group}</dt>
-                <dd className="flex flex-wrap gap-2">
+              <div key={s.group}>
+                <dt className="text-sm font-medium text-ink">{s.group}</dt>
+                <dd className="mt-3 flex flex-wrap gap-2">
                   {s.items.map((it) => (
-                    <Tag key={it}>{it}</Tag>
+                    <span key={it} className="inline-flex items-center rounded-full bg-paper px-3 py-1 text-[13px] text-ink-2">
+                      {it}
+                    </span>
                   ))}
                 </dd>
               </div>
@@ -98,19 +115,21 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
         </div>
       </section>
 
-      <section className="py-16">
-        <div className="container-page grid gap-6 text-sm sm:grid-cols-2 lg:grid-cols-4">
-          {[
-            ['Firma', SITE.legalName],
-            ['IČO', SITE.ico],
-            ['Sídlo', `${SITE.address.street}, ${SITE.address.zip} ${SITE.address.city}`],
-            ['E-mail', SITE.email],
-          ].map(([k, v]) => (
-            <div key={k}>
-              <div className="text-sm font-medium text-ink-2">{k}</div>
-              <div className="mt-2 text-ink">{v}</div>
-            </div>
-          ))}
+      <section className="section-y">
+        <div className="container-page">
+          <h2 className="text-2xl text-ink">Fakturační údaje</h2>
+          <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <ContactTile tone="card" icon={Building2} label="Firma" value={SITE.legalName} />
+            <ContactTile tone="card" icon={Hash} label="IČO" value={SITE.ico} />
+            <ContactTile
+              tone="card"
+              icon={MapPin}
+              label="Sídlo"
+              value={SITE.address.street}
+              lines={[`${SITE.address.zip} ${SITE.address.city}`]}
+            />
+            <ContactTile tone="card" icon={Mail} label="E-mail" value={SITE.email} href={`mailto:${SITE.email}`} />
+          </div>
         </div>
       </section>
 
