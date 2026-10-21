@@ -3,6 +3,7 @@ import { Link } from '@/navigation';
 import { NAV, SITE } from '@/content/site';
 import { services } from '@/content/services';
 import { Logo } from './ui/Logo';
+import { CopyLink } from './CopyLink';
 
 export async function Footer() {
   const t = await getTranslations('footer');
@@ -54,14 +55,14 @@ export async function Footer() {
           <h2 className={heading}>{tn('contact')}</h2>
           <ul className="mt-4 space-y-2.5 text-sm">
             <li>
-              <a href={`mailto:${SITE.email}`} className={link}>
+              <CopyLink href={`mailto:${SITE.email}`} value={SITE.email} tone="dark" className={link}>
                 {SITE.email}
-              </a>
+              </CopyLink>
             </li>
             <li>
-              <a href={`tel:${SITE.phone.replace(/\s/g, '')}`} className={link}>
+              <CopyLink href={`tel:${SITE.phone.replace(/\s/g, '')}`} value={SITE.phone} tone="dark" className={link}>
                 {SITE.phone}
-              </a>
+              </CopyLink>
             </li>
             <li className="pt-2 text-white/60">
               {SITE.legalName}

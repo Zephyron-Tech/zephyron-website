@@ -6,6 +6,7 @@ import { PageHero } from '@/components/PageHero';
 import { ContactForm } from '@/components/ContactForm';
 import { CalEmbed } from '@/components/CalEmbed';
 import { CopyEmail } from '@/components/CopyEmail';
+import { CopyLink } from '@/components/CopyLink';
 import { JsonLd } from '@/components/JsonLd';
 import { breadcrumbSchema } from '@/lib/schema';
 
@@ -109,9 +110,9 @@ function ContactDetails({ horizontal = false }: { horizontal?: boolean }) {
           <div>
             <div className="font-mono text-xs uppercase tracking-[0.12em] text-muted">{label}</div>
             {href ? (
-              <a href={href} data-track={`contact_${label.toLowerCase()}`} className="mt-1 block text-ink hover:text-accent">
+              <CopyLink href={href} value={value} className="mt-1 block text-ink hover:text-accent">
                 {value}
-              </a>
+              </CopyLink>
             ) : (
               <div className="mt-1 text-ink">{value}</div>
             )}
