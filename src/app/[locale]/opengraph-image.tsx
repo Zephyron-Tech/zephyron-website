@@ -27,7 +27,7 @@ export default async function OpengraphImage() {
           flexDirection: 'column',
           justifyContent: 'space-between',
           padding: 72,
-          background: '#FAF8F5',
+          background: '#EEEDEA',
           fontFamily: 'Sora',
           color: '#11131E',
         }}

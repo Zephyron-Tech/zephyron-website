@@ -39,9 +39,9 @@ export function PainPoints() {
             lead="Když firma roste, přibývají lidé, zakázky i pobočky. A to, co fungovalo na začátku, najednou brzdí."
           />
           <PrintObject
-            name="typewriter"
-            sizes="(min-width: 1024px) 340px, 256px"
-            className="-mb-6 w-64 justify-self-end lg:w-[340px]"
+            name="macintosh"
+            sizes="(min-width: 1024px) 260px, 200px"
+            className="-mb-6 h-64 w-auto justify-self-end lg:h-[380px]"
           />
         </div>
         <div className="mt-14 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">

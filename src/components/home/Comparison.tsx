@@ -1,3 +1,4 @@
+import { Check } from 'lucide-react';
 import { SectionHeader } from '../ui/SectionHeader';
 
 const columns = ['Krabicový software', 'Velký dodavatel', 'Zephyron'] as const;
@@ -19,18 +20,19 @@ export function Comparison() {
           lead="Firmy na cestě ke střední velikosti často volí mezi softwarem, který nesedí, a projektem, který si nemohou dovolit. Jsme ta třetí možnost."
         />
 
-        {/* Desktop table */}
-        <div className="mt-14 hidden overflow-hidden rounded-2xl md:block">
-          <table className="w-full table-fixed text-left">
+        {/* Desktop table: quiet row and column rules make it read as a table; the
+            Zephyron column is one accent band from header to last row. */}
+        <div className="mt-14 hidden rounded-2xl bg-card p-2 md:block">
+          <table className="w-full table-fixed border-separate border-spacing-0 text-left">
             <thead>
-              <tr className="">
-                <th className="w-[22%] bg-card p-5" />
+              <tr>
+                <th className="w-[22%] border-b-2 border-line-strong p-5" /> {/* taste-skill-ignore: table header rule */}
                 {columns.map((c, i) => (
                   <th
                     key={c}
                     scope="col"
-                    className={`p-5 font-display text-lg font-semibold ${
-                      i === 2 ? 'bg-accent text-white' : 'bg-card text-ink'
+                    className={`p-5 align-bottom font-display text-lg font-semibold ${
+                      i === 2 ? 'rounded-t-xl bg-accent text-white' : 'border-b-2 border-l border-b-line-strong border-l-line text-ink' // taste-skill-ignore: table header rule
                     }`}
                   >
                     {c}
@@ -39,21 +41,39 @@ export function Comparison() {
               </tr>
             </thead>
             <tbody>
-              {rows.map((r) => (
-                <tr key={r.label}>
-                  <th scope="row" className="bg-card p-5 text-sm font-medium text-ink-2">
-                    {r.label}
-                  </th>
-                  {r.values.map((v, i) => (
-                    <td
-                      key={i}
-                      className={`p-5 text-[15px] ${i === 2 ? 'bg-accent-soft font-medium text-ink' : 'bg-card text-ink-2'}`}
+              {rows.map((r, ri) => {
+                const last = ri === rows.length - 1;
+                const rule = last ? '' : 'border-b border-line'; // taste-skill-ignore: table row rule
+                return (
+                  <tr key={r.label}>
+                    <th
+                      scope="row"
+                      className={`${rule} rounded-l-lg p-5 text-sm font-medium text-ink`}
                     >
-                      {v}
-                    </td>
-                  ))}
-                </tr>
-              ))}
+                      {r.label}
+                    </th>
+                    {r.values.map((v, i) => (
+                      <td
+                        key={i}
+                        className={`p-5 text-[15px] ${
+                          i === 2
+                            ? `${last ? 'rounded-b-xl' : 'border-b border-accent-line'} bg-accent-soft font-medium text-ink` // taste-skill-ignore: table row rule
+                            : `${rule} border-l border-line text-ink-2` // taste-skill-ignore: table column rule
+                        }`}
+                      >
+                        {i === 2 ? (
+                          <span className="flex gap-2.5">
+                            <Check size={18} strokeWidth={2.25} className="mt-0.5 shrink-0 text-accent" aria-hidden />
+                            {v}
+                          </span>
+                        ) : (
+                          v
+                        )}
+                      </td>
+                    ))}
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
@@ -61,7 +81,7 @@ export function Comparison() {
         {/* Mobile: one block per row */}
         <div className="mt-10 space-y-3 md:hidden">
           {rows.map((r) => (
-            <div key={r.label} className="bg-card p-5">
+            <div key={r.label} className="rounded-2xl bg-card p-5">
               <div className="text-sm font-medium text-ink-2">{r.label}</div>
               <dl className="mt-3 space-y-2 text-sm">
                 {columns.map((c, i) => (

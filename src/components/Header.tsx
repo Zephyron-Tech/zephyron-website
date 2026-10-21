@@ -52,8 +52,10 @@ export function Header() {
               key={item.href}
               href={item.href}
               aria-current={isActive(item.href) ? 'page' : undefined}
-              className={`rounded-full px-4 py-2 text-[15px] transition-colors ${
-                isActive(item.href) ? 'text-ink bg-paper-2' : 'text-ink-2 hover:text-ink'
+              className={`rounded-full px-4 py-2 text-[15px] transition-colors duration-150 ${
+                isActive(item.href)
+                  ? 'bg-card font-medium text-accent'
+                  : 'text-ink-2 hover:bg-paper-2 hover:text-ink'
               }`}
             >
               {t(item.key)}
@@ -86,7 +88,10 @@ export function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="py-4 font-display text-2xl font-semibold tracking-tight text-ink"
+                aria-current={isActive(item.href) ? 'page' : undefined}
+                className={`py-4 font-display text-2xl font-semibold tracking-tight ${
+                  isActive(item.href) ? 'text-accent' : 'text-ink'
+                }`}
               >
                 {t(item.key)}
               </Link>

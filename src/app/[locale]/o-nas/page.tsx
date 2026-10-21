@@ -48,6 +48,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
     <>
       <JsonLd data={breadcrumbSchema([{ name: 'O nás', path: '/o-nas' }])} />
       <PageHero
+        art="draftingTools"
         crumbs={[{ name: 'O nás' }]}
         title="Softwarové studio z Plzně"
         lead="Jsme malý tým vývojářů. Stavíme software, který firmám šetří čas, a staráme se o něj i po spuštění. Bez obchodníků, bez account manažerů, bez zbytečných mezičlánků."

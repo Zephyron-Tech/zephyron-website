@@ -21,17 +21,18 @@
   --font-display: var(--font-sora), var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
   --font-brand: 'Surgena', var(--font-sora), sans-serif;
 
-  /* Surfaces */
-  --color-paper: #FAF8F5;
-  --color-paper-2: #F3F0EA;
+  /* Surfaces: a neutral stone ground; white cards sit one clear tone step
+     (about 6 lightness points) above it, with no lines or shadows. */
+  --color-paper: #EEEDEA;
+  --color-paper-2: #E4E2DD;
   --color-card: #FFFFFF;
-  --color-line: #E7E2DA;
-  --color-line-strong: #D3CDC2;
+  --color-line: #DCD9D2;
+  --color-line-strong: #C9C5BD;
 
   /* Text */
   --color-ink: #11131E;
   --color-ink-2: #3A3D4A;
-  --color-muted: #6B6E7B;
+  --color-muted: #5F6270;
 
   /* Brand (from brand guidelines) */
   --color-accent: #4235E5;
@@ -45,9 +46,10 @@
   --color-night-2: #1B1E2C;
   --color-night-line: #2A2E3F;
 
-  --color-ok: #0B7A4B;
+  --color-ok: #0A6E44;
 
-  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
 }
 
 /* ── Base ───────────────────────────────────────────────────────────────── */
@@ -134,6 +136,29 @@ p { text-wrap: pretty; }
 .rise-3 { animation-delay: 240ms; }
 .rise-4 { animation-delay: 320ms; }
 
+/* ── Hero hourglass ─────────────────────────────────────────────────────────
+   It is turned over once when the page opens: the clock starts. The tilt that
+   follows the pointer is set from JS (HeroHourglass) on .hourglass-tilt. */
+@keyframes hourglass-turn {
+  from { transform: rotate(-180deg); }
+  to   { transform: rotate(0deg); }
+}
+
+.hourglass-turn {
+  transform-origin: 50% 50%;
+  animation: hourglass-turn 1100ms var(--ease-in-out) 450ms both;
+}
+
+.hourglass-tilt {
+  transition: transform 700ms var(--ease-out);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Keep it still and upright; no turn, no tilt. */
+  .hourglass-turn { animation: none; }
+  .hourglass-tilt { transition: none; transform: none !important; }
+}
+
 /* ── Light sweep across copied e-mail (CopyEmail) ───────────────────────── */
 @keyframes sweep {
   from { transform: translateX(-120%); }
@@ -141,3 +166,44 @@ p { text-wrap: pretty; }
 }
 
 .animate-sweep { animation: sweep 1100ms cubic-bezier(0.33, 1, 0.68, 1) forwards; }
+
+/* ── Range input in the hero calculator ─────────────────────────────────────
+   A 44px touch target round a 6px track; the thumb is the brand ink. */
+.calc-range {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 44px;
+  background: transparent;
+  cursor: pointer;
+  touch-action: pan-y;
+}
+.calc-range::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--color-paper-2);
+}
+.calc-range::-moz-range-track {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--color-paper-2);
+}
+.calc-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 24px;
+  height: 24px;
+  margin-top: -9px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  transition: transform 150ms var(--ease-out);
+}
+.calc-range::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--color-accent);
+}
+.calc-range:active::-webkit-slider-thumb { transform: scale(1.12); }
+.calc-range:focus-visible { outline: none; }
+.calc-range:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 4px var(--color-accent-line); } /* taste-skill-ignore: focus ring, not a resting shadow */
+.calc-range:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 4px var(--color-accent-line); } /* taste-skill-ignore: focus ring, not a resting shadow */

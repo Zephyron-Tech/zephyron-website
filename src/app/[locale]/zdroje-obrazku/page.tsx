@@ -31,6 +31,16 @@ export default async function ImageCreditsPage({ params }: { params: Promise<{ l
               <a href={a.page} target="_blank" rel="noopener noreferrer" className="text-ink-2 underline-offset-4 hover:text-accent hover:underline">
                 {a.credit}
               </a>
+              {'page2' in a && a.page2 && (
+                <a
+                  href={a.page2.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-ink-2 underline-offset-4 hover:text-accent hover:underline sm:col-start-2"
+                >
+                  {a.page2.label}
+                </a>
+              )}
             </li>
           ))}
         </ul>

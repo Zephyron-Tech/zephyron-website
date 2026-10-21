@@ -32,7 +32,7 @@ export function Button({
   const plain = /^(https?:|mailto:|tel:|#)/.test(href);
   const external = /^https?:/.test(href);
   const cls = [
-    'group inline-flex whitespace-nowrap items-center justify-center gap-2 rounded-full font-medium transition-colors duration-200',
+    'group inline-flex whitespace-nowrap items-center justify-center gap-2 rounded-full font-medium transition-[color,background-color,transform] duration-150 ease-[var(--ease-out)] active:scale-[0.97] motion-reduce:active:scale-100',
     size === 'lg' ? 'px-6 py-3.5 text-[15px]' : 'px-5 py-2.5 text-sm',
     variants[variant],
     className,

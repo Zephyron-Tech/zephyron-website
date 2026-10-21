@@ -18,6 +18,9 @@ Usage:
   --cell       halftone cell size in output pixels
   --contrast   S-curve strength before printing (1 = none)
   --invert     print highlights instead of shadows (light ink on a dark page)
+  --outline N  ink the subject's outline, N pixels wide (clear glass)
+  --fade-bottom  fraction of the subject's height over which the ink fades
+               out at the bottom (for photos cropped at the lower edge)
 
 Needs numpy, Pillow and scipy (not project dependencies; run from any venv).
 """
@@ -102,8 +105,23 @@ def retro_print(img: Image.Image, args: argparse.Namespace) -> Image.Image:
     tex = texture(*gray.shape, args.cell, rng)
     blended = gray + (np.maximum(gray, tex) - gray) * 0.6
 
-    # 4. threshold
-    ink = (blended < args.threshold) & mask
+    # 4. threshold. With --fade-bottom the threshold drops towards the bottom
+    # edge of the subject, so a photo cropped there dissolves into the paper
+    # instead of ending on a hard cut.
+    threshold = np.full(gray.shape, args.threshold, dtype=np.float32)
+    if args.fade_bottom > 0 and mask.any():
+        rows = np.flatnonzero(mask.any(axis=1))
+        top, bottom = rows[0], rows[-1]
+        fade_px = max((bottom - top) * args.fade_bottom, 1)
+        y = np.arange(gray.shape[0], dtype=np.float32)[:, None]
+        ramp = np.clip((bottom - y) / fade_px, 0, 1) ** 1.6
+        threshold = threshold * ramp
+    ink = (blended < threshold) & mask
+    # --outline inks the subject's edge, for clear things (glass) whose body
+    # prints as almost nothing; the edge keeps the halftone break-up.
+    if args.outline > 0:
+        edge = mask & ~ndimage.binary_erosion(mask, iterations=args.outline)
+        ink |= edge & (rng.random(mask.shape) < 0.85)
 
     out = np.zeros((*gray.shape, 4), dtype=np.uint8)
     out[ink] = (*hex_rgb(args.ink), 255)
@@ -122,6 +140,8 @@ def main() -> None:
     p.add_argument('--cell', type=float, default=4)
     p.add_argument('--contrast', type=float, default=1.3)
     p.add_argument('--invert', action='store_true')
+    p.add_argument('--fade-bottom', type=float, default=0)
+    p.add_argument('--outline', type=int, default=0)
     p.add_argument('--seed', type=int, default=7)
     args = p.parse_args()
 

@@ -1,3 +1,5 @@
+import type { PrintArtKey } from './print-art';
+
 export type CaseCategory = 'Pro klienta' | 'Vlastní produkt' | 'Startup Support';
 
 export interface CaseStudy {
@@ -9,6 +11,8 @@ export interface CaseStudy {
   status: 'V provozu' | 'Ve vývoji' | 'V přípravě';
   /** Partner organisations shown with logos (files in public/logos/). */
   partners?: { name: string; logo?: string }[];
+  /** Printed object shown in place of a screenshot. */
+  art?: PrintArtKey;
   summary: string;
   image?: string;
   tags: string[];
@@ -142,6 +146,7 @@ export const caseStudies: CaseStudy[] = [
     kicker: 'AI trenažér rozhovorů pro krizové intervenienty',
     category: 'Startup Support',
     status: 'V přípravě',
+    art: 'lifebuoy',
     summary:
       'Webová aplikace, ve které si krizoví intervenienti trénují podpůrné rozhovory s AI figurantem. Na konci dostanou vyhodnocení a zpětnou vazbu. Projekt už prošel testováním s HZS Plzeňského kraje a Českým červeným křížem.',
     tags: ['AI', 'Webová aplikace', 'Vzdělávání'],
@@ -153,6 +158,7 @@ export const caseStudies: CaseStudy[] = [
     kicker: 'Trenažér situací pro inkluzivní školu',
     category: 'Startup Support',
     status: 'V přípravě',
+    art: 'schoolDesk',
     summary:
       'Trenažér krizových i každodenních situací pro učitele, asistenty pedagoga, rodiče a děti. Krátký scénář, volba reakce a okamžitá zpětná vazba s vysvětlením. Bezpečné místo, kde si člověk rozhodování vyzkouší dřív, než ho potká ve třídě.',
     tags: ['EdTech', 'Webová aplikace', 'Inkluze'],

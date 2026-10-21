@@ -7,25 +7,16 @@ export function TeamCards() {
       {team.map((p) => (
         <article key={p.name} className="group flex flex-col gap-6 rounded-2xl bg-card p-6 sm:flex-row">
           {p.photo ? (
-            // Printed portrait; the original photo shows through on hover.
-            <div className="relative size-40 shrink-0 overflow-hidden rounded-2xl bg-paper-2">
-              <Image
-                src={p.printPhoto ?? p.photo}
-                alt={p.name}
-                fill
-                sizes="160px"
-                unoptimized={Boolean(p.printPhoto)}
-                className="object-cover"
+            // A field of halftone dots sits offset behind the photo, like a
+            // second print pass that missed its register.
+            <div className="relative size-40 shrink-0">
+              <div
+                aria-hidden
+                className="absolute inset-0 translate-x-2.5 translate-y-2.5 rounded-2xl bg-[url('/print/dots.png')] bg-cover"
               />
-              {p.printPhoto && (
-                <Image
-                  src={p.photo}
-                  alt=""
-                  fill
-                  sizes="160px"
-                  className="object-cover opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100 motion-reduce:transition-none"
-                />
-              )}
+              <div className="relative size-full overflow-hidden rounded-2xl bg-paper-2">
+                <Image src={p.photo} alt={p.name} fill sizes="160px" className="object-cover" />
+              </div>
             </div>
           ) : (
             <div

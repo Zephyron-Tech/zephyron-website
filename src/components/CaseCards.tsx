@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { ArrowRight } from 'lucide-react';
 import { Link } from '@/navigation';
 import type { CaseStudy } from '@/content/case-studies';
+import { PrintObject } from './PrintObject';
 
 export function CaseCards({ items, featuredFirst = false }: { items: CaseStudy[]; featuredFirst?: boolean }) {
   return (
@@ -29,6 +30,15 @@ function CaseCard({ item, wide }: { item: CaseStudy; wide: boolean }) {
             sizes={wide ? '(min-width: 768px) 1100px, 100vw' : '(min-width: 768px) 560px, 100vw'}
             className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
           />
+        ) : item.art ? (
+          <div className="absolute inset-0 flex items-center justify-center p-8">
+            <PrintObject
+              name={item.art}
+              sizes="(min-width: 768px) 320px, 60vw"
+              decorative={false}
+              className="max-h-full w-auto object-contain"
+            />
+          </div>
         ) : (
           <div className="absolute inset-0 flex items-center justify-center">
             <span className="font-display text-3xl font-semibold tracking-tight text-ink/80">{item.name}</span>
