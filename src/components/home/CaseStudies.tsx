@@ -3,7 +3,7 @@ import { SectionHeader } from '../ui/SectionHeader';
 import { Button } from '../ui/Button';
 import { CaseCards } from '../CaseCards';
 
-const homeSlugs = ['clearway', 'autoskola-falar-houdek', 'gridtime'];
+const homeSlugs = ['clearway', 'autoskola-falar', 'gridtime'];
 
 export function CaseStudies() {
   const items = homeSlugs.map((s) => caseStudies.find((c) => c.slug === s)!);

@@ -3,6 +3,8 @@ import Image from 'next/image';
 export interface Partner {
   name: string;
   logo?: string;
+  /** Rendered height in px; stacked logos need more than wide ones. */
+  height?: number;
 }
 
 // Logo when a file exists in public/logos/, otherwise the name set as a
@@ -18,7 +20,8 @@ export function PartnerLogos({ partners, className = '' }: { partners: Partner[]
               alt={p.name}
               width={160}
               height={48}
-              className="h-8 w-auto object-contain"
+              style={{ height: p.height ?? 32, width: 'auto' }}
+              className="object-contain"
             />
           ) : (
             <span className="font-display text-lg font-semibold tracking-tight text-ink-2">{p.name}</span>

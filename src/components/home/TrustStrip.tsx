@@ -4,8 +4,9 @@ import { PartnerLogos, type Partner } from '../PartnerLogos';
 // Partner organisations from case studies, then clients of finished projects.
 const partners: Partner[] = [
   ...caseStudies.flatMap((c) => c.partners ?? []),
-  { name: 'Autoškola Falář & Houdek' },
-  { name: 'ESN UWB Pilsen' },
+  { name: 'Západočeská univerzita v Plzni', logo: '/logos/zcu.svg', height: 52 },
+  { name: 'ESN UWB Pilsen', logo: '/logos/esn-uwb.png', height: 40 },
+  { name: 'Autoškola Falář' },
 ];
 
 export function TrustStrip() {

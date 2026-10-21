@@ -88,9 +88,9 @@ export const caseStudies: CaseStudy[] = [
     },
   },
   {
-    slug: 'autoskola-falar-houdek',
-    name: 'Autoškola Falář & Houdek',
-    client: 'Autoškola Falář & Houdek, Vimperk',
+    slug: 'autoskola-falar',
+    name: 'Autoškola Falář',
+    client: 'Autoškola Falář, Vimperk',
     kicker: 'Web s přehledem kurzů a přihláškou',
     category: 'Pro klienta',
     status: 'V provozu',
