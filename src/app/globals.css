@@ -237,6 +237,24 @@ p { text-wrap: pretty; }
   .bulb[data-on] :is(.bulb-glow, .bulb-tint, .bulb-filament) { animation: bulb-fade 400ms ease both; }
 }
 
+/* ── FAQ accordion (Faq) ────────────────────────────────────────────────────
+   Opens to the answer's real height where the browser can interpolate to
+   auto; elsewhere it simply snaps open, as a plain <details> does. */
+@supports (interpolate-size: allow-keywords) {
+  .faq { interpolate-size: allow-keywords; }
+  .faq::details-content {
+    block-size: 0;
+    overflow: clip;
+    opacity: 0;
+    transition: block-size 280ms var(--ease-out), opacity 200ms var(--ease-out), content-visibility 280ms allow-discrete;
+  }
+  .faq[open]::details-content { block-size: auto; opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .faq::details-content { transition: none; }
+}
+
 /* ── Light sweep across copied e-mail (CopyEmail) ───────────────────────── */
 @keyframes sweep {
   from { transform: translateX(-120%); }
