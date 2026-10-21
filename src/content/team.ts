@@ -7,6 +7,8 @@ export interface Person {
   email?: string;
   phone?: string;
   linkedin?: string;
+  /** What to bring to this person, three short items. */
+  focus: string[];
 }
 
 // TODO(Jan): bio si každý doladí sám.
@@ -19,6 +21,7 @@ export const team: Person[] = [
     initials: 'JV',
     email: 'jan.vandlicek@zephyron.tech',
     phone: '+420 722 635 417',
+    focus: ['Rozsah a cena projektu', 'Termíny a průběh etap', 'Provoz po spuštění'],
   },
   {
     name: 'Ing. Jan Rychlík',
@@ -28,5 +31,6 @@ export const team: Person[] = [
     initials: 'JR',
     email: 'jan.rychlik@zephyron.tech',
     phone: '+420 734 687 713',
+    focus: ['Architektura a technologie', 'Napojení na vaše systémy', 'Bezpečnost a výkon'],
   },
 ];

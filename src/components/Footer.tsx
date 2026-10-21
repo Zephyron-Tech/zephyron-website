@@ -14,10 +14,13 @@ export async function Footer() {
 
   return (
     <footer className="bg-night text-white">
-      <div className="container-page grid gap-12 py-16 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+      <div className="container-page grid gap-12 py-16 md:grid-cols-[1.6fr_1fr_1fr]">
         <div className="max-w-xs">
           <Logo dark height={30} />
           <p className="mt-5 text-sm leading-relaxed text-white/60">{t('tagline')}</p>
+          <CopyLink href={`mailto:${SITE.email}`} value={SITE.email} tone="dark" className={`mt-4 inline-block text-sm ${link}`}>
+            {SITE.email}
+          </CopyLink>
         </div>
 
         <div>
@@ -51,36 +54,14 @@ export async function Footer() {
           </ul>
         </div>
 
-        <div>
-          <h2 className={heading}>{tn('contact')}</h2>
-          <ul className="mt-4 space-y-2.5 text-sm">
-            <li>
-              <CopyLink href={`mailto:${SITE.email}`} value={SITE.email} tone="dark" className={link}>
-                {SITE.email}
-              </CopyLink>
-            </li>
-            <li>
-              <CopyLink href={`tel:${SITE.phone.replace(/\s/g, '')}`} value={SITE.phone} tone="dark" className={link}>
-                {SITE.phone}
-              </CopyLink>
-            </li>
-            <li className="pt-2 text-white/60">
-              {SITE.legalName}
-              <br />
-              {SITE.address.street}
-              <br />
-              {SITE.address.zip} {SITE.address.city}
-              <br />
-              {t('ico')} {SITE.ico}
-            </li>
-          </ul>
-        </div>
       </div>
 
       <div className="bg-night-2">
         <div className="container-page flex flex-col gap-3 py-6 text-[13px] text-white/50 sm:flex-row sm:items-center sm:justify-between">
+          {/* Company details sit on one line here instead of stretching the contact column. */}
           <span>
-            © {new Date().getFullYear()} {t('copyright')}
+            © {new Date().getFullYear()} {t('copyright')} · {SITE.address.street}, {SITE.address.zip}{' '}
+            {SITE.address.city} · {t('ico')} {SITE.ico}
           </span>
           <div className="flex gap-5">
             <Link href="/ochrana-osobnich-udaju" className="hover:text-white">

@@ -9,7 +9,12 @@ export function Team() {
         <div className="flex flex-col justify-between gap-8 md:flex-row md:items-end">
           <SectionHeader
             title="Žádní obchodníci. Mluvíte s námi."
-            lead="Jsme malé softwarové studio z Plzně. Kdo s vámi probírá zadání, ten ho i staví."
+            lead={
+              <>
+                Jsme malé softwarové studio z Plzně.
+                <br className="hidden sm:block" /> Kdo s vámi probírá zadání, ten ho i staví.
+              </>
+            }
           />
           <Button href="/o-nas" variant="secondary" arrow className="shrink-0 self-start md:self-auto">
             Více o nás
