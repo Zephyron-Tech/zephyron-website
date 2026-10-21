@@ -1,0 +1,74 @@
+{
+  "meta": {
+    "title": "Zephyron Tech: automatizace, interní systémy a IT pro rostoucí firmy",
+    "description": "Softwarové studio z Plzně. Automatizujeme ruční práci, stavíme interní systémy a staráme se o IT firmám, které přerostly Excel, ale nepotřebují ERP za miliony."
+  },
+  "nav": {
+    "services": "Služby",
+    "cases": "Reference",
+    "startup": "Startup Support",
+    "about": "O nás",
+    "contact": "Kontakt",
+    "cta": "Domluvit konzultaci",
+    "menu": "Menu",
+    "close": "Zavřít",
+    "home": "Zephyron Tech, úvodní stránka"
+  },
+  "cta": {
+    "book": "Domluvit konzultaci zdarma",
+    "write": "Napsat nám",
+    "cases": "Podívat se na reference",
+    "allCases": "Všechny reference",
+    "allServices": "Všechny služby",
+    "detail": "Detail",
+    "more": "Více o službě"
+  },
+  "footer": {
+    "tagline": "Softwarové studio z Plzně. Automatizace, interní systémy a IT pro firmy, které rostou.",
+    "services": "Služby",
+    "company": "Firma",
+    "legal": "Právní informace",
+    "privacy": "Ochrana osobních údajů",
+    "terms": "Obchodní podmínky",
+    "ico": "IČO",
+    "copyright": "Zephyron Tech s.r.o."
+  },
+  "form": {
+    "name": "Jméno a příjmení",
+    "email": "E-mail",
+    "phone": "Telefon (nepovinné)",
+    "company": "Firma",
+    "companySize": "Velikost firmy",
+    "sizes": {
+      "1-9": "1–9 lidí",
+      "10-49": "10–49 lidí",
+      "50-249": "50–249 lidí",
+      "250+": "250 a více",
+      "startup": "Startup / zatím jen nápad"
+    },
+    "topic": "S čím potřebujete pomoct?",
+    "topics": {
+      "automatizace": "Automatizace procesů",
+      "system": "Interní systém / aplikace",
+      "support": "IT podpora a správa",
+      "web": "Web nebo webová aplikace",
+      "startup": "Startup Support",
+      "jine": "Něco jiného"
+    },
+    "message": "Popište situaci",
+    "messagePlaceholder": "Co vás dnes zdržuje, jaké nástroje používáte, co by mělo fungovat jinak…",
+    "messagePlaceholderStartup": "Jaký problém řešíte, pro koho, kde teď jste (nápad, validace, první zákazníci) a co od nás potřebujete…",
+    "consent": "Údaje použijeme jen k odpovědi na vaši zprávu.",
+    "submit": "Odeslat",
+    "sending": "Odesílám…",
+    "successTitle": "Díky, máme to.",
+    "successBody": "Ozveme se nejpozději do dvou pracovních dnů.",
+    "error": "Odeslání se nepovedlo. Napište nám prosím přímo na hello@zephyron.tech.",
+    "invalid": "Vyplňte prosím jméno, platný e-mail a popis situace."
+  },
+  "notFound": {
+    "title": "Tahle stránka neexistuje.",
+    "body": "Odkaz je špatně, nebo jsme stránku přesunuli.",
+    "back": "Zpět na úvod"
+  }
+}

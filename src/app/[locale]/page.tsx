@@ -1,72 +1,51 @@
 import type { Metadata } from 'next';
-import { Header } from '@/components/Header';
-import { Hero } from '@/components/Hero';
-import { Portfolio } from '@/components/Portfolio';
-import { TechStack } from '@/components/TechStack';
-import { ContactCTA } from '@/components/ContactCTA';
-import { Footer } from '@/components/Footer';
+import { setRequestLocale } from 'next-intl/server';
+import { SITE } from '@/content/site';
+import { homeFaq } from '@/content/faq';
+import { Hero } from '@/components/home/Hero';
+import { TrustStrip } from '@/components/home/TrustStrip';
+import { PainPoints } from '@/components/home/PainPoints';
+import { Services } from '@/components/home/Services';
+import { Comparison } from '@/components/home/Comparison';
+import { Process } from '@/components/Process';
+import { CaseStudies } from '@/components/home/CaseStudies';
+import { StartupTeaser } from '@/components/home/StartupTeaser';
+import { Team } from '@/components/home/Team';
+import { Faq } from '@/components/Faq';
+import { FinalCta } from '@/components/FinalCta';
+import { JsonLd } from '@/components/JsonLd';
+import { faqSchema } from '@/lib/schema';
 
-const BASE = 'https://zephyron.tech';
+export const metadata: Metadata = {
+  alternates: { canonical: `${SITE.url}/` },
+};
 
-export async function generateMetadata(): Promise<Metadata> {
-  return {
-    alternates: {
-      canonical: `${BASE}/`,
-    },
-  };
-}
-
-export default function HomePage() {
-  const orgSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'Organization',
-    name: 'Zephyron Tech s.r.o.',
-    legalName: 'Zephyron Tech s.r.o.',
-    url: BASE,
-    logo: `${BASE}/mark-color.png`,
-    email: 'hello@zephyron.tech',
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: 'Čermákova 2587/60',
-      addressLocality: 'Plzeň',
-      postalCode: '301 00',
-      addressCountry: 'CZ',
-    },
-    identifier: {
-      '@type': 'PropertyValue',
-      name: 'IČO',
-      value: '23793538',
-    },
-    sameAs: [`${BASE}/`],
-  };
-
-  const siteSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'WebSite',
-    name: 'Zephyron Tech',
-    url: BASE,
-    description: 'Custom software engineering for companies that need it to work in production.',
-    inLanguage: 'en',
-  };
+export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
+  setRequestLocale((await params).locale);
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
+      <JsonLd
+        data={{
+          '@context': 'https://schema.org',
+          '@type': 'WebSite',
+          name: SITE.name,
+          url: SITE.url,
+          inLanguage: 'cs',
+        }}
       />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(siteSchema) }}
-      />
-      <Header />
-      <main>
-        <Hero />
-        <Portfolio />
-        <TechStack />
-        <ContactCTA />
-      </main>
-      <Footer />
+      <JsonLd data={faqSchema(homeFaq)} />
+      <Hero />
+      <TrustStrip />
+      <PainPoints />
+      <Services />
+      <Comparison />
+      <Process num={4} />
+      <CaseStudies />
+      <StartupTeaser />
+      <Team />
+      <Faq items={homeFaq} num={8} />
+      <FinalCta />
     </>
   );
 }
