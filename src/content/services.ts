@@ -261,7 +261,7 @@ export const services: Service[] = [
         a: 'Ano. Obsah spravujete přes CMS. Programátora potřebujete jen na nové funkce.',
       },
     ],
-    relatedCases: ['autoskola-falar-houdek', 'esn-uwb'],
+    relatedCases: ['autoskola-falar', 'esn-uwb'],
     pricing: [], // TODO(Jan): orientační ceny
   },
 ];
