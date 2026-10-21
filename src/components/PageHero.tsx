@@ -16,7 +16,7 @@ interface PageHeroProps {
 
 export function PageHero({ title, lead, crumbs = [], art, children }: PageHeroProps) {
   return (
-    <section className="relative overflow-hidden">
+    <section className="page-hero relative overflow-hidden">
       <div className="container-page relative pb-16 pt-10 md:pb-24 md:pt-14">
         {crumbs.length > 0 && (
           <nav aria-label="Drobečková navigace" className="mb-10 flex flex-wrap items-center gap-1.5 text-sm text-muted">

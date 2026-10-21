@@ -1,12 +1,12 @@
 import type { Metadata } from 'next';
 import { setRequestLocale } from 'next-intl/server';
-import { Mail, Phone, MapPin } from 'lucide-react';
+import { Phone, MapPin } from 'lucide-react';
 import { SITE } from '@/content/site';
 import { PageHero } from '@/components/PageHero';
 import { ContactForm } from '@/components/ContactForm';
 import { CalEmbed } from '@/components/CalEmbed';
 import { CopyEmail } from '@/components/CopyEmail';
-import { CopyLink } from '@/components/CopyLink';
+import { ContactTile } from '@/components/ContactTile';
 import { JsonLd } from '@/components/JsonLd';
 import { breadcrumbSchema } from '@/lib/schema';
 
@@ -44,80 +44,97 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
       </PageHero>
 
       <section className="section-y">
-        <div className={`container-page grid gap-10 ${hasCal ? 'lg:grid-cols-2' : 'lg:grid-cols-[1.3fr_0.7fr]'}`}>
-          {hasCal && (
-            <div>
-              <h2 className="text-2xl text-ink">Rezervovat termín</h2>
-              <p className="mt-2 text-ink-2">Online a zdarma.</p>
-              <div className="mt-6 min-h-[640px] overflow-hidden rounded-2xl bg-card">
-                <CalEmbed calLink={SITE.calLink} />
+        {hasCal ? (
+          <>
+            <div className="container-page grid gap-10 lg:grid-cols-2">
+              <div>
+                <h2 className="text-2xl text-ink">Rezervovat termín</h2>
+                <p className="mt-2 text-ink-2">Online a zdarma.</p>
+                <div className="mt-6 min-h-[640px] overflow-hidden rounded-2xl bg-card">
+                  <CalEmbed calLink={SITE.calLink} />
+                </div>
               </div>
+              <FormColumn title="Nebo nám napište" />
             </div>
-          )}
-          <div>
-            <h2 className="text-2xl text-ink">{hasCal ? 'Nebo nám napište' : 'Napište nám'}</h2>
+            <div className="container-page mt-16 grid gap-3 md:grid-cols-[2fr_1fr]">
+              <NextSteps />
+              <DirectContact />
+            </div>
+          </>
+        ) : (
+          <div className="container-page">
+            <h2 className="text-2xl text-ink">Napište nám</h2>
             <p className="mt-2 text-ink-2">Čím konkrétněji, tím lépe se na hovor připravíme.</p>
-            <div className="mt-6">
+            {/* Form and aside start on one line; the aside holds while the form scrolls. */}
+            <div className="mt-6 grid gap-3 lg:grid-cols-[1.25fr_0.75fr] lg:gap-6">
               <ContactForm />
+              <aside className="flex flex-col gap-3 lg:sticky lg:top-28 lg:self-start">
+                <NextSteps />
+                <DirectContact />
+              </aside>
             </div>
-          </div>
-          {!hasCal && <ContactDetails />}
-        </div>
-        {hasCal && (
-          <div className="container-page mt-16">
-            <ContactDetails horizontal />
           </div>
         )}
-      </section>
-
-      <section className="section-y bg-paper-2">
-        <div className="container-page">
-          <h2 className="text-3xl text-ink sm:text-4xl">Co bude následovat</h2>
-          <ol className="mt-12 grid gap-8 md:grid-cols-3">
-            {next.map((n) => (
-              <li key={n.title}>
-                <h3 className="text-xl text-ink">{n.title}</h3>
-                <p className="mt-2 leading-relaxed text-ink-2">{n.text}</p>
-              </li>
-            ))}
-          </ol>
-        </div>
       </section>
     </>
   );
 }
 
-function ContactDetails({ horizontal = false }: { horizontal?: boolean }) {
-  const items = [
-    { icon: Mail, label: 'E-mail', value: SITE.email, href: `mailto:${SITE.email}` },
-    { icon: Phone, label: 'Telefon', value: SITE.phone, href: `tel:${SITE.phone.replace(/\s/g, '')}` },
-    {
-      icon: MapPin,
-      label: 'Sídlo',
-      value: `${SITE.legalName}, ${SITE.address.street}, ${SITE.address.zip} ${SITE.address.city}, IČO ${SITE.ico}`,
-    },
-  ];
+function FormColumn({ title }: { title: string }) {
   return (
-    <aside
-      className={`grid gap-3 self-start ${
-        horizontal ? 'md:grid-cols-3' : 'lg:mt-[68px]'
-      }`}
-    >
-      {items.map(({ icon: Icon, label, value, href }) => (
-        <div key={label} className="flex gap-4 bg-card p-6">
-          <Icon size={20} strokeWidth={1.6} className="mt-0.5 shrink-0 text-accent" aria-hidden />
-          <div>
-            <div className="text-sm font-medium text-ink-2">{label}</div>
-            {href ? (
-              <CopyLink href={href} value={value} className="mt-1 block text-ink hover:text-accent">
-                {value}
-              </CopyLink>
-            ) : (
-              <div className="mt-1 text-ink">{value}</div>
-            )}
-          </div>
-        </div>
-      ))}
-    </aside>
+    <div>
+      <h2 className="text-2xl text-ink">{title}</h2>
+      <p className="mt-2 text-ink-2">Čím konkrétněji, tím lépe se na hovor připravíme.</p>
+      <div className="mt-6">
+        <ContactForm />
+      </div>
+    </div>
+  );
+}
+
+// What happens after sending, in order: one white card, numbered steps.
+function NextSteps() {
+  return (
+    <div className="rounded-2xl bg-card p-6">
+      <h2 className="font-display text-lg font-semibold tracking-tight text-ink">Co bude následovat</h2>
+      <ol className="mt-5 space-y-5">
+        {next.map((n, i) => (
+          <li key={n.title} className="flex gap-4">
+            <span
+              aria-hidden
+              className="inline-flex size-8 shrink-0 items-center justify-center rounded-full bg-accent-soft text-sm font-semibold text-accent"
+            >
+              {i + 1}
+            </span>
+            <div>
+              <h3 className="font-medium text-ink">{n.title}</h3>
+              <p className="mt-1 text-pretty text-[15px] leading-relaxed text-ink-2">{n.text}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  );
+}
+
+// The e-mail is large in the header already; here the phone and the company.
+function DirectContact() {
+  return (
+    <div className="grid gap-3">
+      <ContactTile
+        tone="card"
+        icon={Phone}
+        label="Telefon"
+        value={SITE.phone}
+        href={`tel:${SITE.phone.replace(/\s/g, '')}`}
+      />
+      <ContactTile
+        tone="card"
+        icon={MapPin}
+        label="Sídlo"
+        value={SITE.legalName}
+        lines={[`${SITE.address.street}, ${SITE.address.zip} ${SITE.address.city}`, `IČO ${SITE.ico}`]}
+      />
+    </div>
   );
 }

@@ -1,7 +1,7 @@
 import Image from 'next/image';
-import { Mail, Phone, type LucideIcon } from 'lucide-react';
+import { Mail, Phone } from 'lucide-react';
 import { team } from '@/content/team';
-import { CopyLink } from './CopyLink';
+import { ContactTile } from './ContactTile';
 
 // One card per person: the portrait beside who they are, what to bring to
 // them, and how to reach them directly. The bio stays in the content, unshown.
@@ -57,38 +57,5 @@ export function TeamCards() {
         </article>
       ))}
     </div>
-  );
-}
-
-// A tile on the page tone inside the white card: icon, what it is, the value.
-// It copies on click with a mouse, like every contact on the site.
-function ContactTile({
-  href,
-  value,
-  label,
-  icon: Icon,
-}: {
-  href: string;
-  value: string;
-  label: string;
-  icon: LucideIcon;
-}) {
-  return (
-    <CopyLink
-      href={href}
-      value={value}
-      className="group flex min-w-0 rounded-xl bg-paper px-3 py-2.5 transition-colors duration-200 hover:bg-accent-soft [&>span:first-child]:flex [&>span:first-child]:min-w-0 [&>span:first-child]:flex-1 [&>span:first-child]:items-center [&>span:first-child]:gap-3"
-    >
-      <span
-        aria-hidden
-        className="inline-flex size-9 shrink-0 items-center justify-center rounded-full bg-card text-accent transition-colors duration-200 group-hover:bg-accent group-hover:text-white"
-      >
-        <Icon size={16} />
-      </span>
-      <span className="min-w-0">
-        <span className="block text-xs text-muted">{label}</span>
-        <span className="block truncate text-sm font-medium text-ink">{value}</span>
-      </span>
-    </CopyLink>
   );
 }

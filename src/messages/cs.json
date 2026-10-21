@@ -63,8 +63,12 @@
     "sending": "Odesílám…",
     "successTitle": "Díky, máme to.",
     "successBody": "Ozveme se nejpozději do dvou pracovních dnů.",
+    "successNext": "Mezitím se podívejte na reference",
     "error": "Odeslání se nepovedlo. Napište nám prosím přímo na hello@zephyron.tech.",
-    "invalid": "Vyplňte prosím jméno, platný e-mail a popis situace."
+    "invalid": "Vyplňte prosím jméno, platný e-mail a popis situace.",
+    "required": "Tohle pole prosím vyplňte.",
+    "emailInvalid": "Zkontrolujte prosím e-mail, něco v něm chybí.",
+    "messageShort": "Napište nám prosím aspoň pár slov."
   },
   "notFound": {
     "title": "Tahle stránka neexistuje.",

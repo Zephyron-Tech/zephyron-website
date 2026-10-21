@@ -47,6 +47,8 @@
   --color-night-line: #2A2E3F;
 
   --color-ok: #0A6E44;
+  --color-err: #B42318;
+  --color-err-soft: #FDECEA;
 
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
@@ -88,10 +90,17 @@ p { text-wrap: pretty; }
   color: #fff;
 }
 
+/* The outline follows each element's own corners; setting a radius here would
+   square off rounded fields and pills while they have focus. */
 :focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 3px;
-  border-radius: 4px;
+}
+
+/* Form fields draw their own focus: the accent border. A second outline
+   round them reads as a double ring. */
+:is(input, select, textarea):focus-visible {
+  outline: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -116,7 +125,8 @@ p { text-wrap: pretty; }
 
 /* Two neighbouring sections on the same ground share one gap instead of
    stacking both paddings. A section with its own ground keeps both. */
-section.section-y:not([class*='bg-']) + section.section-y:not([class*='bg-']) {
+section.section-y:not([class*='bg-']) + section.section-y:not([class*='bg-']),
+.page-hero + section.section-y:not([class*='bg-']) {
   padding-top: 0;
 }
 
