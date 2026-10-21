@@ -111,7 +111,13 @@ p { text-wrap: pretty; }
 }
 
 @utility section-y {
-  padding-block: clamp(72px, 10vw, 128px);
+  padding-block: clamp(64px, 8vw, 104px);
+}
+
+/* Two neighbouring sections on the same ground share one gap instead of
+   stacking both paddings. A section with its own ground keeps both. */
+section.section-y:not([class*='bg-']) + section.section-y:not([class*='bg-']) {
+  padding-top: 0;
 }
 
 

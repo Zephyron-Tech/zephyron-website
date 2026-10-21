@@ -41,7 +41,7 @@ export function PainPoints() {
           <PrintObject
             name="macintosh"
             sizes="(min-width: 1024px) 260px, 200px"
-            className="-mb-6 h-64 w-auto justify-self-end lg:h-[380px]"
+            className="-mb-4 h-56 w-auto justify-self-end lg:h-[300px]"
           />
         </div>
         <div className="mt-14 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
