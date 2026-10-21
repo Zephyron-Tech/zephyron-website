@@ -5,6 +5,7 @@ import { SITE } from '@/content/site';
 import { PageHero } from '@/components/PageHero';
 import { ContactForm } from '@/components/ContactForm';
 import { CalEmbed } from '@/components/CalEmbed';
+import { CopyEmail } from '@/components/CopyEmail';
 import { JsonLd } from '@/components/JsonLd';
 import { breadcrumbSchema } from '@/lib/schema';
 
@@ -37,7 +38,9 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
             ? 'Vyberte si termín úvodní konzultace, nebo nám napište. Konzultace je zdarma a nezávazná.'
             : 'Napište nám pár vět o tom, co řešíte. Ozveme se a domluvíme si úvodní konzultaci. Je zdarma a nezávazná.'
         }
-      />
+      >
+        <CopyEmail />
+      </PageHero>
 
       <section className="section-y">
         <div className={`container-page grid gap-10 ${hasCal ? 'lg:grid-cols-2' : 'lg:grid-cols-[1.3fr_0.7fr]'}`}>
