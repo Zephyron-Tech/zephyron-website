@@ -20,7 +20,7 @@ export function CaseStudies() {
           </Button>
         </div>
         <div className="mt-14">
-          <CaseCards items={items} featuredFirst />
+          <CaseCards items={items} featuredFirst showMeta={false} />
         </div>
       </div>
     </section>
