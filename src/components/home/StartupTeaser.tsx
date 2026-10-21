@@ -1,6 +1,6 @@
 import { SectionHeader } from '../ui/SectionHeader';
 import { Button } from '../ui/Button';
-import { PrintObject } from '../PrintObject';
+import { LitBulb } from './LitBulb';
 
 export function StartupTeaser() {
   return (
@@ -29,11 +29,7 @@ export function StartupTeaser() {
             </Button>
           </div>
         </div>
-        <PrintObject
-          name="bulbLight"
-          sizes="(min-width: 1024px) 220px, 160px"
-          className="mx-auto h-[300px] w-auto lg:h-[460px]"
-        />
+        <LitBulb />
       </div>
     </section>
   );

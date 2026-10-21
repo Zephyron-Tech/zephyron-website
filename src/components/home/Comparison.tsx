@@ -26,7 +26,7 @@ export function Comparison() {
           <table className="w-full table-fixed border-separate border-spacing-0 text-left">
             <thead>
               <tr>
-                <th className="w-[22%] border-b-2 border-line-strong p-5" /> {/* taste-skill-ignore: table header rule */}
+                <th className={'w-[22%] border-b-2 border-line-strong p-5' /* taste-skill-ignore: table header rule */} />
                 {columns.map((c, i) => (
                   <th
                     key={c}

@@ -159,6 +159,73 @@ p { text-wrap: pretty; }
   .hourglass-tilt { transition: none; transform: none !important; }
 }
 
+/* ── Startup teaser bulb (LitBulb) ──────────────────────────────────────────
+   Switched on once when it scrolls into view, like a real incandescent lamp:
+   the filament shows dull orange first, stutters as it heats, then goes
+   white-hot while warm light blooms behind the glass and catches the printed
+   lines nearest the filament. Every layer only animates opacity. The filament
+   sits at about 51% / 37% of the 700×1163 print. */
+.bulb-glow,
+.bulb-tint,
+.bulb-filament {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.bulb-glow {
+  inset: -30%;
+  background: radial-gradient(circle at 51% 42%, rgb(255 214 140 / 0.5) 0, rgb(255 180 90 / 0.2) 16%, rgb(255 160 70 / 0.07) 30%, transparent 46%); /* taste-skill-ignore: the lamp's own light */
+}
+
+.bulb-tint {
+  inset: 0;
+  background: radial-gradient(ellipse 60% 45% at 51% 37%, #FFE6B3 0, #FFC46B 45%, transparent 100%); /* taste-skill-ignore: the lamp's light on the glass */
+  mask: url('/print/bulb-light.png') center / 100% 100% no-repeat;
+}
+
+.bulb-filament { inset: 0; }
+.bulb-filament::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  mask: url('/print/bulb-filament.png') center / 100% 100% no-repeat;
+}
+.bulb-filament-warm { filter: drop-shadow(0 0 5px #FF7A1A); } /* taste-skill-ignore: glowing filament */
+.bulb-filament-warm::before { background: #FF8A2A; }
+.bulb-filament-hot { filter: drop-shadow(0 0 3px #FFF1D0) drop-shadow(0 0 14px #FFB85C); } /* taste-skill-ignore: glowing filament */
+.bulb-filament-hot::before { background: #FFF6E4; }
+
+/* Mains stutter while the filament heats, then it holds. */
+@keyframes bulb-on {
+  0%, 10% { opacity: 0; }
+  15%  { opacity: 0.55; }
+  19%  { opacity: 0.12; }
+  26%  { opacity: 0.72; }
+  30%  { opacity: 0.38; }
+  42%  { opacity: 0.92; }
+  54%  { opacity: 0.8; }
+  100% { opacity: 1; }
+}
+@keyframes bulb-heat {
+  0%   { opacity: 0; }
+  8%   { opacity: 1; }
+  100% { opacity: 1; }
+}
+@keyframes bulb-fade {
+  to { opacity: 1; }
+}
+
+.bulb[data-on] .bulb-filament-warm { animation: bulb-heat 1800ms var(--ease-out) 250ms both; }
+.bulb[data-on] .bulb-filament-hot  { animation: bulb-on 1800ms var(--ease-out) 250ms both; }
+.bulb[data-on] .bulb-tint          { animation: bulb-on 1800ms var(--ease-out) 320ms both; }
+.bulb[data-on] .bulb-glow          { animation: bulb-on 1800ms var(--ease-out) 320ms both; }
+
+@media (prefers-reduced-motion: reduce) {
+  /* No stutter: the light just comes up. */
+  .bulb[data-on] :is(.bulb-glow, .bulb-tint, .bulb-filament) { animation: bulb-fade 400ms ease both; }
+}
+
 /* ── Light sweep across copied e-mail (CopyEmail) ───────────────────────── */
 @keyframes sweep {
   from { transform: translateX(-120%); }
