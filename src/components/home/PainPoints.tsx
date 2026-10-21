@@ -1,5 +1,6 @@
 import { Link } from '@/navigation';
 import { SectionHeader } from '../ui/SectionHeader';
+import { PrintObject } from '../PrintObject';
 
 const pains = [
   {
@@ -30,19 +31,23 @@ const pains = [
 
 export function PainPoints() {
   return (
-    <section className="section-y border-t border-line">
+    <section className="section-y">
       <div className="container-page">
-        <SectionHeader
-          num={1}
-          eyebrow="Poznáváte se?"
-          title="Kde rostoucí firmy ztrácejí čas"
-          lead="Když firma roste, přibývají lidé, zakázky i pobočky. A to, co fungovalo na začátku, najednou brzdí."
-        />
-        <div className="mt-14 grid overflow-hidden rounded-3xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-3 gap-px">
-          {pains.map((p, i) => (
-            <div key={p.title} className="bg-card p-7">
-              <div className="font-mono text-xs text-muted">{String(i + 1).padStart(2, '0')}</div>
-              <h3 className="mt-4 text-xl text-ink">{p.title}</h3>
+        <div className="grid items-end gap-10 lg:grid-cols-[1fr_auto]">
+          <SectionHeader
+            title="Kde rostoucí firmy ztrácejí čas"
+            lead="Když firma roste, přibývají lidé, zakázky i pobočky. A to, co fungovalo na začátku, najednou brzdí."
+          />
+          <PrintObject
+            name="typewriter"
+            sizes="(min-width: 1024px) 340px, 256px"
+            className="-mb-6 w-64 justify-self-end lg:w-[340px]"
+          />
+        </div>
+        <div className="mt-14 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {pains.map((p) => (
+            <div key={p.title} className="rounded-2xl bg-card p-7">
+              <h3 className="text-xl text-ink">{p.title}</h3>
               <p className="mt-2 text-[15px] leading-relaxed text-ink-2">{p.text}</p>
             </div>
           ))}

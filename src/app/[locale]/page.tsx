@@ -40,11 +40,11 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       <PainPoints />
       <Services />
       <Comparison />
-      <Process num={4} />
+      <Process />
       <CaseStudies />
       <StartupTeaser />
       <Team />
-      <Faq items={homeFaq} num={8} />
+      <Faq items={homeFaq} />
       <FinalCta />
     </>
   );

@@ -19,7 +19,6 @@
 @theme {
   --font-sans: var(--font-poppins), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-display: var(--font-sora), var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-jetbrains), ui-monospace, 'SF Mono', Menlo, monospace;
   --font-brand: 'Surgena', var(--font-sora), sans-serif;
 
   /* Surfaces */
@@ -46,7 +45,7 @@
   --color-night-2: #1B1E2C;
   --color-night-line: #2A2E3F;
 
-  --color-ok: #16A36A;
+  --color-ok: #0B7A4B;
 
   --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
 }
@@ -113,13 +112,6 @@ p { text-wrap: pretty; }
   padding-block: clamp(72px, 10vw, 128px);
 }
 
-/* Fine engineering grid used behind the hero. */
-@utility bg-grid {
-  background-image:
-    linear-gradient(to right, rgb(17 19 30 / 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(17 19 30 / 0.05) 1px, transparent 1px);
-  background-size: 48px 48px;
-}
 
 /* Long-form text (case studies, legal). */
 @utility prose-z {

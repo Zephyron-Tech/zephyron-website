@@ -27,11 +27,12 @@ export function FinalCta({
           </div>
           <div className="flex items-center gap-4 lg:justify-self-end">
             <Image
-              src="/assets/vandlicek-pfp.jpg"
+              src="/print/vandlicek-light.png"
               alt="Ing. Jan Vandlíček"
-              width={72}
-              height={72}
-              className="size-16 rounded-full object-cover ring-2 ring-white/30"
+              width={300}
+              height={284}
+              unoptimized
+              className="h-20 w-auto"
             />
             <div className="text-sm leading-snug">
               <div className="font-medium">Ing. Jan Vandlíček</div>

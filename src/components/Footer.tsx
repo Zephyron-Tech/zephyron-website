@@ -9,7 +9,7 @@ export async function Footer() {
   const t = await getTranslations('footer');
   const tn = await getTranslations('nav');
 
-  const heading = 'font-mono text-xs uppercase tracking-[0.12em] text-white/50';
+  const heading = 'text-sm font-medium text-white';
   const link = 'text-white/80 transition-colors hover:text-white';
 
   return (
@@ -77,8 +77,8 @@ export async function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-night-line">
-        <div className="container-page flex flex-col gap-3 py-6 text-xs text-white/50 sm:flex-row sm:items-center sm:justify-between">
+      <div className="bg-night-2">
+        <div className="container-page flex flex-col gap-3 py-6 text-[13px] text-white/50 sm:flex-row sm:items-center sm:justify-between">
           <span>
             © {new Date().getFullYear()} {t('copyright')}
           </span>
@@ -88,6 +88,9 @@ export async function Footer() {
             </Link>
             <Link href="/obchodni-podminky" className="hover:text-white">
               {t('terms')}
+            </Link>
+            <Link href="/zdroje-obrazku" className="hover:text-white">
+              Zdroje obrázků
             </Link>
           </div>
         </div>

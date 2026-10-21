@@ -49,28 +49,26 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
       <JsonLd data={breadcrumbSchema([{ name: 'O nás', path: '/o-nas' }])} />
       <PageHero
         crumbs={[{ name: 'O nás' }]}
-        eyebrow="O nás"
         title="Softwarové studio z Plzně"
         lead="Jsme malý tým vývojářů. Stavíme software, který firmám šetří čas, a staráme se o něj i po spuštění. Bez obchodníků, bez account manažerů, bez zbytečných mezičlánků."
       />
 
       <section className="section-y">
         <div className="container-page">
-          <SectionHeader eyebrow="Tým" title="Kdo s vámi bude mluvit" />
+          <SectionHeader title="Kdo s vámi bude mluvit" />
           <div className="mt-14">
             <TeamCards />
           </div>
         </div>
       </section>
 
-      <section className="section-y border-t border-line">
+      <section className="section-y">
         <div className="container-page">
-          <SectionHeader eyebrow="Jak přemýšlíme" title="Čeho se držíme" />
-          <div className="mt-14 grid gap-px overflow-hidden rounded-3xl border border-line bg-line sm:grid-cols-2">
-            {principles.map((p, i) => (
-              <div key={p.title} className="bg-card p-7 sm:p-9">
-                <div className="font-mono text-xs text-muted">{String(i + 1).padStart(2, '0')}</div>
-                <h3 className="mt-4 text-2xl text-ink">{p.title}</h3>
+          <SectionHeader title="Čeho se držíme" />
+          <div className="mt-14 grid gap-3 sm:grid-cols-2">
+            {principles.map((p) => (
+              <div key={p.title} className="rounded-2xl bg-card p-7 sm:p-9">
+                <h3 className="text-2xl text-ink">{p.title}</h3>
                 <p className="mt-3 leading-relaxed text-ink-2">{p.text}</p>
               </div>
             ))}
@@ -78,17 +76,16 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
         </div>
       </section>
 
-      <section className="section-y border-t border-line">
+      <section className="section-y">
         <div className="container-page grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
           <SectionHeader
-            eyebrow="Technologie"
             title="S čím pracujeme"
             lead="Nástroje volíme podle zadání. Tohle jsou ty, se kterými máme nejvíc zkušeností."
           />
-          <dl className="divide-y divide-line border-y border-line">
+          <dl className="flex flex-col gap-1">
             {stack.map((s) => (
               <div key={s.group} className="grid gap-3 py-6 sm:grid-cols-[0.35fr_0.65fr]">
-                <dt className="font-mono text-xs uppercase tracking-[0.12em] text-muted sm:pt-1.5">{s.group}</dt>
+                <dt className="text-sm font-medium text-ink-2 sm:pt-1.5">{s.group}</dt>
                 <dd className="flex flex-wrap gap-2">
                   {s.items.map((it) => (
                     <Tag key={it}>{it}</Tag>
@@ -100,7 +97,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
         </div>
       </section>
 
-      <section className="border-t border-line py-16">
+      <section className="py-16">
         <div className="container-page grid gap-6 text-sm sm:grid-cols-2 lg:grid-cols-4">
           {[
             ['Firma', SITE.legalName],
@@ -109,7 +106,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
             ['E-mail', SITE.email],
           ].map(([k, v]) => (
             <div key={k}>
-              <div className="font-mono text-xs uppercase tracking-[0.12em] text-muted">{k}</div>
+              <div className="text-sm font-medium text-ink-2">{k}</div>
               <div className="mt-2 text-ink">{v}</div>
             </div>
           ))}

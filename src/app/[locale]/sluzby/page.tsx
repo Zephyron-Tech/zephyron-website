@@ -22,8 +22,8 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
     <>
       <JsonLd data={breadcrumbSchema([{ name: 'Služby', path: '/sluzby' }])} />
       <PageHero
+        art="abacus"
         crumbs={[{ name: 'Služby' }]}
-        eyebrow="Služby"
         title="Méně ruční práce, víc času na firmu"
         lead="Nezačínáme technologií, ale tím, kde vás to stojí nejvíc hodin. Někdy stačí propojit dva systémy, jindy je potřeba postavit nový."
       >

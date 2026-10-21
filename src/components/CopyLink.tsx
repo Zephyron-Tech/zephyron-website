@@ -45,8 +45,8 @@ export function CopyLink({ href, value, children, tone = 'light', className = ''
             onAnimationEnd={() => setSweeping(false)}
             className={`animate-sweep pointer-events-none absolute inset-0 ${
               tone === 'dark'
-                ? 'bg-[linear-gradient(90deg,transparent_5%,rgb(255_255_255/0.45)_50%,transparent_95%)]'
-                : 'bg-[linear-gradient(90deg,transparent_5%,rgb(88_63_255/0.25)_50%,transparent_95%)]'
+                ? 'bg-[linear-gradient(90deg,transparent_5%,rgb(255_255_255/0.45)_50%,transparent_95%)]' // taste-skill-ignore: moving light sweep, not a resting fill
+                : 'bg-[linear-gradient(90deg,transparent_5%,rgb(88_63_255/0.25)_50%,transparent_95%)]' // taste-skill-ignore: moving light sweep, not a resting fill
             }`}
           />
         )}

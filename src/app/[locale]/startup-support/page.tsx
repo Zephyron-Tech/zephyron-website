@@ -95,9 +95,9 @@ export default async function StartupSupportPage({ params }: { params: Promise<{
       <JsonLd data={faqSchema(faq)} />
 
       <PageHero
+        art="bulb"
         crumbs={[{ name: 'Startup Support' }]}
-        eyebrow="Startup Support"
-        title="Technický partner pro zakladatele bez technického týmu"
+        title="Technický partner pro zakladatele"
         lead="Pomáháme lidem, kteří mají dobrý nápad a znají svůj obor, ale chybí jim vývojáři. Do vybraných projektů vstupujeme jako dlouhodobý technický partner: od návrhu přes první verzi až po provoz. Podmínky přizpůsobujeme fázi projektu."
       >
         <div className="flex flex-col gap-3 sm:flex-row">
@@ -112,10 +112,10 @@ export default async function StartupSupportPage({ params }: { params: Promise<{
 
       <section className="section-y">
         <div className="container-page">
-          <SectionHeader eyebrow="Co dostanete" title="Technický spoluzakladatel, ne dodavatel" />
-          <div className="mt-14 grid gap-px overflow-hidden rounded-3xl border border-line bg-line sm:grid-cols-2">
+          <SectionHeader title="Spoluzakladatel, ne dodavatel" />
+          <div className="mt-14 grid gap-3 sm:grid-cols-2">
             {offer.map((o) => (
-              <div key={o.title} className="bg-card p-7 sm:p-9">
+              <div key={o.title} className="rounded-2xl bg-card p-7 sm:p-9">
                 <h3 className="text-2xl text-ink">{o.title}</h3>
                 <p className="mt-3 leading-relaxed text-ink-2">{o.text}</p>
               </div>
@@ -124,14 +124,13 @@ export default async function StartupSupportPage({ params }: { params: Promise<{
         </div>
       </section>
 
-      <section className="section-y border-t border-line">
+      <section className="section-y">
         <div className="container-page grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
           <SectionHeader
-            eyebrow="Do čeho jdeme"
             title="Projekty si vybíráme"
             lead="Nejsme investiční fond ani agentura, která vezme cokoliv. Do projektu jdeme, když v něj sami věříme."
           />
-          <ul className="divide-y divide-line border-y border-line">
+          <ul className="flex flex-col gap-1">
             {criteria.map((c) => (
               <li key={c} className="flex gap-4 py-5 text-lg text-ink">
                 <Check size={20} strokeWidth={2} className="mt-1 shrink-0 text-accent" aria-hidden />
@@ -144,13 +143,11 @@ export default async function StartupSupportPage({ params }: { params: Promise<{
 
       <section id="jak-to-funguje" className="section-y scroll-mt-20 bg-night text-white">
         <div className="container-page">
-          <SectionHeader dark eyebrow="Jak to funguje" title="Od nápadu k prvním zákazníkům" />
-          <ol className="mt-14 grid gap-px overflow-hidden rounded-3xl border border-night-line bg-night-line md:grid-cols-2 lg:grid-cols-4">
+          <SectionHeader dark title="Od nápadu k prvním zákazníkům" />
+          <ol className="mt-14 grid gap-x-8 gap-y-12 md:grid-cols-2 lg:grid-cols-4">
             {steps.map((s, i) => (
-              <li key={s.title} className="bg-night-2 p-7">
-                <div className="font-display text-5xl font-semibold tracking-tight text-white/20">
-                  {String(i + 1).padStart(2, '0')}
-                </div>
+              <li key={s.title}>
+                <div aria-hidden className="h-1.5 rounded-full bg-white" style={{ width: `${(i + 1) * 25}%` }} />
                 <h3 className="mt-6 text-xl text-white">{s.title}</h3>
                 <p className="mt-2 text-[15px] leading-relaxed text-white/70">{s.text}</p>
               </li>
@@ -161,7 +158,7 @@ export default async function StartupSupportPage({ params }: { params: Promise<{
 
       <section className="section-y">
         <div className="container-page">
-          <SectionHeader eyebrow="Aktuální projekty" title="S kým se právě rozjíždíme" />
+          <SectionHeader title="S kým se právě rozjíždíme" />
           <div className="mt-14">
             <CaseCards items={startups} />
           </div>
@@ -170,11 +167,10 @@ export default async function StartupSupportPage({ params }: { params: Promise<{
 
       <Faq items={faq} />
 
-      <section id="prihlaska" className="section-y scroll-mt-20 border-t border-line">
+      <section id="prihlaska" className="section-y scroll-mt-20">
         <div className="container-page grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
           <SectionHeader
-            eyebrow="Kontakt"
-            title="Máte projekt, který by nás mohl zajímat?"
+            title="Máte zajímavý projekt?"
             lead="Napište pár vět o problému, který řešíte, a kde teď jste. Ozveme se."
           />
           <ContactForm defaultTopic="startup" />

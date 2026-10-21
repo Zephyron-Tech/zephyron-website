@@ -24,8 +24,8 @@ export default async function CasesPage({ params }: { params: Promise<{ locale: 
     <>
       <JsonLd data={breadcrumbSchema([{ name: 'Reference', path: '/reference' }])} />
       <PageHero
+        art="key"
         crumbs={[{ name: 'Reference' }]}
-        eyebrow="Reference"
         title="Projekty, které už běží"
         lead="Systémy pro klienty, vlastní produkty i startupy, kterým děláme technického partnera. U každého popisujeme, s čím zadavatel přišel a co jsme postavili."
       />
@@ -34,11 +34,10 @@ export default async function CasesPage({ params }: { params: Promise<{ locale: 
           <CaseCards items={clientWork} featuredFirst />
         </div>
       </section>
-      <section className="section-y border-t border-line">
+      <section className="section-y">
         <div className="container-page">
           <div className="max-w-2xl">
-            <div className="font-mono text-xs uppercase tracking-[0.12em] text-muted">Startup Support</div>
-            <h2 className="mt-4 text-3xl text-ink sm:text-4xl">Startupy, které stavíme jako partner</h2>
+            <h2 className="text-3xl text-ink sm:text-4xl">Startupy, které stavíme jako partner</h2>
           </div>
           <div className="mt-12">
             <CaseCards items={startups} />

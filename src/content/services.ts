@@ -1,9 +1,13 @@
+import type { PrintArtKey } from './print-art';
+
 export type ServiceIcon = 'workflow' | 'system' | 'support' | 'web';
 
 export interface Service {
   slug: string;
   title: string;
   icon: ServiceIcon;
+  /** Printed object in the page header. */
+  art: PrintArtKey;
   /** One-liner for cards on the home page and /sluzby. */
   short: string;
   metaTitle: string;
@@ -28,6 +32,7 @@ export const services: Service[] = [
     slug: 'automatizace-procesu',
     title: 'Automatizace procesů',
     icon: 'workflow',
+    art: 'hourglass',
     short:
       'Propojíme systémy, které spolu nemluví, a zbavíme vás ručního přepisování dat mezi e-mailem, Excelem a účetnictvím.',
     metaTitle: 'Automatizace firemních procesů',
@@ -90,6 +95,7 @@ export const services: Service[] = [
     slug: 'interni-systemy',
     title: 'Interní systémy a aplikace',
     icon: 'system',
+    art: 'typewriter',
     short:
       'Evidence zakázek, plánování, sklad nebo klientský portál. Aplikace postavená podle toho, jak opravdu pracujete.',
     metaTitle: 'Interní systémy a aplikace na zakázku',
@@ -152,6 +158,7 @@ export const services: Service[] = [
     slug: 'it-podpora',
     title: 'IT podpora a správa',
     icon: 'support',
+    art: 'padlock',
     short:
       'Účty, zálohy, zabezpečení, Microsoft 365 nebo Google Workspace. Jeden kontakt, který za vaše IT odpovídá.',
     metaTitle: 'IT podpora a správa IT pro firmy',
@@ -210,6 +217,7 @@ export const services: Service[] = [
     slug: 'weby-a-aplikace',
     title: 'Weby a webové aplikace',
     icon: 'web',
+    art: 'radio',
     short:
       'Firemní weby, které se rychle načítají, jsou dohledatelné na Googlu a dají se spravovat bez programátora.',
     metaTitle: 'Firemní weby a webové aplikace',

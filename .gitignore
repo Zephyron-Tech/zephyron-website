@@ -46,3 +46,4 @@ zephyron-tech-landing-page/
 /src/lib/generated
 !.env.example
 brand_guidelines/
+.taste-skill/

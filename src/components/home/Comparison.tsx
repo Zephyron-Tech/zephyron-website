@@ -12,20 +12,18 @@ const rows: { label: string; values: [string, string, string] }[] = [
 
 export function Comparison() {
   return (
-    <section className="section-y border-t border-line">
+    <section className="section-y">
       <div className="container-page">
         <SectionHeader
-          num={3}
-          eyebrow="Proč my"
-          title="Mezi krabicí a korporátním dodavatelem"
+          title="Mezi krabicí a korporátem"
           lead="Firmy na cestě ke střední velikosti často volí mezi softwarem, který nesedí, a projektem, který si nemohou dovolit. Jsme ta třetí možnost."
         />
 
         {/* Desktop table */}
-        <div className="mt-14 hidden overflow-hidden rounded-3xl border border-line md:block">
+        <div className="mt-14 hidden overflow-hidden rounded-2xl md:block">
           <table className="w-full table-fixed text-left">
             <thead>
-              <tr className="border-b border-line">
+              <tr className="">
                 <th className="w-[22%] bg-card p-5" />
                 {columns.map((c, i) => (
                   <th
@@ -42,8 +40,8 @@ export function Comparison() {
             </thead>
             <tbody>
               {rows.map((r) => (
-                <tr key={r.label} className="border-b border-line last:border-0">
-                  <th scope="row" className="bg-card p-5 font-mono text-xs font-normal uppercase tracking-[0.1em] text-muted">
+                <tr key={r.label}>
+                  <th scope="row" className="bg-card p-5 text-sm font-medium text-ink-2">
                     {r.label}
                   </th>
                   {r.values.map((v, i) => (
@@ -63,8 +61,8 @@ export function Comparison() {
         {/* Mobile: one block per row */}
         <div className="mt-10 space-y-3 md:hidden">
           {rows.map((r) => (
-            <div key={r.label} className="rounded-2xl border border-line bg-card p-5">
-              <div className="font-mono text-xs uppercase tracking-[0.1em] text-muted">{r.label}</div>
+            <div key={r.label} className="bg-card p-5">
+              <div className="text-sm font-medium text-ink-2">{r.label}</div>
               <dl className="mt-3 space-y-2 text-sm">
                 {columns.map((c, i) => (
                   <div

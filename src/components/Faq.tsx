@@ -2,12 +2,12 @@ import { Plus } from 'lucide-react';
 import type { FaqItem } from '@/content/faq';
 import { SectionHeader } from './ui/SectionHeader';
 
-export function Faq({ items, num, title = 'Časté otázky' }: { items: FaqItem[]; num?: number; title?: string }) {
+export function Faq({ items, title = 'Časté otázky' }: { items: FaqItem[]; title?: string }) {
   return (
-    <section className="section-y border-t border-line">
+    <section className="section-y">
       <div className="container-page grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
-        <SectionHeader num={num} eyebrow="FAQ" title={title} />
-        <div className="divide-y divide-line border-y border-line">
+        <SectionHeader title={title} />
+        <div className="flex flex-col gap-1">
           {items.map((f) => (
             <details key={f.q} className="group">
               <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 text-left font-display text-lg font-semibold tracking-tight text-ink [&::-webkit-details-marker]:hidden">

@@ -31,8 +31,8 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
     <>
       <JsonLd data={breadcrumbSchema([{ name: 'Kontakt', path: '/kontakt' }])} />
       <PageHero
+        art="phone"
         crumbs={[{ name: 'Kontakt' }]}
-        eyebrow="Kontakt"
         title="Pojďme to probrat"
         lead={
           hasCal
@@ -49,7 +49,7 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
             <div>
               <h2 className="text-2xl text-ink">Rezervovat termín</h2>
               <p className="mt-2 text-ink-2">Online a zdarma.</p>
-              <div className="mt-6 min-h-[640px] overflow-hidden rounded-3xl border border-line bg-card">
+              <div className="mt-6 min-h-[640px] overflow-hidden rounded-2xl bg-card">
                 <CalEmbed calLink={SITE.calLink} />
               </div>
             </div>
@@ -70,14 +70,13 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
         )}
       </section>
 
-      <section className="section-y border-t border-line bg-paper-2">
+      <section className="section-y bg-paper-2">
         <div className="container-page">
           <h2 className="text-3xl text-ink sm:text-4xl">Co bude následovat</h2>
           <ol className="mt-12 grid gap-8 md:grid-cols-3">
-            {next.map((n, i) => (
+            {next.map((n) => (
               <li key={n.title}>
-                <div className="font-mono text-xs text-accent">{String(i + 1).padStart(2, '0')}</div>
-                <h3 className="mt-3 text-xl text-ink">{n.title}</h3>
+                <h3 className="text-xl text-ink">{n.title}</h3>
                 <p className="mt-2 leading-relaxed text-ink-2">{n.text}</p>
               </li>
             ))}
@@ -100,7 +99,7 @@ function ContactDetails({ horizontal = false }: { horizontal?: boolean }) {
   ];
   return (
     <aside
-      className={`grid gap-px overflow-hidden rounded-3xl border border-line bg-line self-start ${
+      className={`grid gap-3 self-start ${
         horizontal ? 'md:grid-cols-3' : 'lg:mt-[68px]'
       }`}
     >
@@ -108,7 +107,7 @@ function ContactDetails({ horizontal = false }: { horizontal?: boolean }) {
         <div key={label} className="flex gap-4 bg-card p-6">
           <Icon size={20} strokeWidth={1.6} className="mt-0.5 shrink-0 text-accent" aria-hidden />
           <div>
-            <div className="font-mono text-xs uppercase tracking-[0.12em] text-muted">{label}</div>
+            <div className="text-sm font-medium text-ink-2">{label}</div>
             {href ? (
               <CopyLink href={href} value={value} className="mt-1 block text-ink hover:text-accent">
                 {value}

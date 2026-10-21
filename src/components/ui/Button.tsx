@@ -16,7 +16,7 @@ interface ButtonProps {
 
 const variants: Record<Variant, string> = {
   primary: 'bg-accent text-white hover:bg-accent-hover',
-  secondary: 'border border-line-strong bg-card text-ink hover:border-ink',
+  secondary: 'bg-paper-2 text-ink hover:bg-line',
   onDark: 'bg-white text-ink hover:bg-accent-soft',
 };
 

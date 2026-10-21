@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { Sora, Poppins, JetBrains_Mono } from 'next/font/google';
+import { Sora, Poppins } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/next';
 import '@/app/globals.css';
 
@@ -17,16 +17,10 @@ const poppins = Poppins({
   display: 'swap',
 });
 
-const jetbrains = JetBrains_Mono({
-  subsets: ['latin', 'latin-ext'],
-  weight: ['400', '500'],
-  variable: '--font-jetbrains',
-  display: 'swap',
-});
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="cs" className={`${sora.variable} ${poppins.variable} ${jetbrains.variable}`}>
+    <html lang="cs" className={`${sora.variable} ${poppins.variable}`}>
       <body>
         {children}
         <Analytics />

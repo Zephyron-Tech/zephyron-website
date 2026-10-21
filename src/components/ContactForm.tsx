@@ -45,7 +45,7 @@ export function ContactForm({ defaultTopic = 'automatizace' }: { defaultTopic?: 
 
   if (status === 'sent') {
     return (
-      <div role="status" className="rounded-3xl border border-line bg-card p-8">
+      <div role="status" className="rounded-2xl bg-card p-8">
         <CheckCircle2 size={32} strokeWidth={1.6} className="text-ok" aria-hidden />
         <h3 className="mt-5 text-2xl text-ink">{t('successTitle')}</h3>
         <p className="mt-2 text-ink-2">{t('successBody')}</p>
@@ -54,7 +54,7 @@ export function ContactForm({ defaultTopic = 'automatizace' }: { defaultTopic?: 
   }
 
   return (
-    <form onSubmit={onSubmit} className="rounded-3xl border border-line bg-card p-6 sm:p-8">
+    <form onSubmit={onSubmit} className="rounded-2xl bg-card p-6 sm:p-8">
       <fieldset>
         <legend className={label}>{t('topic')}</legend>
         <div className="mt-3 flex flex-wrap gap-2">
@@ -134,7 +134,7 @@ export function ContactForm({ defaultTopic = 'automatizace' }: { defaultTopic?: 
       )}
 
       <div className="mt-7 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <p className="max-w-sm text-xs leading-relaxed text-muted">
+        <p className="max-w-sm text-[13px] leading-relaxed text-muted">
           {t('consent')}{' '}
           <Link href="/ochrana-osobnich-udaju" className="underline underline-offset-2 hover:text-ink">
             Zásady ochrany osobních údajů

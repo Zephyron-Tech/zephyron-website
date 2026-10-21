@@ -9,7 +9,7 @@ interface LegalPageProps {
 export function LegalPage({ title, updated, sections }: LegalPageProps) {
   return (
     <>
-      <PageHero crumbs={[{ name: title }]} eyebrow={updated} title={title} />
+      <PageHero crumbs={[{ name: title }]} title={title} lead={updated} />
       <div className="container-page section-y">
         <div className="prose-z max-w-2xl space-y-10">
           {sections.map((s) => (

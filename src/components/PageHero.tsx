@@ -1,22 +1,21 @@
 import { ChevronRight } from 'lucide-react';
 import { Link } from '@/navigation';
 import { SectionHeader } from './ui/SectionHeader';
+import { PrintObject } from './PrintObject';
+import type { PrintArtKey } from '@/content/print-art';
 
 interface PageHeroProps {
-  eyebrow: string;
   title: React.ReactNode;
   lead?: React.ReactNode;
   crumbs?: { name: string; href?: string }[];
+  /** Printed object set beside the heading on wide screens. */
+  art?: PrintArtKey;
   children?: React.ReactNode;
 }
 
-export function PageHero({ eyebrow, title, lead, crumbs = [], children }: PageHeroProps) {
+export function PageHero({ title, lead, crumbs = [], art, children }: PageHeroProps) {
   return (
-    <section className="relative overflow-hidden border-b border-line">
-      <div
-        aria-hidden
-        className="bg-grid pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_70%_80%_at_80%_0%,black,transparent)]"
-      />
+    <section className="relative overflow-hidden">
       <div className="container-page relative pb-16 pt-10 md:pb-24 md:pt-14">
         {crumbs.length > 0 && (
           <nav aria-label="Drobečková navigace" className="mb-10 flex flex-wrap items-center gap-1.5 text-sm text-muted">
@@ -39,8 +38,20 @@ export function PageHero({ eyebrow, title, lead, crumbs = [], children }: PageHe
             ))}
           </nav>
         )}
-        <SectionHeader as="h1" eyebrow={eyebrow} title={title} lead={lead} className="rise" />
-        {children && <div className="rise rise-2 mt-9">{children}</div>}
+        <div className={art ? 'grid items-center gap-10 lg:grid-cols-[1fr_auto]' : undefined}>
+          <div>
+            <SectionHeader as="h1" title={title} lead={lead} className="rise" />
+            {children && <div className="rise rise-2 mt-9">{children}</div>}
+          </div>
+          {art && (
+            <PrintObject
+              name={art}
+              sizes="(min-width: 1024px) 320px, 0px"
+              priority
+              className="hidden max-h-[340px] w-auto max-w-[320px] object-contain lg:block"
+            />
+          )}
+        </div>
       </div>
     </section>
   );

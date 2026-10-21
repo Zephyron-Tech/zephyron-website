@@ -11,9 +11,9 @@ const partners: Partner[] = [
 
 export function TrustStrip() {
   return (
-    <section aria-label="Spolupracujeme" className="border-t border-line">
+    <section aria-label="Spolupracujeme" className="">
       <div className="container-page flex flex-col gap-5 py-10 md:flex-row md:items-center md:gap-12">
-        <div className="shrink-0 font-mono text-xs uppercase tracking-[0.12em] text-muted">Spolupracujeme s</div>
+        <div className="shrink-0 text-sm font-medium text-ink-2">Spolupracujeme s</div>
         <PartnerLogos partners={partners} />
       </div>
     </section>

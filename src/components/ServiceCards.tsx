@@ -10,7 +10,7 @@ export function ServiceCards() {
         <Link
           key={s.slug}
           href={`/sluzby/${s.slug}`}
-          className="group flex flex-col rounded-3xl border border-line bg-card p-7 transition-colors hover:border-ink sm:p-8"
+          className="group flex flex-col rounded-2xl bg-card p-7 transition-colors hover:bg-accent-soft sm:p-8"
         >
           <span className="inline-flex size-11 items-center justify-center rounded-xl bg-accent-soft text-accent">
             <ServiceIcon name={s.icon} />

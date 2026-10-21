@@ -45,13 +45,17 @@ export function CopyEmail({ tone = 'light', className = '' }: CopyEmailProps) {
       <button
         type="button"
         onClick={copy}
-        className={`group inline-flex max-w-full items-center gap-3 border-b-[1.5px] pb-2 text-left font-display text-[clamp(22px,3vw,34px)] font-semibold tracking-tight transition-colors duration-200 ${
+        className={`group inline-flex max-w-full items-center gap-3 text-left font-display text-[clamp(22px,3vw,34px)] font-semibold tracking-tight transition-colors duration-200 ${
           onAccent
-            ? 'border-white/35 text-white hover:border-white'
-            : 'border-line-strong text-ink hover:border-accent hover:text-accent'
+            ? 'text-white'
+            : 'text-ink hover:text-accent'
         }`}
       >
-        <span className="relative inline-flex overflow-hidden break-all">
+        <span
+          className={`relative inline-flex overflow-hidden break-all pb-3 underline decoration-[1.5px] underline-offset-[10px] transition-[text-decoration-color] duration-200 ${
+            onAccent ? 'decoration-white/40 group-hover:decoration-white' : 'decoration-line-strong group-hover:decoration-accent'
+          }`}
+        >
           {SITE.email}
           {sweeping && (
             <span
@@ -59,8 +63,8 @@ export function CopyEmail({ tone = 'light', className = '' }: CopyEmailProps) {
               onAnimationEnd={() => setSweeping(false)}
               className={`animate-sweep pointer-events-none absolute inset-0 ${
                 onAccent
-                  ? 'bg-[linear-gradient(90deg,transparent_5%,rgb(255_255_255/0.45)_50%,transparent_95%)]'
-                  : 'bg-[linear-gradient(90deg,transparent_5%,rgb(88_63_255/0.25)_50%,transparent_95%)]'
+                  ? 'bg-[linear-gradient(90deg,transparent_5%,rgb(255_255_255/0.45)_50%,transparent_95%)]' // taste-skill-ignore: moving light sweep, not a resting fill
+                  : 'bg-[linear-gradient(90deg,transparent_5%,rgb(88_63_255/0.25)_50%,transparent_95%)]' // taste-skill-ignore: moving light sweep, not a resting fill
               }`}
             />
           )}
@@ -68,7 +72,7 @@ export function CopyEmail({ tone = 'light', className = '' }: CopyEmailProps) {
         <span
           aria-hidden
           className={`inline-flex shrink-0 transition-[transform,opacity] duration-150 ease-out ${
-            icon === 'out' ? 'scale-0 opacity-0' : 'scale-100 opacity-100'
+            icon === 'out' ? 'scale-75 opacity-0' : 'scale-100 opacity-100'
           }`}
         >
           <Icon size={24} strokeWidth={1.6} />

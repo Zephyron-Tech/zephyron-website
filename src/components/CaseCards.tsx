@@ -17,7 +17,7 @@ function CaseCard({ item, wide }: { item: CaseStudy; wide: boolean }) {
   const body = (
     <>
       <div
-        className={`relative overflow-hidden rounded-2xl border border-line bg-paper-2 ${
+        className={`relative overflow-hidden rounded-2xl bg-paper-2 ${
           wide ? 'aspect-[16/10] md:aspect-[21/9]' : 'aspect-[16/10]'
         }`}
       >
@@ -30,12 +30,12 @@ function CaseCard({ item, wide }: { item: CaseStudy; wide: boolean }) {
             className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
           />
         ) : (
-          <div className="absolute inset-0 flex items-center justify-center bg-grid">
+          <div className="absolute inset-0 flex items-center justify-center">
             <span className="font-display text-3xl font-semibold tracking-tight text-ink/80">{item.name}</span>
           </div>
         )}
       </div>
-      <div className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[11px] uppercase tracking-[0.12em] text-muted">
+      <div className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-1 text-[13px] text-muted">
         <span>{item.category}</span>
         <span aria-hidden>·</span>
         <span className={item.status === 'V provozu' ? 'text-ok' : ''}>{item.status}</span>

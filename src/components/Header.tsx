@@ -37,8 +37,8 @@ export function Header() {
 
   return (
     <header
-      className={`sticky top-0 z-40 bg-paper transition-[border-color] duration-200 border-b ${
-        scrolled || open ? 'border-line' : 'border-transparent'
+      className={`sticky top-0 z-40 bg-paper transition-shadow duration-200 ${
+        scrolled || open ? 'shadow-[0_6px_20px_-12px_rgb(17_19_30/0.18)]' : '' // taste-skill-ignore: sticky bar floats over content
       }`}
     >
       <div className="container-page flex h-[72px] items-center justify-between gap-6">
@@ -86,7 +86,7 @@ export function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="border-b border-line py-4 font-display text-2xl font-semibold tracking-tight text-ink"
+                className="py-4 font-display text-2xl font-semibold tracking-tight text-ink"
               >
                 {t(item.key)}
               </Link>

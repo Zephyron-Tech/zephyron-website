@@ -8,12 +8,10 @@ const homeSlugs = ['clearway', 'autoskola-falar', 'gridtime'];
 export function CaseStudies() {
   const items = homeSlugs.map((s) => caseStudies.find((c) => c.slug === s)!);
   return (
-    <section className="section-y border-t border-line">
+    <section className="section-y">
       <div className="container-page">
         <div className="flex flex-col justify-between gap-8 md:flex-row md:items-end">
           <SectionHeader
-            num={5}
-            eyebrow="Reference"
             title="Co už běží"
             lead="Od městské GIS platformy po web autoškoly. Celé od návrhu po provoz."
           />

@@ -8,8 +8,6 @@ export function Team() {
       <div className="container-page">
         <div className="flex flex-col justify-between gap-8 md:flex-row md:items-end">
           <SectionHeader
-            num={7}
-            eyebrow="Kdo za tím stojí"
             title="Žádní obchodníci. Mluvíte s námi."
             lead="Jsme malé softwarové studio z Plzně. Kdo s vámi probírá zadání, ten ho i staví."
           />
