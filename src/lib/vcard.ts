@@ -6,10 +6,13 @@ export interface VCardData {
   email: string;
   linkedinUrl?: string | null;
   url: string;
+  /** JPEG bytes; embedded so the phone shows the face next to the contact. */
+  photo?: Uint8Array | null;
 }
 
+// '\\;' and '\\,' are a backslash plus the character; a bare '\;' would be just ';'.
 const escape = (v: string) =>
-  v.replace(/\\/g, '\\\\').replace(/\r?\n/g, '\\n').replace(/;/g, '\;').replace(/,/g, '\\,');
+  v.replace(/\\/g, '\\\\').replace(/\r?\n/g, '\\n').replace(/;/g, '\\;').replace(/,/g, '\\,');
 
 // RFC 6350 line folding: max 75 octets, continuation lines start with a space.
 function fold(line: string): string {
@@ -38,13 +41,14 @@ export function buildVCard(d: VCardData): string {
     'BEGIN:VCARD',
     'VERSION:3.0',
     `N:${escape(family)};${escape(given)};;${d.titles ? escape(d.titles) : ''};`,
-    `FN:${escape(d.name)}`,
-    'ORG:Zephyron Tech',
+    `FN:${escape(d.titles ? `${d.titles} ${d.name}` : d.name)}`,
+    'ORG:Zephyron Tech s.r.o.',
     `TITLE:${escape(d.role)}`,
     d.phone ? `TEL;TYPE=CELL:${escape(d.phone)}` : null,
     `EMAIL;TYPE=WORK:${escape(d.email)}`,
     `URL:${d.url}`,
     d.linkedinUrl ? `URL;TYPE=LinkedIn:${d.linkedinUrl}` : null,
+    d.photo?.length ? `PHOTO;ENCODING=b;TYPE=JPEG:${Buffer.from(d.photo).toString('base64')}` : null,
     'END:VCARD',
   ].filter((l): l is string => l !== null);
 

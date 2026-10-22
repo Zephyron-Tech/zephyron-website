@@ -6,6 +6,10 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   serverExternalPackages: ['pdfkit'],
+  // The print card PDF embeds Poppins read from disk; make sure the function bundle carries it.
+  outputFileTracingIncludes: {
+    '/admin/cards/[id]/card.pdf': ['./assets/fonts/**', './public/mark-256.png'],
+  },
   async redirects() {
     return [
       { source: '/technologies', destination: '/o-nas', permanent: true },

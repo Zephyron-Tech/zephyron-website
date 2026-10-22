@@ -12,7 +12,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
   const { role, email } = await requireRole().catch(() => ({ role: null, email: null }));
   if (!role) return new Response('Unauthorized', { status: 401 });
 
-  const member = await prisma.member.findUnique({ where: { id } });
+  const member = await prisma.member.findUnique({ where: { id }, omit: { photo: true } });
   if (!member || (role !== 'admin' && member.email !== email)) return new Response('Not found', { status: 404 });
 
   // Vector QR: draw each dark module as a rect so the PDF stays resolution-independent.

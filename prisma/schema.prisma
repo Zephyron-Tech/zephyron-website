@@ -28,6 +28,11 @@ model Member {
   mode        CardMode @default(DEFAULT)
   redirectUrl String?
   active      Boolean  @default(true)
+  // Portrait, resized in the admin to 400×400 JPEG before upload; served by /v/:slug/photo
+  // and embedded in the .vcf. photoUpdatedAt versions the URL so it can cache forever.
+  photo          Bytes?
+  photoType      String?
+  photoUpdatedAt DateTime?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   scans       Scan[]
