@@ -2,7 +2,7 @@
 
 import { Resend } from 'resend';
 import { COMPANY_SIZES, TOPICS, type Topic } from '@/lib/contact-options';
-
+import { enquiryEmailHtml } from '@/lib/contact-email';
 
 export interface ContactPayload {
   name: string;
@@ -51,18 +51,28 @@ export async function sendContact(data: ContactPayload): Promise<ContactResult> 
   }
 
   const subject = `${topic === 'startup' ? 'Startup Support' : 'Poptávka'}: ${company || name}`;
-  const text = [
+  // Plain-text version for clients that do not show HTML. Optional fields that
+  // were left empty are dropped, so no blank lines are left in their place.
+  const fields = [
     `Jméno: ${name}`,
     `E-mail: ${email}`,
     phone && `Telefon: ${phone}`,
     company && `Firma: ${company}`,
     companySize && `Velikost: ${companySize}`,
     `Téma: ${TOPIC_LABELS[topic]}`,
-    '',
+  ].filter(Boolean);
+  const text = `${fields.join('\n')}\n\n${message}`;
+  const html = enquiryEmailHtml({
+    subject,
+    topic: TOPIC_LABELS[topic],
+    name,
+    email,
+    phone,
+    company,
+    companySize,
     message,
-  ]
-    .filter((l): l is string => typeof l === 'string')
-    .join('\n');
+    sentAt: new Date(),
+  });
 
   if (!process.env.RESEND_API_KEY) {
     // Local dev without Resend: log instead of failing.
@@ -78,6 +88,7 @@ export async function sendContact(data: ContactPayload): Promise<ContactResult> 
       replyTo: email,
       subject,
       text,
+      html,
     });
     if (error) throw error;
     return { success: true };
