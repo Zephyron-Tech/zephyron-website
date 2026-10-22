@@ -1,0 +1,10 @@
+import { llmsFullTxt } from '@/lib/llms';
+
+// Generated from the content modules at build; see src/lib/llms.ts.
+export const dynamic = 'force-static';
+
+export function GET() {
+  return new Response(llmsFullTxt(), {
+    headers: { 'Content-Type': 'text/markdown; charset=utf-8' },
+  });
+}

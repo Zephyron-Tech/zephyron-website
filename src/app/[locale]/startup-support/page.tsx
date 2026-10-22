@@ -3,7 +3,7 @@ import { setRequestLocale } from 'next-intl/server';
 import { Check, Mail, Phone } from 'lucide-react';
 import { SITE } from '@/content/site';
 import { caseStudies } from '@/content/case-studies';
-import type { FaqItem } from '@/content/faq';
+import { startupCriteria, startupFaq, startupOffer, startupSteps } from '@/content/startup-support';
 import { PageHero } from '@/components/PageHero';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import { Button } from '@/components/ui/Button';
@@ -22,71 +22,6 @@ export const metadata = pageMetadata({
   path: '/startup-support',
 });
 
-const offer = [
-  {
-    title: 'Technické vedení',
-    text: 'Rozhodujeme o technologiích, architektuře a prioritách, jako by šlo o náš vlastní produkt.',
-  },
-  {
-    title: 'První verze produktu',
-    text: 'Navrhneme a postavíme nejmenší verzi, která ověří, jestli o produkt někdo stojí. Web, mobil, nebo obojí.',
-  },
-  {
-    title: 'Provoz a infrastruktura',
-    text: 'Servery, nasazování, zálohy a monitoring. Zakladatel se může věnovat zákazníkům, ne serverům.',
-  },
-  {
-    title: 'Technika při jednání s partnery',
-    text: 'Technická část prezentace, odhad nákladů a odpovědi na otázky k technologii od investorů, grantových výzev nebo inkubátorů.',
-  },
-];
-
-const criteria = [
-  'Řeší konkrétní problém, který lidé opravdu mají.',
-  'Zakladatel zná obor a má přístup k prvním uživatelům.',
-  'První verze se dá postavit v řádu týdnů, ne let.',
-  'Existuje cesta k financování: granty, inkubátory, investoři nebo první platící zákazníci.',
-  'Projekt má smysl i mimo tabulku s čísly.',
-];
-
-const steps = [
-  {
-    title: 'Seznámení',
-    text: 'Zakladatel nám představí problém, zákazníka a kde projekt právě je.',
-  },
-  {
-    title: 'Společné ověření',
-    text: 'Projdeme trh, rozsah první verze a technická rizika. Obě strany zjistí, jestli si sedí.',
-  },
-  {
-    title: 'Dohoda',
-    text: 'Role, rozsah a pravidla spolupráce sepíšeme předem, aby bylo jasno od prvního dne.',
-  },
-  {
-    title: 'Stavba a spuštění',
-    text: 'Postavíme první verzi, spustíme ji a dál rozvíjíme podle toho, co říkají uživatelé.',
-  },
-];
-
-const faq: FaqItem[] = [
-  {
-    q: 'Proč Startup Support děláte?',
-    a: 'Baví nás stavět produkty od nuly. A dobrý nápad by neměl skončit jen proto, že jeho autor neprogramuje. Projekty si proto vybíráme pečlivě a věnujeme se jim dlouhodobě.',
-  },
-  {
-    q: 'Jak spolupráce funguje po finanční stránce?',
-    a: 'Každý projekt je v jiné fázi a má jiné možnosti. Podmínky proto skládáme individuálně podle rozsahu práce a toho, co do projektu přináší každá strana. Jsme v tom flexibilní a vše sepíšeme dřív, než začneme stavět.',
-  },
-  {
-    q: 'Co když projekt nevyjde?',
-    a: 'S tím počítáme. Riziko neseme společně se zakladatelem, a proto do projektů jdeme až po společném ověření.',
-  },
-  {
-    q: 'Kolik projektů najednou děláte?',
-    a: 'Jen pár. Každému chceme věnovat plnou pozornost, ne zbytek kapacity mezi zakázkami.',
-  },
-];
-
 export default async function StartupSupportPage({ params }: { params: Promise<{ locale: string }> }) {
   setRequestLocale((await params).locale);
   const startups = caseStudies.filter((c) => c.category === 'Startup Support');
@@ -94,7 +29,7 @@ export default async function StartupSupportPage({ params }: { params: Promise<{
   return (
     <>
       <JsonLd data={breadcrumbSchema([{ name: 'Startup Support', path: '/startup-support' }])} />
-      <JsonLd data={faqSchema(faq)} />
+      <JsonLd data={faqSchema(startupFaq)} />
 
       <PageHero
         art="bulb"
@@ -120,7 +55,7 @@ export default async function StartupSupportPage({ params }: { params: Promise<{
         <div className="container-page">
           <SectionHeader title="Spoluzakladatel, ne dodavatel" />
           <div className="mt-10 sm:mt-14 grid gap-3 sm:grid-cols-2">
-            {offer.map((o) => (
+            {startupOffer.map((o) => (
               <div key={o.title} className="rounded-2xl bg-card p-7 sm:p-9">
                 <h3 className="text-2xl text-ink">{o.title}</h3>
                 <p className="mt-3 leading-relaxed text-ink-2">{o.text}</p>
@@ -138,7 +73,7 @@ export default async function StartupSupportPage({ params }: { params: Promise<{
             className="lg:sticky lg:top-28 lg:self-start"
           />
           <ul className="space-y-5 rounded-2xl bg-card p-6 sm:p-8">
-            {criteria.map((c) => (
+            {startupCriteria.map((c) => (
               <li key={c} className="flex items-start gap-4 text-base text-ink sm:text-lg">
                 <span
                   aria-hidden
@@ -157,7 +92,7 @@ export default async function StartupSupportPage({ params }: { params: Promise<{
         <div className="container-page">
           <SectionHeader dark title="Od nápadu k prvním zákazníkům" />
           <ol className="mt-10 sm:mt-14 grid gap-x-8 gap-y-8 sm:gap-y-12 md:grid-cols-2 lg:grid-cols-4">
-            {steps.map((s, i) => (
+            {startupSteps.map((s, i) => (
               <li key={s.title}>
                 <div aria-hidden className="h-1.5 rounded-full bg-white" style={{ width: `${(i + 1) * 25}%` }} />
                 <h3 className="mt-6 text-xl text-white">{s.title}</h3>
@@ -177,7 +112,7 @@ export default async function StartupSupportPage({ params }: { params: Promise<{
         </div>
       </section>
 
-      <Faq items={faq} askHref="#prihlaska" askLabel="Napsat nám o projektu" />
+      <Faq items={startupFaq} askHref="#prihlaska" askLabel="Napsat nám o projektu" />
 
       <section id="prihlaska" className="section-y scroll-mt-20">
         {/* Mirrored against the FAQ above: form left, heading right, so the two
