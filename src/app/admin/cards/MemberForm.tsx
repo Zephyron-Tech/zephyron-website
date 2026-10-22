@@ -1,6 +1,7 @@
 'use client';
 
-import { startTransition, useActionState } from 'react';
+import { startTransition, useActionState, useEffect, useState } from 'react';
+import { Check } from 'lucide-react';
 
 import { saveMember, type SaveState } from './actions';
 import { PhotoInput } from './PhotoInput';
@@ -31,6 +32,20 @@ export default function MemberForm({ member, isAdmin, photoUrl = null, initials 
 
   const errFor = (name: string) => (state.field === name ? state.error : undefined);
 
+  // Until React has hydrated, a submit would fall back to a plain GET and put
+  // the fields in the URL; the button stays disabled until then.
+  const [ready, setReady] = useState(false);
+  useEffect(() => setReady(true), []);
+
+  // "Uloženo" shows for a few seconds after each successful save, then goes.
+  const [savedShown, setSavedShown] = useState(false);
+  useEffect(() => {
+    if (!state.savedAt) return;
+    setSavedShown(true);
+    const t = window.setTimeout(() => setSavedShown(false), 3000);
+    return () => window.clearTimeout(t);
+  }, [state.savedAt]);
+
   // Submitting through onSubmit (not the form's action prop) keeps what was
   // typed in the fields when the server sends an error back; React resets a
   // form after an action-prop submit.
@@ -41,10 +56,11 @@ export default function MemberForm({ member, isAdmin, photoUrl = null, initials 
   }
 
   return (
-    <form onSubmit={onSubmit} noValidate className="rounded-2xl bg-card p-6 sm:p-8">
+    <form onSubmit={onSubmit} method="post" noValidate className="rounded-2xl bg-card p-6 sm:p-8">
       {member && <input type="hidden" name="id" value={member.id} />}
 
-      <PhotoInput current={photoUrl} initials={initials} error={state.field === 'photo' ? state.error : undefined} />
+      {/* Keyed on the saved photo, so after a save it shows the stored one and stops re-sending the upload. */}
+      <PhotoInput key={photoUrl ?? 'none'} current={photoUrl} initials={initials} error={state.field === 'photo' ? state.error : undefined} />
 
       <div className="mt-7 grid gap-5 sm:grid-cols-2">
         <Field name="titles" err={errFor('titles')} title="Tituly" hint="Před jménem, např. Ing.">
@@ -95,19 +111,40 @@ export default function MemberForm({ member, isAdmin, photoUrl = null, initials 
             </Field>
             {member && (
               <>
-                <Field name="mode" err={errFor('mode')} title="Režim">
-                  {(c) => (
-                    <select className={c} name="mode" defaultValue={member.mode}>
-                      <option value="DEFAULT">Vizitka</option>
-                      <option value="EVENT">Akce: přesměrovat na odkaz</option>
-                    </select>
-                  )}
-                </Field>
+                {/* Two options read faster as a pair of pills than as a dropdown. */}
+                <fieldset>
+                  <legend className={label}>Režim</legend>
+                  <div className="mt-1.5 flex flex-wrap gap-2">
+                    {[
+                      ['DEFAULT', 'Vizitka'],
+                      ['EVENT', 'Akce: přesměrovat'],
+                    ].map(([value, text]) => (
+                      <label
+                        key={value}
+                        className="cursor-pointer rounded-full bg-paper px-4 py-2.5 text-sm text-ink-2 transition-colors duration-150 hover:bg-accent-soft hover:text-ink has-[:checked]:bg-accent has-[:checked]:font-medium has-[:checked]:text-white has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-accent"
+                      >
+                        <input
+                          type="radio"
+                          name="mode"
+                          value={value}
+                          defaultChecked={member.mode === value}
+                          className="sr-only"
+                        />
+                        {text}
+                      </label>
+                    ))}
+                  </div>
+                </fieldset>
                 <Field name="redirectUrl" err={errFor('redirectUrl')} title="Odkaz pro režim akce">
                   {(c) => <input className={c} name="redirectUrl" defaultValue={member.redirectUrl ?? ''} placeholder="https://" />}
                 </Field>
-                <label className="flex cursor-pointer items-center gap-3 text-sm font-medium text-ink sm:col-span-2">
-                  <input type="checkbox" name="active" defaultChecked={member.active} className="size-4 accent-accent" />
+                <label className="group flex cursor-pointer items-center gap-3 text-sm font-medium text-ink sm:col-span-2">
+                  <input type="checkbox" name="active" defaultChecked={member.active} className="peer sr-only" />
+                  {/* A switch in the site's colours instead of the system checkbox. */}
+                  <span
+                    aria-hidden
+                    className="relative h-6 w-10 shrink-0 rounded-full bg-paper-2 transition-colors duration-200 peer-checked:bg-accent peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-accent after:absolute after:left-0.5 after:top-0.5 after:size-5 after:rounded-full after:bg-card after:transition-transform after:duration-200 after:ease-[var(--ease-out)] peer-checked:after:translate-x-4"
+                  />
                   Vizitka je aktivní
                 </label>
               </>
@@ -122,9 +159,18 @@ export default function MemberForm({ member, isAdmin, photoUrl = null, initials 
         </p>
       )}
 
-      <div className="mt-8 flex justify-end">
-        <button type="submit" disabled={pending} className={btnPrimary}>
-          {pending ? 'Ukládám…' : 'Uložit'}
+      <div className="mt-8 flex items-center justify-end gap-4">
+        <span
+          role="status"
+          className={`inline-flex items-center gap-1.5 text-sm font-medium text-ok transition-opacity duration-300 ${
+            savedShown && !pending ? 'opacity-100' : 'opacity-0'
+          }`}
+        >
+          <Check size={16} aria-hidden />
+          {savedShown ? 'Uloženo' : ''}
+        </span>
+        <button type="submit" disabled={pending || !ready} className={btnPrimary}>
+          {pending ? 'Ukládám…' : member ? 'Uložit změny' : 'Vytvořit vizitku'}
         </button>
       </div>
     </form>

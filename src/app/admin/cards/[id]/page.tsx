@@ -3,10 +3,10 @@ import { notFound } from 'next/navigation';
 import { getServerSession } from 'next-auth';
 import { ArrowLeft, Download } from 'lucide-react';
 
-import { CopyLink } from '@/components/CopyLink';
 import { authOptions, type Role } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import MemberForm from '../MemberForm';
+import { CopyButton } from '../CopyButton';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://zephyron.tech';
 
@@ -18,8 +18,15 @@ const initials = (name: string) =>
     .join('')
     .toUpperCase();
 
-export default async function EditMemberPage({ params }: { params: Promise<{ id: string }> }) {
+export default async function EditMemberPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ created?: string }>;
+}) {
   const { id } = await params;
+  const { created } = await searchParams;
   const session = await getServerSession(authOptions);
   const role = (session?.user as { role?: Role } | undefined)?.role;
   if (!role) return (
@@ -49,6 +56,11 @@ export default async function EditMemberPage({ params }: { params: Promise<{ id:
         Všechny vizitky
       </Link>
       <h1 className="mt-3 text-3xl text-ink">{member.name}</h1>
+      {created && (
+        <p role="status" className="mt-4 rounded-xl bg-accent-soft px-4 py-3 text-sm text-ink">
+          Vizitka je vytvořená. Teď můžete nahrát fotku a stáhnout podklady pro tisk.
+        </p>
+      )}
 
       <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_340px]">
         <MemberForm member={member} isAdmin={role === 'admin'} photoUrl={photoUrl} initials={initials(member.name)} />
@@ -57,6 +69,8 @@ export default async function EditMemberPage({ params }: { params: Promise<{ id:
         <aside className="space-y-3 lg:sticky lg:top-6 lg:self-start">
           <div className="overflow-hidden rounded-2xl bg-card p-2">
             <iframe
+              // Re-created after every save, so it shows what was just stored.
+              key={member.updatedAt.getTime()}
               src={`/v/${member.slug}?preview=1`}
               title="Náhled vizitky"
               className="h-[620px] w-full rounded-xl bg-paper"
@@ -66,9 +80,7 @@ export default async function EditMemberPage({ params }: { params: Promise<{ id:
           <section className="rounded-2xl bg-card p-5">
             <h2 className="text-lg text-ink">Tisk a NFC</h2>
             <p className="mt-3 text-xs text-muted">Adresa pro NFC čip (záznam URI)</p>
-            <CopyLink href={cardUrl} value={cardUrl} className="mt-1 block break-all text-sm font-medium text-accent">
-              {cardUrl}
-            </CopyLink>
+            <CopyButton value={cardUrl} />
             <div className="mt-4 grid gap-2">
               <a className={download} href={`/admin/cards/${id}/card.pdf`} download={`${member.slug}-vizitka.pdf`}>
                 <Download size={16} aria-hidden />

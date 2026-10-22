@@ -10,14 +10,6 @@ import { btnPrimary } from './ui';
 
 const DAY = 24 * 60 * 60 * 1000;
 
-const initials = (name: string) =>
-  name
-    .split(/\s+/)
-    .map((p) => p[0])
-    .slice(0, 2)
-    .join('')
-    .toUpperCase();
-
 export default async function CardsPage() {
   const session = await getServerSession(authOptions);
   const role = (session?.user as { role?: Role } | undefined)?.role;
@@ -72,52 +64,72 @@ export default async function CardsPage() {
         )}
       </div>
 
-      <ul className="grid gap-3 md:grid-cols-2">
+      <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {members.map((m) => {
           const recent = scans.filter((s) => s.memberId === m.id).length;
+          const live = m.active && m.mode !== 'EVENT';
           return (
-            <li key={m.id} className="flex items-center gap-4 rounded-2xl bg-card p-4">
-              {m.photoUpdatedAt ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={`/v/${m.slug}/photo?v=${m.photoUpdatedAt.getTime()}`}
-                  alt=""
-                  className="size-14 shrink-0 rounded-xl object-cover"
-                />
-              ) : (
-                <span className="flex size-14 shrink-0 items-center justify-center rounded-xl bg-paper font-display font-semibold text-ink-2">
-                  {initials(m.name)}
+            <li key={m.id} className="flex flex-col rounded-2xl bg-card p-2.5">
+              {/* The card as a phone shows it, scaled down; the whole preview opens the editor. */}
+              <Link
+                href={`/admin/cards/${m.id}`}
+                aria-label={`Upravit vizitku: ${m.name}`}
+                className="group relative block h-[370px] overflow-hidden rounded-xl bg-paper"
+              >
+                {live ? (
+                  <iframe
+                    src={`/v/${m.slug}?preview=1`}
+                    title=""
+                    tabIndex={-1}
+                    loading="lazy"
+                    scrolling="no"
+                    aria-hidden
+                    className="pointer-events-none absolute left-1/2 top-0 h-[740px] w-[375px] origin-top -translate-x-1/2 scale-50"
+                  />
+                ) : (
+                  <span className="absolute inset-0 flex flex-col items-center justify-center gap-1 px-6 text-center">
+                    <span className="font-medium text-ink">{m.active ? 'Režim akce' : 'Vizitka je vypnutá'}</span>
+                    <span className="break-all text-[13px] text-muted">
+                      {m.active ? `Přesměrovává na ${m.redirectUrl ?? '…'}` : 'Odkaz /v/' + m.slug + ' vrací 404.'}
+                    </span>
+                  </span>
+                )}
+                <span className="absolute inset-x-0 bottom-0 flex justify-center pb-3 opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100">
+                  <span className="rounded-full bg-ink px-3 py-1.5 text-xs font-medium text-white">Upravit</span>
                 </span>
-              )}
-              <div className="min-w-0 flex-1">
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="font-medium text-ink">{m.name}</span>
-                  {m.mode === 'EVENT' && (
-                    <span className="rounded-full bg-accent-soft px-2 py-0.5 text-xs font-medium text-accent">Akce</span>
-                  )}
-                  {!m.active && (
-                    <span className="rounded-full bg-paper-2 px-2 py-0.5 text-xs font-medium text-ink-2">Vypnutá</span>
-                  )}
+              </Link>
+
+              <div className="flex items-start justify-between gap-3 px-2 pb-1 pt-3">
+                <div className="min-w-0">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="font-medium text-ink">{m.name}</span>
+                    {m.mode === 'EVENT' && (
+                      <span className="rounded-full bg-accent-soft px-2 py-0.5 text-xs font-medium text-accent">Akce</span>
+                    )}
+                    {!m.active && (
+                      <span className="rounded-full bg-paper-2 px-2 py-0.5 text-xs font-medium text-ink-2">Vypnutá</span>
+                    )}
+                  </div>
+                  <a href={`/v/${m.slug}`} target="_blank" className="block truncate text-sm text-accent hover:underline">
+                    /v/{m.slug}
+                  </a>
+                  <span className="text-[13px] text-muted">
+                    {recent} {recent === 1 ? 'sken' : recent >= 2 && recent <= 4 ? 'skeny' : 'skenů'} za 30 dní
+                  </span>
                 </div>
-                <a href={`/v/${m.slug}`} target="_blank" className="block truncate text-sm text-accent hover:underline">
-                  /v/{m.slug}
-                </a>
-                <span className="text-[13px] text-muted">
-                  {recent} {recent === 1 ? 'sken' : recent >= 2 && recent <= 4 ? 'skeny' : 'skenů'} za 30 dní
-                </span>
-              </div>
-              <div className="flex shrink-0 flex-col items-end gap-1.5">
-                <Link href={`/admin/cards/${m.id}`} className="text-sm font-medium text-ink hover:text-accent">
-                  Upravit
-                </Link>
-                {isAdmin && <DeleteButton id={m.id} name={m.name} />}
-                {isAdmin && m._count.scans > 0 && <ResetScansButton id={m.id} name={m.name} />}
+                <div className="flex shrink-0 flex-col items-end gap-1.5">
+                  <Link href={`/admin/cards/${m.id}`} className="text-sm font-medium text-ink hover:text-accent">
+                    Upravit
+                  </Link>
+                  {isAdmin && <DeleteButton id={m.id} name={m.name} />}
+                  {isAdmin && m._count.scans > 0 && <ResetScansButton id={m.id} name={m.name} />}
+                </div>
               </div>
             </li>
           );
         })}
         {members.length === 0 && (
-          <li className="rounded-2xl bg-card p-6 text-ink-2 md:col-span-2">
+          <li className="rounded-2xl bg-card p-6 text-ink-2 sm:col-span-2 lg:col-span-3">
             {isAdmin ? 'Zatím tu není žádná vizitka.' : 'K vašemu e-mailu zatím vizitka nepatří.'}
           </li>
         )}

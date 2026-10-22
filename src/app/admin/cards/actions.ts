@@ -11,6 +11,8 @@ import { isSlugFree, suggestSlug } from '@/lib/slug';
 export interface SaveState {
   error?: string;
   field?: string;
+  /** Set after a successful save of an existing card; the form stays open. */
+  savedAt?: number;
 }
 
 const MAX_PHOTO_BYTES = 200 * 1024;
@@ -49,6 +51,7 @@ function photoFrom(f: FormData): { photo: Uint8Array<ArrayBuffer>; photoType: st
 export async function saveMember(_prev: SaveState, formData: FormData): Promise<SaveState> {
   const { role, email: sessionEmail } = await requireRole();
   const id = str(formData, 'id');
+  let createdId: string | null = null;
 
   try {
     const profile = {
@@ -96,7 +99,7 @@ export async function saveMember(_prev: SaveState, formData: FormData): Promise<
       const requested = str(formData, 'slug')?.toLowerCase();
       const slug = requested ?? (await suggestSlug(profile.name));
       if (!(await isSlugFree(slug))) throw new FormError('Adresa je obsazená nebo neplatná.', 'slug');
-      await prisma.member.create({ data: { ...profile, ...photo, email, slug } });
+      createdId = (await prisma.member.create({ data: { ...profile, ...photo, email, slug }, select: { id: true } })).id;
     }
   } catch (e) {
     if (e instanceof FormError) return { error: e.message, field: e.field };
@@ -105,7 +108,11 @@ export async function saveMember(_prev: SaveState, formData: FormData): Promise<
   }
 
   revalidatePath('/admin/cards');
-  redirect('/admin/cards');
+  // A new card opens in its editor (photo, print files, preview); an edit
+  // stays where it was and the form reports the save.
+  if (createdId) redirect(`/admin/cards/${createdId}?created=1`);
+  revalidatePath(`/admin/cards/${id}`);
+  return { savedAt: Date.now() };
 }
 
 export async function deleteMember(formData: FormData) {
