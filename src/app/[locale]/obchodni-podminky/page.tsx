@@ -2,12 +2,13 @@ import type { Metadata } from 'next';
 import { setRequestLocale } from 'next-intl/server';
 import { SITE } from '@/content/site';
 import { LegalPage } from '@/components/LegalPage';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: 'Obchodní podmínky',
-  description: 'Podmínky používání webu Zephyron Tech s.r.o.',
-  alternates: { canonical: `${SITE.url}/obchodni-podminky` },
-};
+  description: 'Podmínky používání webu Zephyron Tech s.r.o.: obsah webu, autorská práva, odkazy na jiné weby a kontakt pro dotazy.',
+  path: '/obchodni-podminky',
+});
 
 const sections = [
   {

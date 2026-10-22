@@ -2,12 +2,13 @@ import type { Metadata } from 'next';
 import { setRequestLocale } from 'next-intl/server';
 import { SITE } from '@/content/site';
 import { LegalPage } from '@/components/LegalPage';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: 'Ochrana osobních údajů',
-  description: 'Jak Zephyron Tech s.r.o. zpracovává osobní údaje v souladu s GDPR.',
-  alternates: { canonical: `${SITE.url}/ochrana-osobnich-udaju` },
-};
+  description: 'Jak Zephyron Tech s.r.o. zpracovává osobní údaje z kontaktního formuláře a webu, na jak dlouho je uchovává a jaká máte práva podle GDPR.',
+  path: '/ochrana-osobnich-udaju',
+});
 
 const sections = [
   {

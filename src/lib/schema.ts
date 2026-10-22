@@ -25,3 +25,61 @@ export function breadcrumbSchema(items: { name: string; path: string }[]) {
     })),
   };
 }
+
+export function webSiteSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': `${SITE.url}/#website`,
+    url: SITE.url,
+    name: SITE.name,
+    inLanguage: 'cs',
+    publisher: { '@id': `${SITE.url}/#organization` },
+  };
+}
+
+const GLOSSARY_ID = `${SITE.url}/slovnik#glossary`;
+
+export function definedTermSetSchema(terms: { slug: string; term: string; short: string }[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'DefinedTermSet',
+    '@id': GLOSSARY_ID,
+    name: 'Slovník pojmů z IT a automatizace',
+    url: `${SITE.url}/slovnik`,
+    inLanguage: 'cs',
+    hasDefinedTerm: terms.map((t) => ({
+      '@type': 'DefinedTerm',
+      name: t.term,
+      description: t.short,
+      url: `${SITE.url}/slovnik/${t.slug}`,
+    })),
+  };
+}
+
+export function definedTermSchema(t: { slug: string; term: string; short: string; aka?: string[] }) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'DefinedTerm',
+    '@id': `${SITE.url}/slovnik/${t.slug}#term`,
+    name: t.term,
+    ...(t.aka?.length ? { alternateName: t.aka } : {}),
+    description: t.short,
+    url: `${SITE.url}/slovnik/${t.slug}`,
+    inDefinedTermSet: GLOSSARY_ID,
+  };
+}
+
+export function caseStudySchema(c: { slug: string; name: string; kicker: string; summary: string; image?: string }) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'CreativeWork',
+    '@id': `${SITE.url}/reference/${c.slug}#work`,
+    name: `${c.name}: ${c.kicker}`,
+    description: c.summary,
+    url: `${SITE.url}/reference/${c.slug}`,
+    inLanguage: 'cs',
+    ...(c.image ? { image: `${SITE.url}${c.image}` } : {}),
+    creator: { '@id': `${SITE.url}/#organization` },
+  };
+}

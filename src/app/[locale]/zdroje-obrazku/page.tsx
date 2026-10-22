@@ -1,15 +1,15 @@
 import type { Metadata } from 'next';
 import { setRequestLocale } from 'next-intl/server';
-import { SITE } from '@/content/site';
 import { printArt } from '@/content/print-art';
 import { PageHero } from '@/components/PageHero';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: 'Zdroje obrázků',
-  description: 'Odkud pocházejí fotografie předmětů použité na webu Zephyron Tech.',
-  alternates: { canonical: `${SITE.url}/zdroje-obrazku` },
-  robots: { index: false },
-};
+  description: 'Odkud pocházejí fotografie předmětů, které na webu Zephyron Tech tiskneme jednou barvou, a pod jakou licencí je používáme.',
+  path: '/zdroje-obrazku',
+  noindex: true,
+});
 
 export default async function ImageCreditsPage({ params }: { params: Promise<{ locale: string }> }) {
   setRequestLocale((await params).locale);

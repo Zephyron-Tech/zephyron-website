@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { setRequestLocale } from 'next-intl/server';
-import { SITE } from '@/content/site';
 import { caseStudies } from '@/content/case-studies';
 import { PageHero } from '@/components/PageHero';
 import { CaseCards } from '@/components/CaseCards';
@@ -9,13 +8,14 @@ import { Link } from '@/navigation';
 import { FinalCta } from '@/components/FinalCta';
 import { JsonLd } from '@/components/JsonLd';
 import { breadcrumbSchema } from '@/lib/schema';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Reference',
+export const metadata = pageMetadata({
+  title: 'Reference a případové studie',
   description:
     'Projekty Zephyron Tech: GIS platforma pro správu silnic, weby pro klienty, vlastní produkty a startupy, se kterými stavíme jako technický partner.',
-  alternates: { canonical: `${SITE.url}/reference` },
-};
+  path: '/reference',
+});
 
 export default async function CasesPage({ params }: { params: Promise<{ locale: string }> }) {
   setRequestLocale((await params).locale);

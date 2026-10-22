@@ -95,7 +95,7 @@ export const services: Service[] = [
     slug: 'interni-systemy',
     title: 'Interní systémy a aplikace',
     icon: 'system',
-    art: 'typewriter',
+    art: 'macintosh',
     short:
       'Evidence zakázek, plánování, sklad nebo klientský portál. Aplikace postavená podle toho, jak opravdu pracujete.',
     metaTitle: 'Interní systémy a aplikace na zakázku',
@@ -158,7 +158,7 @@ export const services: Service[] = [
     slug: 'it-podpora',
     title: 'IT podpora a správa',
     icon: 'support',
-    art: 'padlock',
+    art: 'wrench',
     short:
       'Účty, zálohy, zabezpečení, Microsoft 365 nebo Google Workspace. Jeden kontakt, který za vaše IT odpovídá.',
     metaTitle: 'IT podpora a správa IT pro firmy',

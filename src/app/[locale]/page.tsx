@@ -15,10 +15,15 @@ import { Faq } from '@/components/Faq';
 import { FinalCta } from '@/components/FinalCta';
 import { JsonLd } from '@/components/JsonLd';
 import { faqSchema } from '@/lib/schema';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  alternates: { canonical: `${SITE.url}/` },
-};
+export const metadata = pageMetadata({
+  title: 'Zephyron Tech: automatizace a interní systémy pro firmy',
+  absoluteTitle: true,
+  description:
+    'Softwarové studio z Plzně. Automatizujeme ruční práci, stavíme interní systémy a staráme se o IT firmám, které přerostly Excel, ale nepotřebují ERP za miliony.',
+  path: '/',
+});
 
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
   setRequestLocale((await params).locale);

@@ -9,13 +9,14 @@ import { CopyEmail } from '@/components/CopyEmail';
 import { ContactTile } from '@/components/ContactTile';
 import { JsonLd } from '@/components/JsonLd';
 import { breadcrumbSchema } from '@/lib/schema';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Kontakt',
+export const metadata = pageMetadata({
+  title: 'Kontakt a nezávazná konzultace',
   description:
-    'Domluvte si úvodní konzultaci zdarma nebo nám napište. Zephyron Tech s.r.o., Čermákova 2587/60, Plzeň.',
-  alternates: { canonical: `${SITE.url}/kontakt` },
-};
+    'Domluvte si úvodní konzultaci zdarma nebo nám napište. Ozveme se do dvou pracovních dnů. Zephyron Tech s.r.o., Čermákova 2587/60, Plzeň.',
+  path: '/kontakt',
+});
 
 const next = [
   { title: 'Ozveme se', text: 'Nejpozději do dvou pracovních dnů. Když jste si vybrali termín, rovnou se uvidíme.' },

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { setRequestLocale } from 'next-intl/server';
-import { ArrowRight, Check } from 'lucide-react';
+import { Check } from 'lucide-react';
 import { Link } from '@/navigation';
 import { SITE } from '@/content/site';
 import { getService, services } from '@/content/services';
@@ -9,7 +9,8 @@ import { caseStudies } from '@/content/case-studies';
 import { routing } from '@/i18n/routing';
 import { PageHero } from '@/components/PageHero';
 import { SectionHeader } from '@/components/ui/SectionHeader';
-import { ServiceIcon } from '@/components/ui/ServiceIcon';
+import { ServiceLinkTile } from '@/components/ServiceLinkTile';
+import { termsForService } from '@/content/glossary';
 import { Button } from '@/components/ui/Button';
 import { CaseCards } from '@/components/CaseCards';
 import { Process } from '@/components/Process';
@@ -18,6 +19,7 @@ import { Faq } from '@/components/Faq';
 import { FinalCta } from '@/components/FinalCta';
 import { JsonLd } from '@/components/JsonLd';
 import { breadcrumbSchema, faqSchema } from '@/lib/schema';
+import { pageMetadata } from '@/lib/seo';
 
 type Params = { locale: string; slug: string };
 
@@ -30,12 +32,7 @@ export const dynamicParams = false;
 export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
   const s = getService((await params).slug);
   if (!s) return {};
-  return {
-    title: s.metaTitle,
-    description: s.metaDescription,
-    alternates: { canonical: `${SITE.url}/sluzby/${s.slug}` },
-    openGraph: { title: s.metaTitle, description: s.metaDescription },
-  };
+  return pageMetadata({ title: s.metaTitle, description: s.metaDescription, path: `/sluzby/${s.slug}` });
 }
 
 export default async function ServicePage({ params }: { params: Promise<Params> }) {
@@ -46,6 +43,7 @@ export default async function ServicePage({ params }: { params: Promise<Params> 
 
   const related = caseStudies.filter((c) => s.relatedCases.includes(c.slug));
   const others = services.filter((o) => o.slug !== s.slug);
+  const terms = termsForService(s.slug);
 
   return (
     <>
@@ -165,25 +163,32 @@ export default async function ServicePage({ params }: { params: Promise<Params> 
           <h2 className="text-2xl text-ink">Další služby</h2>
           <div className="mt-6 grid gap-3 md:grid-cols-3">
             {others.map((o) => (
-              <Link
-                key={o.slug}
-                href={`/sluzby/${o.slug}`}
-                className="group flex items-center gap-4 rounded-2xl bg-card px-5 py-4 transition-colors duration-200 hover:bg-accent-soft"
-              >
-                <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-full bg-paper text-accent transition-colors duration-200 group-hover:bg-accent group-hover:text-white">
-                  <ServiceIcon name={o.icon} size={18} />
-                </span>
-                <span className="flex-1 font-medium text-ink">{o.title}</span>
-                <ArrowRight
-                  size={16}
-                  aria-hidden
-                  className="shrink-0 text-ink-2 transition-transform duration-200 group-hover:translate-x-1"
-                />
-              </Link>
+              <ServiceLinkTile key={o.slug} service={o} />
             ))}
           </div>
         </div>
       </section>
+
+      {terms.length > 0 && (
+        <section className="section-y">
+          <div className="container-page">
+            <h2 className="text-2xl text-ink">Pojmy, které se k tomu hodí</h2>
+            <ul className="mt-6 flex flex-wrap gap-2">
+              {terms.map((t) => (
+                <li key={t.slug}>
+                  <Link
+                    href={`/slovnik/${t.slug}`}
+                    title={t.short}
+                    className="inline-flex min-h-10 items-center rounded-full bg-card px-4 text-[15px] text-ink transition-colors duration-200 hover:bg-accent hover:text-white pointer-coarse:min-h-11"
+                  >
+                    {t.term}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
 
       <FinalCta />
     </>

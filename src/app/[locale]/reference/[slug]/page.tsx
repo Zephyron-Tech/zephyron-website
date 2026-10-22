@@ -4,16 +4,17 @@ import { notFound } from 'next/navigation';
 import { setRequestLocale } from 'next-intl/server';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { Link } from '@/navigation';
-import { SITE } from '@/content/site';
 import { detailedCaseStudies, getCaseStudy } from '@/content/case-studies';
 import { getService } from '@/content/services';
 import { routing } from '@/i18n/routing';
 import { PageHero } from '@/components/PageHero';
-import { ServiceIcon } from '@/components/ui/ServiceIcon';
+import { ServiceLinkTile } from '@/components/ServiceLinkTile';
+import { TermChip } from '@/components/TermChip';
 import { PartnerLogos } from '@/components/PartnerLogos';
 import { FinalCta } from '@/components/FinalCta';
 import { JsonLd } from '@/components/JsonLd';
-import { breadcrumbSchema } from '@/lib/schema';
+import { breadcrumbSchema, caseStudySchema } from '@/lib/schema';
+import { pageMetadata } from '@/lib/seo';
 
 type Params = { locale: string; slug: string };
 
@@ -26,13 +27,15 @@ export const dynamicParams = false;
 export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
   const c = getCaseStudy((await params).slug);
   if (!c?.detail) return {};
-  const title = `${c.name}: ${c.kicker}`;
-  return {
-    title,
-    description: c.summary,
-    alternates: { canonical: `${SITE.url}/reference/${c.slug}` },
-    openGraph: { title, description: c.summary, images: c.image ? [c.image] : undefined },
-  };
+  // "ClearWay: Analýza stavu silniční infrastruktury" runs long; the tab keeps the
+  // name and the kicker only while they fit.
+  const full = `${c.name}: ${c.kicker}`;
+  return pageMetadata({
+    title: full.length <= 45 ? full : c.name,
+    description: c.metaDescription ?? c.summary,
+    path: `/reference/${c.slug}`,
+    type: 'article',
+  });
 }
 
 function Block({ label, children }: { label: string; children: React.ReactNode }) {
@@ -57,7 +60,13 @@ export default async function CasePage({ params }: { params: Promise<Params> }) 
 
   return (
     <>
-      <JsonLd data={breadcrumbSchema([{ name: 'Reference', path: '/reference' }, { name: c.name, path: `/reference/${c.slug}` }])} />
+      <JsonLd
+        data={breadcrumbSchema([
+          { name: 'Reference', path: '/reference' },
+          { name: c.name, path: `/reference/${c.slug}` },
+        ])}
+      />
+      <JsonLd data={caseStudySchema(c)} />
       <PageHero crumbs={[{ name: 'Reference', href: '/reference' }, { name: c.name }]} title={c.name} lead={c.summary}>
         <dl className="grid max-w-3xl gap-5 rounded-2xl bg-card p-5 sm:grid-cols-[1fr_auto_1.4fr] sm:gap-8 sm:p-6">
           <div>
@@ -72,9 +81,7 @@ export default async function CasePage({ params }: { params: Promise<Params> }) 
             <dt className="text-xs text-muted">Oblast</dt>
             <dd className="mt-1.5 flex flex-wrap gap-1.5">
               {c.tags.map((t) => (
-                <span key={t} className="inline-flex items-center rounded-full bg-paper px-3 py-1 text-[13px] text-ink-2">
-                  {t}
-                </span>
+                <TermChip key={t} label={t} tone="paper" />
               ))}
             </dd>
           </div>
@@ -107,7 +114,14 @@ export default async function CasePage({ params }: { params: Promise<Params> }) 
         <div className="container-page">
           <div className="rounded-3xl bg-card p-2.5 sm:p-3">
             <div className="relative aspect-[16/9] overflow-hidden rounded-2xl bg-paper-2">
-              <Image src={c.image} alt={`${c.name}: ukázka`} fill priority sizes="(min-width: 1200px) 1120px, 100vw" className="object-cover object-top" />
+              <Image
+                src={c.image}
+                alt={`${c.name}: ukázka`}
+                fill
+                priority
+                sizes="(min-width: 1200px) 1120px, 100vw"
+                className="object-cover object-top"
+              />
             </div>
           </div>
         </div>
@@ -148,9 +162,7 @@ export default async function CasePage({ params }: { params: Promise<Params> }) 
           <Block label="Technologie">
             <div className="flex flex-wrap gap-2">
               {d.stack.map((t) => (
-                <span key={t} className="inline-flex items-center rounded-full bg-card px-3 py-1 text-[13px] text-ink-2">
-                  {t}
-                </span>
+                <TermChip key={t} label={t} tone="card" />
               ))}
             </div>
           </Block>
@@ -158,23 +170,7 @@ export default async function CasePage({ params }: { params: Promise<Params> }) 
             <div className="grid gap-3 lg:grid-cols-2">
               {d.services.map((slug) => {
                 const s = getService(slug);
-                return s ? (
-                  <Link
-                    key={slug}
-                    href={`/sluzby/${slug}`}
-                    className="group flex items-center gap-4 rounded-2xl bg-card px-5 py-4 no-underline transition-colors duration-200 hover:bg-accent-soft"
-                  >
-                    <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-full bg-paper text-accent transition-colors duration-200 group-hover:bg-accent group-hover:text-white">
-                      <ServiceIcon name={s.icon} size={18} />
-                    </span>
-                    <span className="flex-1 font-medium text-ink">{s.title}</span>
-                    <ArrowRight
-                      size={16}
-                      aria-hidden
-                      className="shrink-0 text-ink-2 transition-transform duration-200 group-hover:translate-x-1"
-                    />
-                  </Link>
-                ) : null;
+                return s ? <ServiceLinkTile key={slug} service={s} /> : null;
               })}
             </div>
           </Block>
@@ -185,7 +181,9 @@ export default async function CasePage({ params }: { params: Promise<Params> }) 
         <div className="container-page pb-4">
           <Link
             href={`/reference/${next.slug}`}
-            className={"group flex items-center justify-between gap-6 rounded-2xl bg-card p-7 outline-2 -outline-offset-2 outline-transparent transition-[outline-color,translate,box-shadow] duration-500 ease-[cubic-bezier(0.33,1,0.68,1)] hover:-translate-y-1.5 hover:outline-accent hover:shadow-[0_24px_48px_-24px_rgb(66_53_229/0.35)] motion-reduce:hover:translate-y-0 sm:p-9" /* taste-skill-ignore: hover-only lift shadow, as the service tiles */}
+            className={
+              'group flex items-center justify-between gap-6 rounded-2xl bg-card p-7 outline-2 -outline-offset-2 outline-transparent transition-[outline-color,translate,box-shadow] duration-500 ease-[cubic-bezier(0.33,1,0.68,1)] hover:-translate-y-1.5 hover:outline-accent hover:shadow-[0_24px_48px_-24px_rgb(66_53_229/0.35)] motion-reduce:hover:translate-y-0 sm:p-9' /* taste-skill-ignore: hover-only lift shadow, as the service tiles */
+            }
           >
             <div>
               <div className="font-display text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
@@ -193,7 +191,11 @@ export default async function CasePage({ params }: { params: Promise<Params> }) 
               </div>
               <div className="mt-1 text-sm text-muted">{next.kicker}</div>
             </div>
-            <ArrowRight size={28} className="shrink-0 text-ink transition-transform group-hover:translate-x-1" aria-hidden />
+            <ArrowRight
+              size={28}
+              className="shrink-0 text-ink transition-transform group-hover:translate-x-1"
+              aria-hidden
+            />
           </Link>
         </div>
       )}

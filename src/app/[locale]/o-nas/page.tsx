@@ -9,13 +9,14 @@ import { TeamCards } from '@/components/TeamCards';
 import { FinalCta } from '@/components/FinalCta';
 import { JsonLd } from '@/components/JsonLd';
 import { breadcrumbSchema } from '@/lib/schema';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'O nás',
+export const metadata = pageMetadata({
+  title: 'O nás: softwarové studio z Plzně',
   description:
-    'Zephyron Tech je softwarové studio z Plzně. Malý tým vývojářů, který staví software šetřící firmám čas a stará se o něj i po spuštění.',
-  alternates: { canonical: `${SITE.url}/o-nas` },
-};
+    'Zephyron Tech je malý tým vývojářů z Plzně. Stavíme software, který firmám šetří čas, mluvíte přímo s námi a staráme se o něj i po spuštění.',
+  path: '/o-nas',
+});
 
 const principles = [
   {

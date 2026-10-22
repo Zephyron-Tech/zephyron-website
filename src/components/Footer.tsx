@@ -54,6 +54,11 @@ export async function Footer() {
                 {tn('contact')}
               </Link>
             </li>
+            <li>
+              <Link href="/slovnik" className={link}>
+                Slovník pojmů
+              </Link>
+            </li>
           </ul>
         </div>
 

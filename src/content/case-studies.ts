@@ -16,6 +16,8 @@ export interface CaseStudy {
   /** Printed object shown in place of a screenshot. */
   art?: PrintArtKey;
   summary: string;
+  /** Search snippet when the summary is too long or short for one (140–160 chars). */
+  metaDescription?: string;
   image?: string;
   tags: string[];
   /** Projects without detail content render as a card only (no /reference/[slug] page). */
@@ -40,6 +42,8 @@ export const caseStudies: CaseStudy[] = [
     status: 'Ve vývoji',
     summary:
       'Data ze senzorů na vozidle se automaticky zpracují a zobrazí na mapě jako stav povrchu jednotlivých úseků silnic. Vyvíjíme ve spolupráci s městem Plzeň, SIT Port a Západočeskou univerzitou.',
+    metaDescription:
+      'Data ze senzorů na vozidle se samy zpracují a ukážou na mapě stav povrchu silnic. GIS systém pro město Plzeň, SIT Port a Západočeskou univerzitu.',
     partners: [
       { name: 'Město Plzeň', logo: '/logos/plzen.svg' },
       { name: 'SIT Port', logo: '/logos/sitport.svg' },
@@ -79,6 +83,8 @@ export const caseStudies: CaseStudy[] = [
     status: 'Ve vývoji',
     summary:
       'Rozpisy závodů z mnoha zdrojů v jednom kalendáři, automaticky přepočtené do vašeho časového pásma.',
+    metaDescription:
+      'GridTime sbírá rozpisy závodů různých motoristických sérií ze scraperů a API do jednoho kalendáře v časovém pásmu uživatele. Vlastní produkt Zephyron Tech.',
     image: '/screenshots/gridtime.webp',
     tags: ['Sběr dat', 'Web', 'Mobilní aplikace'],
     detail: {
@@ -164,7 +170,7 @@ export const caseStudies: CaseStudy[] = [
     kicker: 'Trenažér situací pro inkluzivní školu',
     category: 'Startup Support',
     status: 'V přípravě',
-    art: 'schoolDesk',
+    art: 'masks',
     summary:
       'Trenažér krizových i každodenních situací pro učitele, asistenty pedagoga, rodiče a děti. Krátký scénář, volba reakce a okamžitá zpětná vazba s vysvětlením. Bezpečné místo, kde si člověk rozhodování vyzkouší dřív, než ho potká ve třídě.',
     tags: ['EdTech', 'Webová aplikace', 'Inkluze'],

@@ -9,6 +9,7 @@ import { Footer } from '@/components/Footer';
 import { MobileCtaBar } from '@/components/MobileCtaBar';
 import { TrackClicks } from '@/components/TrackClicks';
 import { JsonLd } from '@/components/JsonLd';
+import { webSiteSchema } from '@/lib/schema';
 
 type Locale = (typeof routing.locales)[number];
 
@@ -92,6 +93,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
   return (
     <NextIntlClientProvider messages={messages}>
       <JsonLd data={orgSchema} />
+      <JsonLd data={webSiteSchema()} />
       <TrackClicks />
       <Header />
       <main>{children}</main>

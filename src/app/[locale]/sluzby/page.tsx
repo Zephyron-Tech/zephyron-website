@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { setRequestLocale } from 'next-intl/server';
-import { SITE } from '@/content/site';
 import { PageHero } from '@/components/PageHero';
 import { ServiceCards } from '@/components/ServiceCards';
 import { Process } from '@/components/Process';
@@ -8,13 +7,14 @@ import { FinalCta } from '@/components/FinalCta';
 import { Button } from '@/components/ui/Button';
 import { JsonLd } from '@/components/JsonLd';
 import { breadcrumbSchema } from '@/lib/schema';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: 'Služby',
+export const metadata = pageMetadata({
+  title: 'Služby: automatizace, systémy a IT',
   description:
-    'Automatizace procesů, interní systémy, IT podpora a weby pro malé a střední firmy. Dodávka po etapách s cenou známou předem.',
-  alternates: { canonical: `${SITE.url}/sluzby` },
-};
+    'Automatizace procesů, interní systémy na zakázku, IT podpora a weby pro malé a střední firmy. Dodáváme po etapách a cenu každé etapy znáte předem.',
+  path: '/sluzby',
+});
 
 export default async function ServicesPage({ params }: { params: Promise<{ locale: string }> }) {
   setRequestLocale((await params).locale);

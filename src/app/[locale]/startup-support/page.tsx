@@ -13,13 +13,14 @@ import { ContactTile } from '@/components/ContactTile';
 import { Faq } from '@/components/Faq';
 import { JsonLd } from '@/components/JsonLd';
 import { breadcrumbSchema, faqSchema } from '@/lib/schema';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: 'Startup Support: technický partner pro startupy',
   description:
-    'Startup Support je program Zephyron Tech pro zakladatele, kterým chybí technický tým. Do vybraných projektů vstupujeme jako dlouhodobý technický partner: od návrhu přes první verzi po provoz.',
-  alternates: { canonical: `${SITE.url}/startup-support` },
-};
+    'Zakladatelům bez technického týmu děláme dlouhodobého technického partnera: navrhneme a postavíme první verzi produktu a staráme se o provoz.',
+  path: '/startup-support',
+});
 
 const offer = [
   {
