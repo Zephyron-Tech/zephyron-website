@@ -1,7 +1,8 @@
 import { Hono } from 'hono';
 import { handle } from 'hono/vercel';
 
-import { pickLang, renderCardPage } from '@/lib/card-page';
+import { displayName, initials, pickLang, renderCardPage } from '@/lib/card-page';
+import { cardOgImage } from '@/lib/og';
 import { detectDevice } from '@/lib/device';
 import { prisma } from '@/lib/prisma';
 import { slugify } from '@/lib/slug';
@@ -24,9 +25,10 @@ app.get('/:slug', async (c) => {
   // Analytics must never break the card: swallow DB errors. The admin's live
   // preview (?preview=1) and a click through from the website (?src=web) are
   // not scans of the printed card.
-  if (c.req.query('preview') !== '1' && c.req.query('src') !== 'web') prisma.scan
-    .create({ data: { memberId: member.id, device: detectDevice(c.req.header('user-agent')) } })
-    .catch((err) => console.error('[cards] scan log failed:', err));
+  if (c.req.query('preview') !== '1' && c.req.query('src') !== 'web')
+    prisma.scan
+      .create({ data: { memberId: member.id, device: detectDevice(c.req.header('user-agent')) } })
+      .catch((err) => console.error('[cards] scan log failed:', err));
 
   // Event / Pitch mode: temporary remote redirect (302 so it stays reversible).
   if (member.mode === 'EVENT' && member.redirectUrl) {
@@ -51,6 +53,28 @@ app.get('/:slug/photo', async (c) => {
   return c.body(new Uint8Array(m.photo), 200, {
     'Content-Type': m.photoType ?? 'image/jpeg',
     'Cache-Control': 'public, max-age=31536000, immutable',
+  });
+});
+
+// The 1200 × 630 picture that link previews (LinkedIn, WhatsApp, Messenger)
+// show for the card. Not a scan. The page links it with ?v=<updatedAt>, so an
+// edit in the admin is a new URL and the response can be cached.
+app.get('/:slug/og.png', async (c) => {
+  const m = await prisma.member.findFirst({
+    where: { slug: c.req.param('slug').toLowerCase(), active: true },
+    select: { slug: true, name: true, titles: true, role: true, photo: true, photoType: true },
+  });
+  if (!m) return c.text('Not found', 404);
+  const photo = m.photo
+    ? `data:${m.photoType ?? 'image/jpeg'};base64,${Buffer.from(m.photo).toString('base64')}`
+    : null;
+  return cardOgImage({
+    name: displayName(m.name, m.titles),
+    role: m.role,
+    slug: m.slug,
+    photo,
+    initials: initials(m.name),
+    label: 'Digitální vizitka',
   });
 });
 

@@ -12,6 +12,8 @@ const nextConfig: NextConfig = {
   // The print card PDF embeds Poppins read from disk; make sure the function bundle carries it.
   outputFileTracingIncludes: {
     '/admin/cards/[id]/card.pdf': ['./assets/fonts/**', './public/mark-256.png'],
+    // The business card route draws its link preview (/v/:slug/og.png) with Sora.
+    '/v/**': ['./assets/fonts/Sora-*.ttf', './public/print/dots.png', './public/mark-256.png'],
     // Social preview images (src/lib/og.tsx) read their fonts and pictures by
     // computed paths, which the tracer cannot follow.
     '/**/opengraph-image*': [

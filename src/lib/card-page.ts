@@ -2,8 +2,7 @@
 // no script) so it opens instantly from an NFC tap or QR scan. It wears the
 // website's look: paper ground, one white card, violet accent, Poppins and Sora.
 
-const esc = (s: string) =>
-  s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 export type CardLang = 'cs' | 'en';
 
@@ -18,6 +17,8 @@ export interface CardPageData {
   bookingUrl?: string | null;
   /** Set when the member has a photo; versions the photo URL. */
   photoUpdatedAt?: Date | null;
+  /** Last edit; versions the link-preview picture URL. */
+  updatedAt?: Date | null;
 }
 
 const copy = {
@@ -29,6 +30,10 @@ const copy = {
     book: 'Domluvit schůzku',
     cases: 'Reference',
     title: 'digitální vizitka',
+    at: 've',
+    share: 'Uložte si kontakt, zavolejte nebo napište.',
+    shareBooking: 'Uložte si kontakt, zavolejte, napište nebo si domluvte schůzku.',
+    locale: 'cs_CZ',
   },
   en: {
     save: 'Save contact',
@@ -38,6 +43,10 @@ const copy = {
     book: 'Book a meeting',
     cases: 'Case studies',
     title: 'digital business card',
+    at: 'at',
+    share: 'Save the contact, call or send an e-mail.',
+    shareBooking: 'Save the contact, call, send an e-mail or book a meeting.',
+    locale: 'en_US',
   },
 } as const;
 
@@ -57,7 +66,7 @@ export function displayName(name: string, titles?: string | null): string {
   return [pre, name].filter(Boolean).join(' ') + (post ? `, ${post}` : '');
 }
 
-const initials = (name: string) =>
+export const initials = (name: string) =>
   name
     .split(/\s+/)
     .filter(Boolean)
@@ -77,7 +86,9 @@ const icons = {
   linkedin: icon(
     '<path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/>',
   ),
-  calendar: icon('<path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/>'),
+  calendar: icon(
+    '<path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/>',
+  ),
   save: icon(
     '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/>',
   ),
@@ -88,7 +99,10 @@ export function renderCardPage(m: CardPageData, opts: { siteUrl: string; lang: C
   const t = copy[opts.lang];
   const full = displayName(m.name, m.titles);
   const photoUrl = m.photoUpdatedAt ? `/v/${m.slug}/photo?v=${m.photoUpdatedAt.getTime()}` : null;
-  const absPhoto = photoUrl ? `${opts.siteUrl}${photoUrl}` : `${opts.siteUrl}/web-app-manifest-512x512.png`;
+  // Link previews get a 1200 × 630 picture of the card, not the square portrait.
+  const pageUrl = `${opts.siteUrl}/v/${m.slug}`;
+  const ogImage = `${pageUrl}/og.png${m.updatedAt ? `?v=${m.updatedAt.getTime()}` : ''}`;
+  const summary = `${m.role} ${t.at} Zephyron Tech. ${m.bookingUrl ? t.shareBooking : t.share}`;
 
   const tile = (href: string, svg: string, label: string, value: string, external = false) =>
     `<a class="tile" href="${esc(href)}"${external ? ' target="_blank" rel="noopener"' : ''}>
@@ -113,10 +127,22 @@ export function renderCardPage(m: CardPageData, opts: { siteUrl: string; lang: C
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#EEEDEA">
 <title>${esc(full)} · Zephyron Tech</title>
-<meta name="description" content="${esc(`${m.role}, Zephyron Tech: ${t.title}`)}">
+<meta name="description" content="${esc(summary)}">
+<meta property="og:type" content="profile">
+<meta property="og:site_name" content="Zephyron Tech">
+<meta property="og:locale" content="${t.locale}">
+<meta property="og:url" content="${esc(pageUrl)}">
 <meta property="og:title" content="${esc(`${full} · Zephyron Tech`)}">
-<meta property="og:description" content="${esc(m.role)}">
-<meta property="og:image" content="${esc(absPhoto)}">
+<meta property="og:description" content="${esc(summary)}">
+<meta property="og:image" content="${esc(ogImage)}">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="${esc(`${full}, ${m.role}, Zephyron Tech`)}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="${esc(`${full} · Zephyron Tech`)}">
+<meta name="twitter:description" content="${esc(summary)}">
+<meta name="twitter:image" content="${esc(ogImage)}">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">

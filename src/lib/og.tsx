@@ -20,6 +20,13 @@ const root = process.cwd();
 // Whole Sora faces (latin + Czech accents in one file), made from the Google
 // Fonts variable font; the @fontsource subsets mixed accents from the wrong face.
 const font = (file: string) => readFile(join(root, 'assets/fonts', file));
+const soraFonts = async () => {
+  const [regular, semibold] = await Promise.all([font('Sora-Regular.ttf'), font('Sora-SemiBold.ttf')]);
+  return [
+    { name: 'Sora', data: semibold, weight: 600 as const, style: 'normal' as const },
+    { name: 'Sora', data: regular, weight: 400 as const, style: 'normal' as const },
+  ];
+};
 const dataUri = async (path: string, type: string) =>
   `data:${type};base64,${(await readFile(join(root, path))).toString('base64')}`;
 
@@ -36,11 +43,7 @@ interface OgInput {
 }
 
 export async function ogImage({ label, title, accent, art, shot }: OgInput) {
-  const [sora400, sora600, mark] = await Promise.all([
-    font('Sora-Regular.ttf'),
-    font('Sora-SemiBold.ttf'),
-    dataUri('public/mark-256.png', 'image/png'),
-  ]);
+  const [fonts, mark] = await Promise.all([soraFonts(), dataUri('public/mark-256.png', 'image/png')]);
   const picture = shot
     ? await dataUri(`assets/og/${shot}.jpg`, 'image/jpeg')
     : art
@@ -149,10 +152,113 @@ export async function ogImage({ label, title, accent, art, shot }: OgInput) {
     </div>,
     {
       ...ogSize,
-      fonts: [
-        { name: 'Sora', data: sora600, weight: 600, style: 'normal' },
-        { name: 'Sora', data: sora400, weight: 400, style: 'normal' },
-      ],
+      fonts,
     },
+  );
+}
+
+interface CardOgInput {
+  /** Name with academic titles, as the card shows it. */
+  name: string;
+  role: string;
+  slug: string;
+  /** The portrait as a data URI, or nothing for the initials. */
+  photo?: string | null;
+  initials: string;
+  /** Footer line, e.g. "Digitální vizitka". */
+  label: string;
+}
+
+// The preview of a digital business card (/v/:slug): the portrait with its
+// offset halftone dots on the left, as on the card and the team cards, the
+// name and role on the right. Rendered on request; the card route caches it.
+export async function cardOgImage({ name, role, slug, photo, initials, label }: CardOgInput) {
+  const [fonts, mark, dots] = await Promise.all([
+    soraFonts(),
+    dataUri('public/mark-256.png', 'image/png'),
+    dataUri('public/print/dots.png', 'image/png'),
+  ]);
+  const size = name.length <= 20 ? 68 : name.length <= 28 ? 60 : 52;
+
+  return new ImageResponse(
+    <div
+      style={{
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        position: 'relative',
+        gap: 72,
+        padding: '0 72px 10px 88px',
+        background: PAPER,
+        fontFamily: 'Sora',
+        color: INK,
+      }}
+    >
+      <div style={{ display: 'flex', position: 'relative', width: 376, height: 376, flexShrink: 0 }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={dots}
+          width={360}
+          height={360}
+          alt=""
+          style={{ position: 'absolute', left: 16, top: 16, borderRadius: 32, objectFit: 'cover' }}
+        />
+        {photo ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={photo}
+            width={360}
+            height={360}
+            alt=""
+            style={{ position: 'absolute', left: 0, top: 0, borderRadius: 32, objectFit: 'cover' }}
+          />
+        ) : (
+          <div
+            style={{
+              position: 'absolute',
+              left: 0,
+              top: 0,
+              width: 360,
+              height: 360,
+              borderRadius: 32,
+              background: '#E4E2DD',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: 120,
+              fontWeight: 600,
+              color: MUTED,
+            }}
+          >
+            {initials}
+          </div>
+        )}
+      </div>
+
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          height: 456,
+          flex: 1,
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={mark} width={58} height={44} alt="" />
+          <div style={{ fontSize: 30, fontWeight: 600, letterSpacing: '-0.02em' }}>Zephyron Tech</div>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <div style={{ fontSize: size, fontWeight: 600, lineHeight: 1.06, letterSpacing: '-0.035em' }}>{name}</div>
+          <div style={{ marginTop: 18, fontSize: 32, fontWeight: 600, color: ACCENT, lineHeight: 1.2 }}>{role}</div>
+        </div>
+        <div style={{ fontSize: 24, fontWeight: 400, color: MUTED }}>{`${label} · zephyron.tech/v/${slug}`}</div>
+      </div>
+
+      <div style={{ position: 'absolute', left: 0, right: 0, bottom: 0, height: 10, background: ACCENT }} />
+    </div>,
+    { ...ogSize, fonts, headers: { 'Cache-Control': 'public, max-age=86400, s-maxage=604800' } },
   );
 }
