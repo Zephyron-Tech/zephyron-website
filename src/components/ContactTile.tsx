@@ -24,13 +24,22 @@ export function ContactTile({ label, value, icon: Icon, href, tone = 'paper', li
     <>
       <span
         aria-hidden
-        className={`inline-flex size-9 shrink-0 items-center justify-center rounded-full ${bubble} text-accent transition-colors duration-200 group-hover:bg-accent group-hover:text-white`}
+        className={`inline-flex size-9 shrink-0 items-center justify-center rounded-full ${bubble} text-accent transition-colors duration-300 ease-[var(--ease-out)] group-hover:bg-accent group-hover:text-white`}
       >
-        <Icon size={16} />
+        {/* The icon grows, not the bubble: the link clips its contents for the
+            copy sweep, so a scaled bubble would lose its edge. */}
+        <Icon
+          size={16}
+          className="transition-transform duration-300 ease-[var(--ease-out)] group-hover:scale-115 motion-reduce:group-hover:scale-100"
+        />
       </span>
       <span className="min-w-0">
         <span className="block text-xs text-muted">{label}</span>
-        <span className={`block text-sm font-medium text-ink ${href ? 'truncate' : ''}`}>{value}</span>
+        <span
+          className={`block text-sm font-medium text-ink transition-colors duration-300 ease-[var(--ease-out)] ${href ? 'truncate group-hover:text-accent' : ''}`}
+        >
+          {value}
+        </span>
         {lines?.map((l) => (
           <span key={l} className="block text-sm text-ink-2">
             {l}
@@ -48,7 +57,7 @@ export function ContactTile({ label, value, icon: Icon, href, tone = 'paper', li
     <CopyLink
       href={href}
       value={value}
-      className={`group flex min-w-0 ${tone === 'paper' ? 'rounded-xl' : 'rounded-2xl'} ${ground} ${pad} transition-colors duration-200 hover:bg-accent-soft [&>span:first-child]:flex [&>span:first-child]:min-w-0 [&>span:first-child]:flex-1 [&>span:first-child]:items-center [&>span:first-child]:gap-3`}
+      className={`group flex min-w-0 ${tone === 'paper' ? 'rounded-xl' : 'rounded-2xl'} ${ground} ${pad} transition-colors duration-300 ease-[var(--ease-out)] hover:bg-accent-soft [&>span:first-child]:flex [&>span:first-child]:min-w-0 [&>span:first-child]:flex-1 [&>span:first-child]:items-center [&>span:first-child]:gap-3`}
     >
       {body}
     </CopyLink>

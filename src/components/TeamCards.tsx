@@ -9,18 +9,25 @@ export function TeamCards() {
   return (
     <div className="grid gap-5 lg:grid-cols-2">
       {team.map((p) => (
-        <article key={p.name} className="flex flex-col rounded-2xl bg-card p-6">
+        <article key={p.name} className="group/card flex flex-col rounded-2xl bg-card p-6">
           <div className="flex flex-col gap-6 sm:flex-row sm:items-center">
             {p.photo ? (
               // A field of halftone dots sits offset behind the photo, like a
-              // second print pass that missed its register.
+              // second print pass that missed its register. On hover the two
+              // passes drift a little further apart and the portrait leans in.
               <div className="relative size-40 shrink-0">
                 <div
                   aria-hidden
-                  className="absolute inset-0 translate-x-2.5 translate-y-2.5 rounded-2xl bg-[url('/print/dots.png')] bg-cover"
+                  className="absolute inset-0 translate-x-2.5 translate-y-2.5 rounded-2xl bg-[url('/print/dots.png')] bg-cover transition-[translate] duration-500 ease-[cubic-bezier(0.33,1,0.68,1)] group-hover/card:translate-x-3.5 group-hover/card:translate-y-3.5 motion-reduce:transition-none"
                 />
-                <div className="relative size-full overflow-hidden rounded-2xl bg-paper-2">
-                  <Image src={p.photo} alt={p.name} fill sizes="160px" className="object-cover" />
+                <div className="relative size-full overflow-hidden rounded-2xl bg-paper-2 transition-[translate] duration-500 ease-[cubic-bezier(0.33,1,0.68,1)] group-hover/card:-translate-x-0.5 group-hover/card:-translate-y-0.5 motion-reduce:transition-none">
+                  <Image
+                    src={p.photo}
+                    alt={p.name}
+                    fill
+                    sizes="160px"
+                    className="object-cover transition-[scale] duration-700 ease-[cubic-bezier(0.33,1,0.68,1)] group-hover/card:scale-[1.04] motion-reduce:transition-none"
+                  />
                 </div>
               </div>
             ) : (
