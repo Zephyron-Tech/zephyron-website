@@ -143,27 +143,25 @@ export function TimeCalculator() {
         <p className="mt-2 text-sm text-ink-2">vám každý měsíc zůstane navíc</p>
       </div>
 
+      {/* Each group holds only its dt and dd, as a description list must; the bar
+          is part of the value (a second dd), drawn under the label row. */}
       <dl className="mt-6 space-y-3 text-sm">
-        <div>
-          <div className="flex justify-between">
-            <dt className="text-ink-2">Ručně</dt>
-            <dd className="tabular-nums text-ink">{hoursShort(manualH)}</dd>
-          </div>
-          <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-paper-2">
+        <div className="grid grid-cols-[1fr_auto] gap-y-1.5">
+          <dt className="text-ink-2">Ručně</dt>
+          <dd className="tabular-nums text-ink">{hoursShort(manualH)}</dd>
+          <dd aria-hidden className="col-span-2 h-2 overflow-hidden rounded-full bg-paper-2">
             <div className="h-full w-full rounded-full bg-ink-2" />
-          </div>
+          </dd>
         </div>
-        <div>
-          <div className="flex justify-between">
-            <dt className="text-ink-2">S automatizací</dt>
-            <dd className="tabular-nums text-ink">{hoursShort(autoH)}</dd>
-          </div>
-          <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-paper-2">
+        <div className="grid grid-cols-[1fr_auto] gap-y-1.5">
+          <dt className="text-ink-2">S automatizací</dt>
+          <dd className="tabular-nums text-ink">{hoursShort(autoH)}</dd>
+          <dd aria-hidden className="col-span-2 h-2 overflow-hidden rounded-full bg-paper-2">
             <div
               className="h-full w-full origin-left rounded-full bg-accent transition-transform duration-300 ease-[var(--ease-out)] motion-reduce:transition-none"
               style={{ transform: `scaleX(${Math.max(autoShare, autoH > 0 ? 0.02 : 0)})` }}
             />
-          </div>
+          </dd>
         </div>
       </dl>
 

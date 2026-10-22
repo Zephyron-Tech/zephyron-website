@@ -5,6 +5,9 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  // Inline the (small) stylesheet into the HTML: on a slow phone connection the
+  // separate CSS request held back the first paint.
+  experimental: { inlineCss: true },
   serverExternalPackages: ['pdfkit'],
   // Dev only: let a phone on the same Wi-Fi load the dev server by the Mac's
   // LAN address or .local name (Next blocks other origins from dev assets/HMR).

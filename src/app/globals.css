@@ -6,20 +6,13 @@
 
 @import "tailwindcss";
 
-/* Surgena has no Czech diacritics — use it for the wordmark only. */
-@font-face {
-  font-family: 'Surgena';
-  src: url('/fonts/surgenapersonaluseonlysembd-q2qwd.ttf') format('truetype');
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
+/* Surgena (src/fonts, loaded in app/layout.tsx) has no Czech diacritics; the wordmark only. */
 
 /* ── Theme tokens (exposed as Tailwind utilities: bg-paper, text-ink, …) ── */
 @theme {
   --font-sans: var(--font-poppins), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-display: var(--font-sora), var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
-  --font-brand: 'Surgena', var(--font-sora), sans-serif;
+  --font-brand: var(--font-surgena), var(--font-sora), sans-serif;
 
   /* Surfaces: a neutral stone ground; white cards sit one clear tone step
      (about 6 lightness points) above it, with no lines or shadows. */

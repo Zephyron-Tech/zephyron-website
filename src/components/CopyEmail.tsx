@@ -75,7 +75,7 @@ export function CopyEmail({ tone = 'light', className = '' }: CopyEmailProps) {
           <Icon size={24} strokeWidth={1.6} />
         </span>
       </button>
-      <p aria-live="polite" className={`mt-2.5 text-[13px] ${onAccent ? 'text-white/65' : 'text-muted'}`}>
+      <p aria-live="polite" className={`mt-2.5 text-[13px] ${onAccent ? 'text-white/85' : 'text-muted'}`}>
         {icon === 'checked' ? 'Zkopírováno do schránky' : 'Kliknutím zkopírujete e-mail'}
       </p>
     </div>
