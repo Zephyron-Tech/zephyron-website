@@ -9,8 +9,10 @@ export interface CaseStudy {
   kicker: string;
   category: CaseCategory;
   status: 'V provozu' | 'Ve vývoji' | 'V přípravě';
+  /** The live site, for projects that are running. */
+  url?: string;
   /** Partner organisations shown with logos (files in public/logos/). */
-  partners?: { name: string; logo?: string }[];
+  partners?: { name: string; logo?: string; height?: number }[];
   /** Printed object shown in place of a screenshot. */
   art?: PrintArtKey;
   summary: string;
@@ -37,17 +39,18 @@ export const caseStudies: CaseStudy[] = [
     category: 'Pro klienta',
     status: 'Ve vývoji',
     summary:
-      'Data ze senzorů na vozidle se automaticky zpracují a zobrazí na mapě jako stav povrchu jednotlivých úseků silnic. Vyvíjíme ve spolupráci s městem Plzeň a SIT Port.',
+      'Data ze senzorů na vozidle se automaticky zpracují a zobrazí na mapě jako stav povrchu jednotlivých úseků silnic. Vyvíjíme ve spolupráci s městem Plzeň, SIT Port a Západočeskou univerzitou.',
     partners: [
       { name: 'Město Plzeň', logo: '/logos/plzen.svg' },
       { name: 'SIT Port', logo: '/logos/sitport.svg' },
+      { name: 'Západočeská univerzita v Plzni', logo: '/logos/zcu.svg', height: 52 },
     ],
     image: '/screenshots/clearway.webp',
     tags: ['GIS', 'Datová pipeline', 'Mobilní aplikace', 'Hardware'],
     detail: {
       problem: [
         'Stav povrchu silnic se ve městech obvykle zjišťuje ručně: pochůzkami, fotkami a tabulkami. Je to pomalé, drahé a data rychle zastarávají.',
-        'Spolu s městem Plzeň a SIT Port hledáme způsob, jak mít průběžný a objektivní přehled o stavu komunikací. Aby se opravy daly plánovat podle dat, a ne podle stížností.',
+        'Spolu s městem Plzeň, SIT Port a Západočeskou univerzitou hledáme způsob, jak mít průběžný a objektivní přehled o stavu komunikací. Aby se opravy daly plánovat podle dat, a ne podle stížností.',
       ],
       solution: [
         'Navrhli jsme celý řetězec od hardwaru po mapu. Senzory na vozidle zaznamenávají průběh jízdy, mobilní aplikace data sbírá a odesílá.',
@@ -98,6 +101,7 @@ export const caseStudies: CaseStudy[] = [
     kicker: 'Web s přehledem kurzů a přihláškou',
     category: 'Pro klienta',
     status: 'V provozu',
+    url: 'https://www.autoskola-falar.cz/',
     summary:
       'Web, který vysvětlí nabídku kurzů, odpoví na časté dotazy a přivede přihlášky. Obsah si autoškola spravuje sama.',
     image: '/screenshots/autoskola.webp',
@@ -118,10 +122,12 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: 'esn-uwb',
     name: 'ESN UWB Pilsen',
-    client: 'Erasmus Student Network při ZČU v Plzni',
+    client: 'Erasmus Student Network UWB Pilsen',
     kicker: 'Web studentské organizace',
     category: 'Pro klienta',
     status: 'V provozu',
+    url: 'https://www.esnuwbpilsen.cz/',
+    partners: [{ name: 'Západočeská univerzita v Plzni', logo: '/logos/zcu.svg', height: 52 }],
     summary:
       'Web pro místní i zahraniční studenty s aktualitami, galerií a partnery. Spravuje ho tým, který se každý rok mění.',
     image: '/screenshots/esnuwb.webp',

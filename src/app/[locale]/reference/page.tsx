@@ -4,6 +4,8 @@ import { SITE } from '@/content/site';
 import { caseStudies } from '@/content/case-studies';
 import { PageHero } from '@/components/PageHero';
 import { CaseCards } from '@/components/CaseCards';
+import { SectionHeader } from '@/components/ui/SectionHeader';
+import { Link } from '@/navigation';
 import { FinalCta } from '@/components/FinalCta';
 import { JsonLd } from '@/components/JsonLd';
 import { breadcrumbSchema } from '@/lib/schema';
@@ -31,16 +33,25 @@ export default async function CasesPage({ params }: { params: Promise<{ locale: 
       />
       <section className="section-y">
         <div className="container-page">
-          <CaseCards items={clientWork} featuredFirst />
+          <CaseCards items={clientWork} featuredFirst showMeta={false} />
         </div>
       </section>
       <section className="section-y">
         <div className="container-page">
-          <div className="max-w-2xl">
-            <h2 className="text-3xl text-ink sm:text-4xl">Startupy, které stavíme jako partner</h2>
+          <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+            <SectionHeader
+              title="Startupy, které stavíme jako partner"
+              lead="Projekty, do kterých vstupujeme jako technický partner."
+            />
+            <Link
+              href="/startup-support"
+              className="shrink-0 text-[15px] font-medium text-ink underline decoration-line-strong decoration-[1.5px] underline-offset-[6px] transition-colors hover:decoration-ink"
+            >
+              Jak Startup Support funguje
+            </Link>
           </div>
           <div className="mt-12">
-            <CaseCards items={startups} />
+            <CaseCards items={startups} showMeta={false} />
           </div>
         </div>
       </section>
