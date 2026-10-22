@@ -45,7 +45,7 @@ export default async function CasesPage({ params }: { params: Promise<{ locale: 
             />
             <Link
               href="/startup-support"
-              className="shrink-0 text-[15px] font-medium text-ink underline decoration-line-strong decoration-[1.5px] underline-offset-[6px] transition-colors hover:decoration-ink"
+              className="tap shrink-0 text-[15px] font-medium text-ink underline decoration-line-strong decoration-[1.5px] underline-offset-[6px] transition-colors hover:decoration-ink"
             >
               Jak Startup Support funguje
             </Link>

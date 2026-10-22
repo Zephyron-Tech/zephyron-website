@@ -16,13 +16,17 @@ export function Team() {
               </>
             }
           />
-          <Button href="/o-nas" variant="secondary" arrow className="shrink-0 self-start md:self-auto">
+          <Button href="/o-nas" variant="secondary" arrow className="hidden shrink-0 md:inline-flex">
             Více o nás
           </Button>
         </div>
-        <div className="mt-14">
+        <div className="mt-10 md:mt-14">
           <TeamCards />
         </div>
+        {/* On a phone the way on comes after the cards, not before them. */}
+        <Button href="/o-nas" variant="secondary" arrow className="mt-6 w-full md:hidden">
+          Více o nás
+        </Button>
       </div>
     </section>
   );

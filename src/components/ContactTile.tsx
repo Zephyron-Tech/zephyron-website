@@ -13,8 +13,9 @@ interface ContactTileProps {
   lines?: string[];
 }
 
-// Icon, what it is, the value. With an href it copies on click with a mouse,
-// like every contact on the site, and stays a normal link on touch.
+// Icon, what it is, the value. With an href it copies on click like every
+// contact on the site (on touch only e-mail; a number dials), and the label
+// briefly reads "Zkopírováno".
 export function ContactTile({ label, value, icon: Icon, href, tone = 'paper', lines }: ContactTileProps) {
   const ground = tone === 'paper' ? 'bg-paper' : 'bg-card';
   const bubble = tone === 'paper' ? 'bg-card' : 'bg-paper';
@@ -34,7 +35,8 @@ export function ContactTile({ label, value, icon: Icon, href, tone = 'paper', li
         />
       </span>
       <span className="min-w-0">
-        <span className="block text-xs text-muted">{label}</span>
+        <span className="block text-xs text-muted group-data-copied:hidden">{label}</span>
+        {href && <span className="hidden text-xs font-medium text-accent group-data-copied:block">Zkopírováno</span>}
         <span
           className={`block text-sm font-medium text-ink transition-colors duration-300 ease-[var(--ease-out)] ${href ? 'truncate group-hover:text-accent' : ''}`}
         >

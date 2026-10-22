@@ -1,5 +1,5 @@
 import { caseStudies } from '@/content/case-studies';
-import { PartnerLogos, type Partner } from '../PartnerLogos';
+import { PartnerLogos, PartnerMarquee, type Partner } from '../PartnerLogos';
 
 // Partner organisations from case studies, then clients of finished projects.
 // One logo per organisation, even when it partners on several projects.
@@ -12,9 +12,10 @@ const partners: Partner[] = [
 export function TrustStrip() {
   return (
     <section aria-label="Spolupracujeme" className="">
-      <div className="container-page flex flex-col gap-5 py-10 md:flex-row md:items-center md:gap-12">
+      <div className="container-page flex flex-col gap-4 py-6 sm:gap-5 sm:py-10 lg:flex-row lg:items-center lg:gap-12">
         <div className="shrink-0 text-sm font-medium text-ink-2">Spolupracujeme s</div>
-        <PartnerLogos partners={partners} />
+        <PartnerMarquee partners={partners} className="sm:hidden" />
+        <PartnerLogos partners={partners} className="max-sm:hidden" />
       </div>
     </section>
   );

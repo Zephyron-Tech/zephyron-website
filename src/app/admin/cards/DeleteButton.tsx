@@ -46,7 +46,7 @@ function ConfirmButton({
       <button
         type="button"
         onClick={() => dialog.current?.showModal()}
-        className="cursor-pointer text-sm font-medium text-ink-2 transition-colors hover:text-err"
+        className="tap cursor-pointer text-sm font-medium text-ink-2 transition-colors hover:text-err"
       >
         {label}
       </button>

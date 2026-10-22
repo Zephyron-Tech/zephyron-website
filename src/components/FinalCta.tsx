@@ -11,7 +11,7 @@ export function FinalCta({
   lead = 'Na úvodní konzultaci zdarma zjistíme, jestli umíme pomoct a kolik by to zhruba stálo. Bez závazků a bez prodejní prezentace.',
 }: FinalCtaProps) {
   return (
-    <section className="section-y">
+    <section data-cta-zone className="section-y">
       <div className="container-page">
         <div className="grid gap-10 rounded-[32px] bg-accent px-6 py-10 text-white sm:px-12 sm:py-12 lg:grid-cols-[1fr_auto] lg:items-end lg:gap-16">
           <div>

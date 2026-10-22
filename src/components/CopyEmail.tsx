@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { ClipboardCheck, ClipboardCopy } from 'lucide-react';
 import { track } from '@vercel/analytics';
+import { copyText } from '@/lib/copy-text';
 import { SITE } from '@/content/site';
 
 interface CopyEmailProps {
@@ -22,11 +23,7 @@ export function CopyEmail({ tone = 'light', className = '' }: CopyEmailProps) {
 
   async function copy() {
     if (sweeping) return;
-    try {
-      await navigator.clipboard.writeText(SITE.email);
-    } catch {
-      // Clipboard unavailable (e.g. insecure context): the address stays selectable.
-    }
+    if (!(await copyText(SITE.email))) return;
     track('email_copied');
     setSweeping(true);
     setIcon('out');

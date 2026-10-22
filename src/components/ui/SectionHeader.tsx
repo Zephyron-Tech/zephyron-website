@@ -10,7 +10,7 @@ export function SectionHeader({ title, lead, dark = false, as: H = 'h2', classNa
   return (
     <div className={`max-w-3xl ${className}`}>
       <H
-        className={`${H === 'h1' ? 'text-4xl sm:text-5xl md:text-6xl' : 'text-[28px] sm:text-4xl md:text-[44px]'} ${
+        className={`${H === 'h1' ? 'text-[clamp(32px,min(6.4vw,12svh),60px)]' : 'text-[clamp(28px,4.6vw,44px)]'} ${
           dark ? 'text-white' : 'text-ink'
         }`}
       >

@@ -22,7 +22,7 @@ export function Comparison() {
 
         {/* Desktop table: quiet row and column rules make it read as a table; the
             Zephyron column is one accent band from header to last row. */}
-        <div className="mt-14 hidden rounded-2xl bg-card p-2 md:block">
+        <div className="mt-10 sm:mt-14 hidden rounded-2xl bg-card p-2 md:block">
           <table className="w-full table-fixed border-separate border-spacing-0 text-left">
             <thead>
               <tr>
@@ -78,19 +78,25 @@ export function Comparison() {
           </table>
         </div>
 
-        {/* Mobile: one block per row */}
+        {/* Mobile: one card per row, the point first. Zephyron's answer leads in
+            the accent tint; the two alternatives follow, quieter, each label above
+            its value so nothing breaks mid-phrase. */}
         <div className="mt-10 space-y-3 md:hidden">
           {rows.map((r) => (
             <div key={r.label} className="rounded-2xl bg-card p-5">
-              <div className="text-sm font-medium text-ink-2">{r.label}</div>
-              <dl className="mt-3 space-y-2 text-sm">
-                {columns.map((c, i) => (
-                  <div
-                    key={c}
-                    className={`flex justify-between gap-4 ${i === 2 ? '-mx-2 rounded-lg bg-accent-soft px-2 py-1.5 font-medium text-ink' : 'text-ink-2'}`}
-                  >
-                    <dt className={i === 2 ? 'text-accent' : 'text-muted'}>{c}</dt>
-                    <dd className="text-right">{r.values[i]}</dd>
+              <h3 className="font-display text-lg font-semibold text-ink">{r.label}</h3>
+              <p className="mt-3 flex gap-2.5 rounded-xl bg-accent-soft px-3 py-2.5 text-[15px] font-medium text-ink">
+                <Check size={18} strokeWidth={2.25} className="mt-0.5 shrink-0 text-accent" aria-hidden />
+                <span>
+                  <span className="sr-only">Zephyron: </span>
+                  {r.values[2]}
+                </span>
+              </p>
+              <dl className="mt-3 grid grid-cols-2 gap-3 px-1 text-sm">
+                {columns.slice(0, 2).map((c, i) => (
+                  <div key={c}>
+                    <dt className="text-xs text-muted">{c}</dt>
+                    <dd className="mt-0.5 text-ink-2">{r.values[i]}</dd>
                   </div>
                 ))}
               </dl>

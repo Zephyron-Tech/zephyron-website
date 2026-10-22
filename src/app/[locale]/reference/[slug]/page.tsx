@@ -155,7 +155,7 @@ export default async function CasePage({ params }: { params: Promise<Params> }) 
             </div>
           </Block>
           <Block label="Související služby">
-            <div className="grid gap-3 sm:grid-cols-2">
+            <div className="grid gap-3 lg:grid-cols-2">
               {d.services.map((slug) => {
                 const s = getService(slug);
                 return s ? (

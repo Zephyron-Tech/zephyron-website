@@ -109,7 +109,7 @@ export function renderCardPage(m: CardPageData, opts: { siteUrl: string; lang: C
   return `<!doctype html>
 <html lang="${opts.lang}"><head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content">
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#EEEDEA">
 <title>${esc(full)} · Zephyron Tech</title>
@@ -126,13 +126,14 @@ export function renderCardPage(m: CardPageData, opts: { siteUrl: string; lang: C
 @font-face{font-family:Surgena;src:url(/fonts/surgenapersonaluseonlysembd-q2qwd.ttf) format('truetype');font-weight:600;font-display:swap}
 :root{--paper:#EEEDEA;--card:#FFFFFF;--ink:#11131E;--ink-2:#3A3D4A;--muted:#5F6270;--accent:#4235E5;--accent-hover:#583FFF;--accent-soft:#EEEBFF;--ease-out:cubic-bezier(0.23,1,0.32,1)}
 *{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
+html{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent}
+a,button{touch-action:manipulation}
 body{margin:0;min-height:100dvh;background:var(--paper);color:var(--ink);font-family:Poppins,ui-sans-serif,system-ui,sans-serif;-webkit-font-smoothing:antialiased;
   display:flex;justify-content:center;padding:max(24px,env(safe-area-inset-top)) 16px max(32px,env(safe-area-inset-bottom))}
 main{width:100%;max-width:420px}
 a{color:inherit;-webkit-tap-highlight-color:transparent}
 :focus-visible{outline:2px solid var(--accent);outline-offset:3px}
-.brand{display:inline-flex;align-items:center;gap:8px;text-decoration:none;margin:4px 0 20px}
+.brand{display:inline-flex;align-items:center;gap:8px;min-height:44px;text-decoration:none;margin:-6px 0 10px}
 .brand img{height:22px;width:auto}
 .brand span{font-family:Surgena,Sora,sans-serif;font-weight:600;font-size:17px;letter-spacing:-.01em}
 .card{background:var(--card);border-radius:24px;padding:24px}
@@ -155,7 +156,7 @@ h1{font-family:Sora,Poppins,sans-serif;font-weight:600;font-size:27px;line-heigh
 .tile-label{display:block;font-size:12px;color:var(--muted)}
 .tile-value{display:block;font-size:14px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .more{display:flex;justify-content:center;gap:24px;margin-top:20px;font-size:14px;font-weight:500}
-.more a{display:inline-flex;align-items:center;gap:4px;text-decoration:none;color:var(--ink-2);padding:8px 0}
+.more a{display:inline-flex;align-items:center;gap:4px;min-height:44px;text-decoration:none;color:var(--ink-2)}
 @media (hover:hover) and (pointer:fine){
   .btn.primary:hover{background:var(--accent-hover)}
   .btn.secondary:hover{background:var(--accent-soft)}

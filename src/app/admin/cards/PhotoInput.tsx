@@ -181,12 +181,12 @@ export function PhotoInput({
             </span>
           )}
         </div>
-        <div className="flex flex-col items-start gap-2">
+        <div className="flex min-w-0 flex-col items-start gap-2">
           <button
             type="button"
             onClick={() => fileRef.current?.click()}
             disabled={converting}
-            className="inline-flex cursor-pointer items-center gap-2 rounded-full bg-paper-2 px-4 py-2 text-sm font-medium text-ink transition-colors hover:bg-line disabled:cursor-default disabled:opacity-70"
+            className="inline-flex cursor-pointer items-center gap-2 rounded-full bg-paper-2 px-4 py-2 text-sm font-medium pointer-coarse:min-h-11 text-ink transition-colors hover:bg-line disabled:cursor-default disabled:opacity-70"
           >
             {converting ? <Loader2 size={16} className="animate-spin" aria-hidden /> : <ImagePlus size={16} aria-hidden />}
             {converting ? 'Převádím HEIC…' : preview ? 'Vyměnit fotku' : 'Nahrát fotku'}
@@ -195,7 +195,7 @@ export function PhotoInput({
             <button
               type="button"
               onClick={remove}
-              className="inline-flex cursor-pointer items-center gap-2 text-sm text-ink-2 hover:text-err"
+              className="tap inline-flex cursor-pointer items-center gap-2 text-sm text-ink-2 hover:text-err"
             >
               <Trash2 size={14} aria-hidden />
               Odebrat
@@ -249,7 +249,7 @@ export function PhotoInput({
               type="button"
               aria-label="Oddálit"
               onClick={() => zoomTo(crop.zoom / 1.2)}
-              className="inline-flex size-9 shrink-0 cursor-pointer items-center justify-center rounded-full bg-paper text-ink hover:bg-accent-soft"
+              className="inline-flex size-9 shrink-0 cursor-pointer items-center justify-center rounded-full bg-paper text-ink hover:bg-accent-soft pointer-coarse:size-11"
             >
               <Minus size={16} aria-hidden />
             </button>
@@ -267,7 +267,7 @@ export function PhotoInput({
               type="button"
               aria-label="Přiblížit"
               onClick={() => zoomTo(crop.zoom * 1.2)}
-              className="inline-flex size-9 shrink-0 cursor-pointer items-center justify-center rounded-full bg-paper text-ink hover:bg-accent-soft"
+              className="inline-flex size-9 shrink-0 cursor-pointer items-center justify-center rounded-full bg-paper text-ink hover:bg-accent-soft pointer-coarse:size-11"
             >
               <Plus size={16} aria-hidden />
             </button>

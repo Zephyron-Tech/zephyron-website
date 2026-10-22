@@ -23,7 +23,7 @@ export function CopyButton({ value }: { value: string }) {
       <button
         type="button"
         onClick={copy}
-        className={`inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[13px] font-medium transition-colors duration-200 ${
+        className={`inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg px-2.5 py-1.5 pointer-coarse:min-h-11 text-[13px] font-medium transition-colors duration-200 ${
           copied ? 'bg-ok text-white' : 'bg-card text-ink hover:bg-accent-soft'
         }`}
       >

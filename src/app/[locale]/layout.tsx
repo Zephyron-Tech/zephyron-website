@@ -6,6 +6,7 @@ import { routing } from '@/i18n/routing';
 import { SITE } from '@/content/site';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
+import { MobileCtaBar } from '@/components/MobileCtaBar';
 import { TrackClicks } from '@/components/TrackClicks';
 import { JsonLd } from '@/components/JsonLd';
 
@@ -22,6 +23,10 @@ export function generateStaticParams() {
 
 export const viewport: Viewport = {
   themeColor: '#EEEDEA',
+  // Content can reach into the notch area (paddings use env(safe-area-inset-*)),
+  // and the Android keyboard resizes the layout as it does on iOS.
+  viewportFit: 'cover',
+  interactiveWidget: 'resizes-content',
 };
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
@@ -91,6 +96,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
       <Header />
       <main>{children}</main>
       <Footer />
+      <MobileCtaBar />
     </NextIntlClientProvider>
   );
 }

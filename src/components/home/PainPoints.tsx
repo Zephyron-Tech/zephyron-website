@@ -1,6 +1,7 @@
 import { Link } from '@/navigation';
 import { SectionHeader } from '../ui/SectionHeader';
 import { PrintObject } from '../PrintObject';
+import { PainCarousel } from './PainCarousel';
 
 const pains = [
   {
@@ -33,7 +34,7 @@ export function PainPoints() {
   return (
     <section className="section-y">
       <div className="container-page">
-        <div className="grid items-end gap-10 lg:grid-cols-[1fr_auto]">
+        <div className="grid grid-cols-[1fr_auto] items-end gap-4 sm:gap-10">
           <SectionHeader
             title="Kde rostoucí firmy ztrácejí čas"
             lead="Když firma roste, přibývají lidé, zakázky i pobočky. A to, co fungovalo na začátku, najednou brzdí."
@@ -41,16 +42,11 @@ export function PainPoints() {
           <PrintObject
             name="macintosh"
             sizes="(min-width: 1024px) 260px, 200px"
-            className="-mb-4 h-56 w-auto justify-self-end lg:h-[300px]"
+            className="-mb-2 h-24 w-auto justify-self-end sm:-mb-4 sm:h-44 md:h-56 lg:h-[300px]"
           />
         </div>
-        <div className="mt-14 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {pains.map((p) => (
-            <div key={p.title} className="rounded-2xl bg-card p-7">
-              <h3 className="text-xl text-ink">{p.title}</h3>
-              <p className="mt-2 text-[15px] leading-relaxed text-ink-2">{p.text}</p>
-            </div>
-          ))}
+        <div className="mt-10 sm:mt-14">
+          <PainCarousel pains={pains} label="Kde firmy ztrácejí čas" />
         </div>
         <p className="mt-8 text-ink-2">
           Trápí vás něco jiného?{' '}

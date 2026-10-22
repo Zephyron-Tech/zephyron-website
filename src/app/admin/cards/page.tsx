@@ -110,7 +110,7 @@ export default async function CardsPage() {
                       <span className="rounded-full bg-paper-2 px-2 py-0.5 text-xs font-medium text-ink-2">Vypnutá</span>
                     )}
                   </div>
-                  <a href={`/v/${m.slug}`} target="_blank" className="block truncate text-sm text-accent hover:underline">
+                  <a href={`/v/${m.slug}`} target="_blank" className="tap block truncate text-sm text-accent hover:underline">
                     /v/{m.slug}
                   </a>
                   <span className="text-[13px] text-muted">
@@ -118,7 +118,7 @@ export default async function CardsPage() {
                   </span>
                 </div>
                 <div className="flex shrink-0 flex-col items-end gap-1.5">
-                  <Link href={`/admin/cards/${m.id}`} className="text-sm font-medium text-ink hover:text-accent">
+                  <Link href={`/admin/cards/${m.id}`} className="tap text-sm font-medium text-ink hover:text-accent">
                     Upravit
                   </Link>
                   {isAdmin && <DeleteButton id={m.id} name={m.name} />}

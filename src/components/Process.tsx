@@ -27,7 +27,7 @@ export function Process() {
           title="Žádný rok ticha a pak velké odhalení"
           lead="Projekt rozdělíme na menší části s vlastní cenou a termínem. Kdykoliv víte, kde jsme a co vás to bude stát."
         />
-        <ol className="mt-14 grid gap-x-8 gap-y-12 md:grid-cols-2 lg:grid-cols-4">
+        <ol className="mt-10 sm:mt-14 grid gap-x-8 gap-y-8 sm:gap-y-12 md:grid-cols-2 lg:grid-cols-4">
           {steps.map((s, i) => (
             <li key={s.title}>
               {/* The bar grows step by step: order shown by length, not by numbers. */}

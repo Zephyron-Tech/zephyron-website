@@ -87,14 +87,14 @@ export function TimeCalculator() {
   }
 
   return (
-    <figure className="rise rise-3 relative rounded-2xl bg-card p-6 sm:p-8">
+    <figure className="rise rise-3 relative rounded-2xl bg-card p-5 sm:p-8">
       <figcaption className="text-[15px] font-medium text-ink">Kolik času vám vrátí automatizace?</figcaption>
 
       <div role="radiogroup" aria-label="Proces" className="mt-5 grid grid-cols-2 gap-1 rounded-xl bg-paper-2 p-1">
         {processes.map((p) => (
           <label
             key={p.id}
-            className={`cursor-pointer rounded-lg px-3 py-2.5 text-center text-[13px] leading-tight transition-colors duration-200 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent ${
+            className={`flex cursor-pointer items-center justify-center rounded-lg px-2 py-2.5 text-center pointer-coarse:min-h-11 text-[13px] leading-tight text-balance transition-colors duration-200 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent ${
               p.id === pid ? 'bg-card font-medium text-ink' : 'text-ink-2 hover:text-ink'
             }`}
           >
@@ -112,11 +112,12 @@ export function TimeCalculator() {
       </div>
 
       <div className="mt-6">
-        <div className="flex items-baseline justify-between gap-4 text-sm">
+        {/* On a phone the question and the count stack, so neither breaks mid-phrase. */}
+        <div className="flex flex-col gap-0.5 text-sm min-[420px]:flex-row min-[420px]:items-baseline min-[420px]:justify-between min-[420px]:gap-4">
           <label htmlFor={`${id}-count`} className="text-ink-2">
             {process.question}
           </label>
-          <span className="font-medium tabular-nums text-ink">
+          <span className="whitespace-nowrap font-medium tabular-nums text-ink">
             {n} {process.unit(n)}
           </span>
         </div>
@@ -169,7 +170,7 @@ export function TimeCalculator() {
       <p className="mt-4 text-[13px] leading-relaxed text-ink-2">{process.autoNote}</p>
 
       <details className="group mt-4 text-[13px]">
-        <summary className="cursor-pointer list-none text-ink-2 underline-offset-4 hover:text-ink hover:underline [&::-webkit-details-marker]:hidden">
+        <summary className="tap cursor-pointer list-none text-ink-2 underline-offset-4 hover:text-ink hover:underline [&::-webkit-details-marker]:hidden">
           Z čeho to počítáme
         </summary>
         <ul className="mt-3 space-y-1.5">

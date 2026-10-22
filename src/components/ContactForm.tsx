@@ -21,7 +21,7 @@ type Errors = Partial<Record<FieldName, string>>;
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 // Choice pills for topic and company size: a tone, the chosen one in accent.
 const pill = (on: boolean) =>
-  `cursor-pointer rounded-full px-3.5 py-2 text-sm transition-colors duration-150 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-accent ${
+  `inline-flex cursor-pointer items-center rounded-full px-3.5 py-2 text-sm pointer-coarse:min-h-11 transition-colors duration-150 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-accent ${
     on ? 'bg-accent font-medium text-white' : 'bg-paper text-ink-2 hover:bg-accent-soft hover:text-ink'
   }`;
 
@@ -118,7 +118,7 @@ export function ContactForm({ defaultTopic = 'automatizace' }: { defaultTopic?: 
   }
 
   return (
-    <form onSubmit={onSubmit} noValidate className="rounded-2xl bg-card p-6 sm:p-8">
+    <form onSubmit={onSubmit} noValidate data-cta-zone className="rounded-2xl bg-card p-6 sm:p-8">
       <fieldset>
         <legend className={label}>{t('topic')}</legend>
         <div className="mt-3 flex flex-wrap gap-2">

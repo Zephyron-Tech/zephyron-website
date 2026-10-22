@@ -13,6 +13,7 @@ import { ServiceIcon } from '@/components/ui/ServiceIcon';
 import { Button } from '@/components/ui/Button';
 import { CaseCards } from '@/components/CaseCards';
 import { Process } from '@/components/Process';
+import { PainCarousel } from '@/components/home/PainCarousel';
 import { Faq } from '@/components/Faq';
 import { FinalCta } from '@/components/FinalCta';
 import { JsonLd } from '@/components/JsonLd';
@@ -59,7 +60,12 @@ export default async function ServicePage({ params }: { params: Promise<Params> 
           url: `${SITE.url}/sluzby/${s.slug}`,
         }}
       />
-      <JsonLd data={breadcrumbSchema([{ name: 'Služby', path: '/sluzby' }, { name: s.title, path: `/sluzby/${s.slug}` }])} />
+      <JsonLd
+        data={breadcrumbSchema([
+          { name: 'Služby', path: '/sluzby' },
+          { name: s.title, path: `/sluzby/${s.slug}` },
+        ])}
+      />
       <JsonLd data={faqSchema(s.faq)} />
 
       <PageHero
@@ -69,14 +75,14 @@ export default async function ServicePage({ params }: { params: Promise<Params> 
         lead={s.heroLead}
       >
         {/* One action; work samples are a text link, as on the other pages. */}
-        <div className="flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:gap-8">
-          <Button href="/kontakt" size="lg" arrow track={`cta_service_${s.slug}`}>
+        <div className="flex flex-col items-stretch gap-4 sm:flex-row sm:items-center sm:gap-8">
+          <Button href="/kontakt" size="lg" arrow track={`cta_service_${s.slug}`} className="w-full sm:w-auto">
             Domluvit konzultaci
           </Button>
           {related.length > 0 && (
             <a
               href="#reference"
-              className="text-[15px] font-medium text-ink underline decoration-line-strong decoration-[1.5px] underline-offset-[6px] transition-colors hover:decoration-ink"
+              className="tap self-center text-[15px] font-medium text-ink underline sm:self-auto decoration-line-strong decoration-[1.5px] underline-offset-[6px] transition-colors hover:decoration-ink"
             >
               Ukázky práce
             </a>
@@ -85,11 +91,11 @@ export default async function ServicePage({ params }: { params: Promise<Params> 
       </PageHero>
 
       <section className="section-y">
-        <div className="container-page grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+        <div className="container-page grid gap-8 sm:gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
           <SectionHeader title="Kdy dává smysl se ozvat" className="lg:sticky lg:top-28 lg:self-start" />
           <ul className="space-y-5 rounded-2xl bg-card p-6 sm:p-8">
             {s.pains.map((p) => (
-              <li key={p} className="flex items-start gap-4 text-lg text-ink">
+              <li key={p} className="flex items-start gap-4 text-base text-ink sm:text-lg">
                 <CheckBubble />
                 <span className="text-pretty pt-0.5">{p}</span>
               </li>
@@ -101,18 +107,13 @@ export default async function ServicePage({ params }: { params: Promise<Params> 
       <section className="section-y">
         <div className="container-page">
           <SectionHeader title="Co od nás dostanete" />
-          <div className="mt-14 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {s.deliverables.map((d) => (
-              <div key={d.title} className="rounded-2xl bg-card p-7">
-                <h3 className="text-xl text-ink">{d.title}</h3>
-                <p className="mt-2 text-[15px] leading-relaxed text-ink-2">{d.text}</p>
-              </div>
-            ))}
+          <div className="mt-10 sm:mt-14">
+            <PainCarousel pains={s.deliverables} label="Co od nás dostanete" />
           </div>
 
-          <div className="mt-3 rounded-2xl bg-card p-6 sm:p-8">
+          <div className="mt-6 rounded-2xl bg-card p-6 sm:mt-3 sm:p-8">
             <h3 className="text-lg font-medium text-ink">Typické zakázky</h3>
-            <ul className="mt-5 grid gap-5 md:grid-cols-3">
+            <ul className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {s.examples.map((e) => (
                 <li key={e} className="flex items-start gap-3 text-ink">
                   <CheckBubble />
@@ -133,7 +134,7 @@ export default async function ServicePage({ params }: { params: Promise<Params> 
               title="Orientační ceny"
               lead="Přesnou cenu stanovíme po úvodní konzultaci a analýze, vždy předem."
             />
-            <div className="mt-14 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-10 sm:mt-14 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {s.pricing.map((p) => (
                 <div key={p.title} className="rounded-2xl bg-card p-7">
                   <h3 className="text-lg text-ink">{p.title}</h3>
@@ -150,7 +151,7 @@ export default async function ServicePage({ params }: { params: Promise<Params> 
         <section id="reference" className="section-y scroll-mt-20">
           <div className="container-page">
             <SectionHeader title="Na čem jsme to už dělali" />
-            <div className="mt-14">
+            <div className="mt-10 sm:mt-14">
               <CaseCards items={related} showMeta={false} />
             </div>
           </div>

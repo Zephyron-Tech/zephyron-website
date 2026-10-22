@@ -58,14 +58,14 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
       <section className="section-y">
         <div className="container-page">
           <SectionHeader title="Kdo s vámi bude mluvit" />
-          <div className="mt-14">
+          <div className="mt-10 sm:mt-14">
             <TeamCards />
           </div>
         </div>
       </section>
 
       <section className="section-y">
-        <div className="container-page grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+        <div className="container-page grid gap-8 sm:gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
           <SectionHeader
             title="Čeho se držíme"
             lead="Čtyři pravidla, podle kterých se rozhodujeme u každé zakázky."

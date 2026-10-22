@@ -27,7 +27,7 @@ export default async function ServicesPage({ params }: { params: Promise<{ local
         title="Méně ruční práce, víc času na firmu"
         lead="Nezačínáme technologií, ale tím, kde vás to stojí nejvíc hodin. Někdy stačí propojit dva systémy, jindy je potřeba postavit nový."
       >
-        <Button href="/kontakt" size="lg" arrow track="cta_services_hero">
+        <Button href="/kontakt" size="lg" arrow track="cta_services_hero" className="w-full sm:w-auto">
           Domluvit konzultaci
         </Button>
       </PageHero>

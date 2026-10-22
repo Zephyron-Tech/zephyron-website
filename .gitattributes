@@ -1,3 +1,4 @@
 # Agent skills installed under .claude/ are third-party tooling, not the website:
 # keep them out of GitHub's language statistics.
 .claude/** linguist-vendored
+.agents/** linguist-vendored

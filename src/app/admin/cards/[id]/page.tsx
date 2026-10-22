@@ -51,7 +51,7 @@ export default async function EditMemberPage({
 
   return (
     <div>
-      <Link href="/admin/cards" className="inline-flex items-center gap-2 text-sm text-ink-2 hover:text-ink">
+      <Link href="/admin/cards" className="tap inline-flex items-center gap-2 text-sm text-ink-2 hover:text-ink">
         <ArrowLeft size={16} aria-hidden />
         Všechny vizitky
       </Link>
@@ -62,7 +62,7 @@ export default async function EditMemberPage({
         </p>
       )}
 
-      <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_340px]">
+      <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px] [&>*]:min-w-0">
         <MemberForm member={member} isAdmin={role === 'admin'} photoUrl={photoUrl} initials={initials(member.name)} />
 
         {/* The live card beside the form, as it is saved now. */}

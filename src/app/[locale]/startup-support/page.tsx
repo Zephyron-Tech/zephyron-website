@@ -102,13 +102,13 @@ export default async function StartupSupportPage({ params }: { params: Promise<{
         lead="Pomáháme lidem, kteří mají dobrý nápad a znají svůj obor, ale chybí jim vývojáři. Do vybraných projektů vstupujeme jako dlouhodobý technický partner: od návrhu přes první verzi až po provoz. Podmínky přizpůsobujeme fázi projektu."
       >
         {/* One action; the second way in is a text link, as on the landing page. */}
-        <div className="flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:gap-8">
-          <Button href="#prihlaska" size="lg" arrow track="cta_startup_hero">
+        <div className="flex flex-col items-stretch gap-4 sm:flex-row sm:items-center sm:gap-8">
+          <Button href="#prihlaska" size="lg" arrow track="cta_startup_hero" className="w-full sm:w-auto">
             Napsat nám o projektu
           </Button>
           <a
             href="#jak-to-funguje"
-            className="text-[15px] font-medium text-ink underline decoration-line-strong decoration-[1.5px] underline-offset-[6px] transition-colors hover:decoration-ink"
+            className="tap self-center text-[15px] font-medium text-ink underline sm:self-auto decoration-line-strong decoration-[1.5px] underline-offset-[6px] transition-colors hover:decoration-ink"
           >
             Jak to funguje
           </a>
@@ -118,7 +118,7 @@ export default async function StartupSupportPage({ params }: { params: Promise<{
       <section className="section-y">
         <div className="container-page">
           <SectionHeader title="Spoluzakladatel, ne dodavatel" />
-          <div className="mt-14 grid gap-3 sm:grid-cols-2">
+          <div className="mt-10 sm:mt-14 grid gap-3 sm:grid-cols-2">
             {offer.map((o) => (
               <div key={o.title} className="rounded-2xl bg-card p-7 sm:p-9">
                 <h3 className="text-2xl text-ink">{o.title}</h3>
@@ -130,7 +130,7 @@ export default async function StartupSupportPage({ params }: { params: Promise<{
       </section>
 
       <section className="section-y">
-        <div className="container-page grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+        <div className="container-page grid gap-8 sm:gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
           <SectionHeader
             title="Projekty si vybíráme"
             lead="Nejsme investiční fond ani agentura, která vezme cokoliv. Do projektu jdeme, když v něj sami věříme."
@@ -138,7 +138,7 @@ export default async function StartupSupportPage({ params }: { params: Promise<{
           />
           <ul className="space-y-5 rounded-2xl bg-card p-6 sm:p-8">
             {criteria.map((c) => (
-              <li key={c} className="flex items-start gap-4 text-lg text-ink">
+              <li key={c} className="flex items-start gap-4 text-base text-ink sm:text-lg">
                 <span
                   aria-hidden
                   className="inline-flex size-8 shrink-0 items-center justify-center rounded-full bg-accent-soft text-accent"
@@ -155,7 +155,7 @@ export default async function StartupSupportPage({ params }: { params: Promise<{
       <section id="jak-to-funguje" className="section-y scroll-mt-20 bg-night text-white">
         <div className="container-page">
           <SectionHeader dark title="Od nápadu k prvním zákazníkům" />
-          <ol className="mt-14 grid gap-x-8 gap-y-12 md:grid-cols-2 lg:grid-cols-4">
+          <ol className="mt-10 sm:mt-14 grid gap-x-8 gap-y-8 sm:gap-y-12 md:grid-cols-2 lg:grid-cols-4">
             {steps.map((s, i) => (
               <li key={s.title}>
                 <div aria-hidden className="h-1.5 rounded-full bg-white" style={{ width: `${(i + 1) * 25}%` }} />
@@ -170,7 +170,7 @@ export default async function StartupSupportPage({ params }: { params: Promise<{
       <section className="section-y">
         <div className="container-page">
           <SectionHeader title="S kým se právě rozjíždíme" />
-          <div className="mt-14">
+          <div className="mt-10 sm:mt-14">
             <CaseCards items={startups} showMeta={false} />
           </div>
         </div>
@@ -181,7 +181,7 @@ export default async function StartupSupportPage({ params }: { params: Promise<{
       <section id="prihlaska" className="section-y scroll-mt-20">
         {/* Mirrored against the FAQ above: form left, heading right, so the two
             neighbouring splits do not read as one. On a phone the heading leads. */}
-        <div className="container-page grid gap-12 lg:grid-cols-[1.2fr_0.8fr] lg:gap-16">
+        <div className="container-page grid gap-8 sm:gap-12 lg:grid-cols-[1.2fr_0.8fr] lg:gap-16">
           {/* Holds beside the long form, as the FAQ heading does. */}
           <div className="lg:sticky lg:top-28 lg:order-2 lg:self-start">
             <SectionHeader

@@ -20,7 +20,7 @@ interface LitBulbProps {
 export function LitBulb({
   name = 'bulbLight',
   sizes = '(min-width: 1024px) 220px, 160px',
-  className = 'mx-auto h-[300px] lg:h-[460px]',
+  className = 'mx-auto h-[220px] sm:h-[300px] lg:h-[460px]',
   priority,
 }: LitBulbProps) {
   const ref = useRef<HTMLDivElement>(null);

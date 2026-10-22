@@ -12,7 +12,7 @@ export default async function NewMemberPage() {
   }
   return (
     <div className="max-w-2xl">
-      <Link href="/admin/cards" className="inline-flex items-center gap-2 text-sm text-ink-2 hover:text-ink">
+      <Link href="/admin/cards" className="tap inline-flex items-center gap-2 text-sm text-ink-2 hover:text-ink">
         <ArrowLeft size={16} aria-hidden />
         Všechny vizitky
       </Link>

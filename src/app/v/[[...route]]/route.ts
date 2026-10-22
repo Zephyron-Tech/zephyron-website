@@ -22,8 +22,9 @@ app.get('/:slug', async (c) => {
   if (!member) return c.text('Not found', 404, { 'Cache-Control': 'no-store' });
 
   // Analytics must never break the card: swallow DB errors. The admin's live
-  // preview (?preview=1) is not a scan.
-  if (c.req.query('preview') !== '1') prisma.scan
+  // preview (?preview=1) and a click through from the website (?src=web) are
+  // not scans of the printed card.
+  if (c.req.query('preview') !== '1' && c.req.query('src') !== 'web') prisma.scan
     .create({ data: { memberId: member.id, device: detectDevice(c.req.header('user-agent')) } })
     .catch((err) => console.error('[cards] scan log failed:', err));
 

@@ -56,7 +56,7 @@ export default function MemberForm({ member, isAdmin, photoUrl = null, initials 
   }
 
   return (
-    <form onSubmit={onSubmit} method="post" noValidate className="rounded-2xl bg-card p-6 sm:p-8">
+    <form onSubmit={onSubmit} method="post" noValidate className="min-w-0 rounded-2xl bg-card p-5 sm:p-8">
       {member && <input type="hidden" name="id" value={member.id} />}
 
       {/* Keyed on the saved photo, so after a save it shows the stored one and stops re-sending the upload. */}
@@ -103,8 +103,8 @@ export default function MemberForm({ member, isAdmin, photoUrl = null, initials 
           <>
             <Field name="slug" err={errFor('slug')} title="Adresa vizitky" hint={member ? undefined : 'Prázdné = vytvoří se ze jména.'} wide>
               {(c) => (
-                <div className="flex items-center">
-                  <span className="mt-1.5 pr-1 text-[15px] font-normal text-muted">zephyron.tech/v/</span>
+                <div className="flex flex-wrap items-center sm:flex-nowrap">
+                  <span className="mt-1.5 w-full pr-1 text-[15px] font-normal text-muted sm:w-auto">zephyron.tech/v/</span>
                   <input className={c} name="slug" defaultValue={member?.slug ?? ''} />
                 </div>
               )}

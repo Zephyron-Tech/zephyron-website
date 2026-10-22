@@ -64,6 +64,30 @@ html {
   -moz-osx-font-smoothing: grayscale;
   overflow-x: clip;
   scroll-behavior: smooth;
+  /* Phones: no grey flash on tap, no font inflation in landscape. */
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Everything that does something shows the hand. In the base layer, so a
+   utility (disabled:cursor-default, cursor-grab) still wins where it is set. */
+@layer base {
+  a[href], button:not(:disabled), summary, select:not(:disabled), [role='button'],
+  label:has(> input:not(:disabled)), input:is([type='range'], [type='checkbox'], [type='radio'], [type='file']):not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+/* No double-tap-to-zoom delay on controls. */
+a, button, summary, label, [role='button'] {
+  touch-action: manipulation;
+}
+
+/* iOS zooms the page into any field under 16px. On touch screens fields are
+   16px; with a mouse they keep the design's 15px. */
+@media (pointer: coarse) {
+  input, select, textarea { font-size: 16px !important; }
 }
 
 body {
@@ -112,11 +136,36 @@ p { text-wrap: pretty; }
 }
 
 /* ── Layout helpers ─────────────────────────────────────────────────────── */
+/* The page's side margin; it also keeps clear of the notch and rounded corners
+   on a phone held sideways. */
+:root {
+  --gutter: max(clamp(16px, 4vw, 40px), env(safe-area-inset-left), env(safe-area-inset-right));
+}
+
 @utility container-page {
   width: 100%;
   max-width: 1200px;
   margin-inline: auto;
-  padding-inline: clamp(16px, 4vw, 40px);
+  padding-inline: var(--gutter);
+}
+
+/* A row that runs edge to edge on a phone while its first card still lines up
+   with the page margin; used for horizontal swipe lists. */
+@utility bleed-x {
+  margin-inline: calc(var(--gutter) * -1);
+  padding-inline: var(--gutter);
+  scroll-padding-inline: var(--gutter);
+}
+
+/* Touch screens get a 44px tall hit area on small text links and controls,
+   without moving them: the extra height is taken back with negative margin. */
+@utility tap {
+  @media (pointer: coarse) {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 44px;
+    margin-block: calc((44px - 1lh) / -2);
+  }
 }
 
 @utility section-y {
@@ -253,22 +302,67 @@ section.section-y:not([class*='bg-']) + section.section-y:not([class*='bg-']),
   .bulb[data-on] :is(.bulb-glow, .bulb-tint, .bulb-filament) { animation: bulb-fade 400ms ease both; }
 }
 
-/* ── FAQ accordion (Faq) ────────────────────────────────────────────────────
-   Opens to the answer's real height where the browser can interpolate to
-   auto; elsewhere it simply snaps open, as a plain <details> does. */
-@supports (interpolate-size: allow-keywords) {
-  .faq { interpolate-size: allow-keywords; }
-  .faq::details-content {
-    block-size: 0;
-    overflow: clip;
-    opacity: 0;
-    transition: block-size 280ms var(--ease-out), opacity 200ms var(--ease-out), content-visibility 280ms allow-discrete;
-  }
-  .faq[open]::details-content { block-size: auto; opacity: 1; }
+/* ── FAQ accordion (FaqList) ───────────────────────────────────────────────
+   The answer's grid row tweens 0fr → 1fr: real height, every browser. Opening
+   lets the text fade in a beat after the row starts; closing fades it first. */
+.faq-panel {
+  transition: grid-template-rows 320ms var(--ease-out), opacity 160ms var(--ease-out);
+}
+[data-open] > .faq-panel {
+  transition: grid-template-rows 380ms var(--ease-out), opacity 300ms var(--ease-out) 80ms;
+}
+@media (prefers-reduced-motion: reduce) {
+  .faq-panel, [data-open] > .faq-panel { transition: opacity 150ms ease; }
 }
 
+/* ── Partner logo drift (PartnerMarquee) ────────────────────────────────────
+   Constant motion, so linear; slow enough to read each name as it passes.
+   The edges fade out so logos glide in rather than pop at the gutter. */
+@keyframes marquee {
+  to { translate: -50% 0; }
+}
+.marquee {
+  mask-image: linear-gradient(90deg, transparent, #000 var(--gutter), #000 calc(100% - var(--gutter)), transparent); /* taste-skill-ignore: an alpha mask for the edges, not a fill */
+}
+.marquee-track { animation: marquee 32s linear infinite; }
 @media (prefers-reduced-motion: reduce) {
-  .faq::details-content { transition: none; }
+  .marquee { overflow-x: auto; scrollbar-width: none; mask-image: none; }
+  .marquee-track { animation: none; }
+  .marquee-track > ul[aria-hidden] { display: none; }
+}
+
+/* ── Mobile menu (Header) ──────────────────────────────────────────────────
+   The panel fades and settles down from the header; its items follow 40ms
+   apart. Closing is quicker and all at once, so nothing lingers. */
+.mobile-menu {
+  opacity: 0;
+  translate: 0 -12px;
+  visibility: hidden;
+  transition: opacity 200ms var(--ease-out), translate 240ms var(--ease-out), visibility 0s 240ms;
+}
+.mobile-menu[data-open] {
+  opacity: 1;
+  translate: none;
+  visibility: visible;
+  transition: opacity 260ms var(--ease-out), translate 420ms var(--ease-out), visibility 0s;
+}
+.mobile-menu .menu-in {
+  opacity: 0;
+  translate: 0 10px;
+  transition: opacity 150ms var(--ease-out), translate 150ms var(--ease-out);
+}
+.mobile-menu[data-open] .menu-in {
+  opacity: 1;
+  translate: none;
+  transition: opacity 360ms var(--ease-out), translate 480ms var(--ease-out);
+  transition-delay: calc(60ms + var(--i, 0) * 40ms);
+}
+@media (prefers-reduced-motion: reduce) {
+  .mobile-menu, .mobile-menu[data-open], .mobile-menu .menu-in, .mobile-menu[data-open] .menu-in {
+    translate: none;
+    transition-property: opacity, visibility;
+    transition-delay: 0s;
+  }
 }
 
 /* ── Light sweep across copied e-mail (CopyEmail) ───────────────────────── */
