@@ -78,6 +78,7 @@ const orgSchema = {
   },
   areaServed: 'CZ',
   identifier: { '@type': 'PropertyValue', name: 'IČO', value: SITE.ico },
+  ...(SITE.sameAs.length > 0 && { sameAs: SITE.sameAs }),
 };
 
 export default async function LocaleLayout({ children, params }: LayoutProps) {

@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { setRequestLocale } from 'next-intl/server';
-import { SITE } from '@/content/site';
 import { homeFaq } from '@/content/faq';
 import { Hero } from '@/components/home/Hero';
 import { TrustStrip } from '@/components/home/TrustStrip';
@@ -30,15 +29,6 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
 
   return (
     <>
-      <JsonLd
-        data={{
-          '@context': 'https://schema.org',
-          '@type': 'WebSite',
-          name: SITE.name,
-          url: SITE.url,
-          inLanguage: 'cs',
-        }}
-      />
       <JsonLd data={faqSchema(homeFaq)} />
       <Hero />
       <TrustStrip />

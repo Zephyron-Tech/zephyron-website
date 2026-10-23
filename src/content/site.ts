@@ -11,6 +11,12 @@ export const SITE = {
     zip: '301 00',
     city: 'Plzeň',
   },
+  // Public profiles that belong to the company (LinkedIn, Firmy.cz, GitHub...).
+  // Feeds `sameAs` in the Organization schema; add URLs once the profiles exist.
+  sameAs: [
+    'https://www.firmy.cz/neoverena-firma/113896444-zephyron-tech-plzen.html',
+    'https://github.com/Zephyron-Tech',
+  ] as string[],
   // Cal.com event slug, e.g. "zephyron/konzultace". Without it the contact
   // page falls back to the form only.
   calLink: process.env.NEXT_PUBLIC_CAL_LINK ?? '',

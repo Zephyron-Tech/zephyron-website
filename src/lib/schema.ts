@@ -33,6 +33,7 @@ export function webSiteSchema() {
     '@id': `${SITE.url}/#website`,
     url: SITE.url,
     name: SITE.name,
+    alternateName: ['Zephyron', SITE.legalName],
     inLanguage: 'cs',
     publisher: { '@id': `${SITE.url}/#organization` },
   };
