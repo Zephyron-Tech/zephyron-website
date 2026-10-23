@@ -14,7 +14,7 @@ import { pageMetadata } from '@/lib/seo';
 export const metadata = pageMetadata({
   title: 'O nás: softwarové studio z Plzně',
   description:
-    'Zephyron Tech je malý tým vývojářů z Plzně. Stavíme software, který firmám šetří čas, mluvíte přímo s námi a staráme se o něj i po spuštění.',
+    'Zephyron Tech je malý tým vývojářů z Plzně. Stavíme software, který firmám šetří čas. Komunikujete přímo s vývojáři a o řešení se staráme i po spuštění.',
   path: '/o-nas',
 });
 
