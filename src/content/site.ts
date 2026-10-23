@@ -16,6 +16,7 @@ export const SITE = {
   sameAs: [
     'https://www.firmy.cz/neoverena-firma/113896444-zephyron-tech-plzen.html',
     'https://github.com/Zephyron-Tech',
+    'https://www.linkedin.com/company/zephyron-tech',
   ] as string[],
   // Cal.com event slug, e.g. "zephyron/konzultace". Without it the contact
   // page falls back to the form only.
