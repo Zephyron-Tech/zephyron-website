@@ -1,11 +1,12 @@
 import { caseStudies } from '@/content/case-studies';
 import { PartnerLogos, PartnerMarquee, type Partner } from '../PartnerLogos';
 
-// Partner organisations from case studies, then clients of finished projects.
+// Partner organisations from case studies, then clients and startups we build with.
 // One logo per organisation, even when it partners on several projects.
 const partners: Partner[] = [
   ...new Map(caseStudies.flatMap((c) => c.partners ?? []).map((p) => [p.name, p])).values(),
   { name: 'ESN UWB Pilsen', logo: '/logos/esn-uwb.png', height: 40 },
+  { name: 'INKLUEM', logo: '/logos/inkluem.svg', height: 34 },
   { name: 'Autoškola Falář' },
 ];
 

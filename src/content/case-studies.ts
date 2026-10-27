@@ -170,10 +170,11 @@ export const caseStudies: CaseStudy[] = [
     kicker: 'Trenažér situací pro inkluzivní školu',
     category: 'Startup Support',
     status: 'V přípravě',
-    art: 'masks',
+    url: 'https://inkluem.zephyron.tech/',
+    image: '/screenshots/inkluem.webp',
     summary:
-      'Trenažér krizových i každodenních situací pro učitele, asistenty pedagoga, rodiče a děti. Krátký scénář, volba reakce a okamžitá zpětná vazba s vysvětlením. Bezpečné místo, kde si člověk rozhodování vyzkouší dřív, než ho potká ve třídě.',
-    tags: ['EdTech', 'Webová aplikace', 'Inkluze'],
+      'Trenažér pro učitele a asistenty pedagoga. Krátká situace ze třídy, volba reakce a okamžitá zpětná vazba s metodickým vysvětlením. Mobilní aplikace je ve fázi návrhu, ukázka scénáře a mockup jsou na webu projektu.',
+    tags: ['EdTech', 'Mobilní aplikace', 'Inkluze'],
   },
 ];
 

@@ -173,7 +173,7 @@ export const glossary: Term[] = [
     ],
     related: {
       services: ['weby-a-aplikace', 'interni-systemy'],
-      cases: ['testamentist', 'inkluem'],
+      cases: ['testamentist'],
       terms: ['interni-system', 'mobilni-aplikace', 'nextjs'],
     },
     updated: UPDATED,
@@ -196,7 +196,7 @@ export const glossary: Term[] = [
     },
     related: {
       services: ['interni-systemy', 'weby-a-aplikace'],
-      cases: ['clearway', 'gridtime'],
+      cases: ['clearway', 'gridtime', 'inkluem'],
       terms: ['webova-aplikace'],
     },
     updated: UPDATED,

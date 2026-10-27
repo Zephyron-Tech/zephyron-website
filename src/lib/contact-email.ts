@@ -40,8 +40,8 @@ export function enquiryEmailHtml(e: EnquiryEmail): string {
 
   const row = (label: string, value: string) => `
           <tr>
-            <td style="padding:10px 0;border-top:1px solid ${PAPER};width:130px;vertical-align:top;font:400 13px/20px ${FONT};color:${MUTED};">${label}</td>
-            <td style="padding:10px 0;border-top:1px solid ${PAPER};vertical-align:top;font:500 15px/22px ${FONT};color:${INK};">${value}</td>
+            <td style="padding:10px 0;border-top:1px solid ${PAPER};width:130px;vertical-align:top;font:400 13px/20px ${FONT};color:${MUTED};">${label}</td><!-- taste-skill-ignore: rules between rows of a real data table -->
+            <td style="padding:10px 0;border-top:1px solid ${PAPER};vertical-align:top;font:500 15px/22px ${FONT};color:${INK};">${value}</td><!-- taste-skill-ignore: rules between rows of a real data table -->
           </tr>`;
   const link = (href: string, text: string) =>
     `<a href="${esc(href)}" style="color:${ACCENT};text-decoration:none;">${esc(text)}</a>`;

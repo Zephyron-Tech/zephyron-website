@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { Link } from '@/navigation';
 import type { CaseStudy } from '@/content/case-studies';
 import { PrintObject } from './PrintObject';
@@ -69,6 +69,22 @@ function CaseCard({ item, wide, showMeta }: { item: CaseStudy; wide: boolean; sh
             Celá případová studie
             <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" aria-hidden />
           </span>
+        )}
+        {/* A project without its own case study page links out to its own website. */}
+        {!item.detail && item.url && (
+          <a
+            href={item.url}
+            target="_blank"
+            rel="noopener"
+            className="tap group/link mt-5 inline-flex items-center gap-2 text-sm font-medium text-accent"
+          >
+            Navštívit web {new URL(item.url).hostname.replace(/^www\./, '')}
+            <ArrowUpRight
+              size={16}
+              aria-hidden
+              className="transition-transform duration-200 group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5"
+            />
+          </a>
         )}
       </div>
     </>

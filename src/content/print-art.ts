@@ -105,15 +105,6 @@ export const printArt = {
     credit: 'Cvmontuy, CC BY 4.0, via Wikimedia Commons (upraveno)',
     page: 'https://commons.wikimedia.org/wiki/File:Monkey_wrench_Mexico_1900.jpg',
   },
-  masks: {
-    src: '/print/masks.png',
-    alt: 'Divadelní masky tragédie a komedie',
-    width: 960,
-    height: 720,
-    title: 'Masky tragédie a komedie, římská mozaika, 2. století',
-    credit: 'Kapitolská muzea, Řím; public domain, via Wikimedia Commons',
-    page: 'https://commons.wikimedia.org/wiki/File:Tragic_comic_masks_-_roman_mosaic.jpg',
-  },
   bulb: {
     src: '/print/bulb.png',
     alt: 'Žárovka',

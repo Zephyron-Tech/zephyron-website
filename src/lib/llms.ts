@@ -28,7 +28,9 @@ const FACTS = [
 ];
 
 const detailed = caseStudies.filter((c) => c.detail);
-const caseLink = (c: (typeof caseStudies)[number]) => (c.detail ? url(`/reference/${c.slug}`) : url('/reference'));
+// Case study page if there is one, else the project's own website, else the list.
+const caseLink = (c: (typeof caseStudies)[number]) =>
+  c.detail ? url(`/reference/${c.slug}`) : (c.url ?? url('/reference'));
 
 export function llmsTxt(): string {
   return [
