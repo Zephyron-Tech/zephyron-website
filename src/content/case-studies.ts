@@ -158,9 +158,10 @@ export const caseStudies: CaseStudy[] = [
     kicker: 'AI trenažér rozhovorů pro krizové intervenienty',
     category: 'Startup Support',
     status: 'V přípravě',
-    art: 'lifebuoy',
+    url: 'https://testamentist.zephyron.tech/',
+    image: '/screenshots/testamentist.webp',
     summary:
-      'Webová aplikace, ve které si krizoví intervenienti trénují podpůrné rozhovory s AI figurantem. Na konci dostanou vyhodnocení a zpětnou vazbu. Projekt už prošel testováním s HZS Plzeňského kraje a Českým červeným křížem.',
+      'Webová aplikace pro trénink podpůrných rozhovorů s AI figurantem. Intervenient vidí odhad stresu simulované osoby a na konci dostane zpětnou vazbu. Projekt prošel testováním s HZS Plzeňského kraje a Českým červeným křížem.',
     tags: ['AI', 'Webová aplikace', 'Vzdělávání'],
   },
   {

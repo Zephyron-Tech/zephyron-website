@@ -78,15 +78,6 @@ export const printArt = {
     page: 'https://commons.wikimedia.org/wiki/File:Set-square_(AM_2015.34.65-2).jpg',
     page2: { label: 'Zdroj kružítka', href: 'https://commons.wikimedia.org/wiki/File:Cyrkiel_RB1.jpg' },
   },
-  lifebuoy: {
-    src: '/print/lifebuoy.png',
-    alt: 'Záchranný kruh',
-    width: 800,
-    height: 788,
-    title: 'Záchranný kruh',
-    credit: 'CC0, via rawpixel',
-    page: 'https://www.rawpixel.com/image/5924284/photo-image-public-domain-vintage-wall',
-  },
   key: {
     src: '/print/key.png',
     alt: 'Starý klíč',
