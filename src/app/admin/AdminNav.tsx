@@ -8,7 +8,7 @@ const items = [
   { href: '/admin', label: 'Přehled' },
   { href: '/admin/enquiries', label: 'Poptávky' },
   { href: '/admin/cards', label: 'Vizitky' },
-  { href: '/admin/reports', label: 'Přehledy' },
+  { href: '/admin/reports', label: 'Podklady' },
 ];
 
 const match = (href: string, path: string) => (href === '/admin' ? path === '/admin' : path.startsWith(href));

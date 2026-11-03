@@ -62,7 +62,7 @@ export default async function AdminHome() {
     <div className="space-y-8">
       <div>
         <h1 className="text-3xl text-ink">Přehled</h1>
-        <p className="mt-1 text-ink-2">Co se děje na zephyron.tech: poptávky, vizitky a interní přehledy.</p>
+        <p className="mt-1 text-ink-2">Co se děje na zephyron.tech: poptávky, vizitky a interní podklady.</p>
       </div>
 
       <dl className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
@@ -140,7 +140,7 @@ export default async function AdminHome() {
 
       {isAdmin && (
         <section>
-          <SectionHead title="Přehledy" href="/admin/reports" link="Všechny přehledy" />
+          <SectionHead title="Podklady" href="/admin/reports" link="Všechny podklady" />
           <ul className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {reports.map((r) => (
               <li key={r.slug}>

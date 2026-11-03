@@ -39,7 +39,7 @@ const delay = (i: number) => ({ animationDelay: `${i * 70}ms` });
 
 export default async function VpsReport({ searchParams }: { searchParams: Promise<{ filtr?: string }> }) {
   const session = await adminSession();
-  if (!session) return <SignInPrompt callbackUrl="/admin/reports/vps" what="Pro zobrazení přehledu" />;
+  if (!session) return <SignInPrompt callbackUrl="/admin/reports/vps" what="Pro zobrazení podkladu" />;
   if (session.role !== 'admin') return <AdminOnly />;
 
   const budget = (await searchParams).filtr === 'rozpocet';
@@ -51,7 +51,7 @@ export default async function VpsReport({ searchParams }: { searchParams: Promis
         <div className="flex items-center justify-between gap-4">
           <Link href="/admin/reports" className="tap inline-flex items-center gap-1.5 text-sm text-ink-2 hover:text-ink">
             <ArrowLeft size={14} aria-hidden />
-            Přehledy
+            Podklady
           </Link>
           <ShareButton title={TITLE} />
         </div>
