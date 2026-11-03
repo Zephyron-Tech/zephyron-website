@@ -48,81 +48,46 @@ export const verdicts: Verdict[] = [
     name: 'Contabo',
     where: 'Cloud VPS 6, Norimberk',
     scores: [['Stabilita', 3], ['IOPS (NVMe)', 3], ['Síť', 2], ['Cena / výkon', 5]],
-    plus: [
-      '12 GB RAM a 6 vCPU za 6 € je trojnásobek naší dnešní spotřeby, tedy místo i pro parkované projekty.',
-      'NVMe varianta výrazně předčí SATA SSD tarif Cloud VPS 4 pro souběžné zápisy z více PostgreSQL.',
-      'Měsíční platba bez dlouhého závazku, takže se dá snadno odejít, když výkon nesedí.',
-    ],
-    minus: [
-      'Sdílené jádro je hodně naplněné: výkon kolísá podle sousedů, sledujte CPU steal.',
-      'Port 300 Mbit/s a v minulosti delší výpadky i pomalá podpora. Bez SLA nad 99,9 %.',
-      'Automatická záloha se platí zvlášť, v ceně jsou jen jeden až dva snapshoty.',
-    ],
+    plus: ['6 vCPU a 12 GB za 6 €, místo i pro parkované projekty.', 'Měsíční platba, snadný odchod.'],
+    minus: ['Přeplněné sdílené jádro, výkon kolísá.', 'Port 300 Mbit/s, automatická záloha za příplatek.'],
   },
   {
     name: 'OVHcloud',
     where: 'VPS-2 / VPS-3, Frankfurt',
     scores: [['Stabilita', 4], ['IOPS (NVMe)', 4], ['Síť', 4], ['Cena / výkon', 3]],
-    plus: [
-      'Velká evropská firma s vlastní sítí, silnou anti-DDoS ochranou a porty 1 až 2 Gbit/s.',
-      'Denní záloha celého VPS je v ceně. U Contaba ani Netcupu ne.',
-      'Konzistentní NVMe, vhodné pro více databází najednou.',
-    ],
-    minus: [
-      'VPS-2 má jen 75 GB, pod požadavkem 80 GB. VPS-3 je s 10,40 € těsně nad rozpočtem.',
-      'Ceny „od“ platí při závazku. V březnu 2026 OVH ceny VPS zvedalo.',
-      'Podpora a zákaznický panel bývají těžkopádné.',
-    ],
+    plus: ['Silná síť a anti-DDoS, port 1–2 Gbit/s.', 'Denní záloha v ceně.'],
+    minus: ['VPS-2 má jen 75 GB, VPS-3 je nad rozpočtem.', 'Ceny „od“ platí jen se závazkem.'],
   },
   {
     name: 'Netcup',
     where: 'VPS 1000 G12.5, Norimberk/Vídeň',
     scores: [['Stabilita', 4], ['IOPS', 4], ['Síť', 4], ['Cena / výkon', 2]],
-    plus: [
-      'Pověst stabilního provozu, ECC paměť, rozhraní 2,5 Gbit/s a 128 GB disku.',
-      'Datacentra v Norimberku a Vídni mají k Praze kratší latenci než Frankfurt.',
-    ],
-    minus: [
-      'Ceny v roce 2026 vyletěly: 10,35 € bez DPH platí jen při 24měsíčním závazku, měsíčně je to dvojnásobek.',
-      'Pouze 8 GB RAM, rezerva pro parkované projekty bude malá.',
-      'Při průměru přes 2 TB provozu za 24 h se port škrtí na 200 Mbit/s.',
-    ],
+    plus: ['Stabilní provoz, ECC RAM, port 2,5 Gbit/s.', 'Nízká latence do Prahy.'],
+    minus: ['10,35 € jen se závazkem 24 měsíců.', 'Jen 8 GB RAM.'],
   },
   {
     name: 'Hostinger a IONOS',
     where: 'KVM 4, VPS L+',
     scores: [['Stabilita', 3], ['IOPS (NVMe)', 4], ['Síť', 3], ['Cena / výkon', 2]],
-    plus: ['Velkorysé parametry: Hostinger 16 GB a 200 GB NVMe, IONOS 240 GB NVMe.'],
-    minus: [
-      'Úvodní ceny jsou návnada. Hostinger po dvou letech 27,99 €, IONOS po třech měsících 22 € s DPH.',
-      'Hostinger chce celé předplatné předem (263,76 €).',
-      'Dlouhodobě nad rozpočtem, a proto se nehodí pro trvalý produkční server.',
-    ],
+    plus: ['Hodně RAM a disku za úvodní cenu.'],
+    minus: ['Po akci 22–28 € měsíčně.', 'Hostinger chce 2 roky předem.'],
   },
   {
     name: 'VEDOS, Webglobe, Websupport',
     where: 'CZ a SK datacentra',
     scores: [['Stabilita', 4], ['IOPS', 3], ['Síť do CZ', 5], ['Cena / výkon', 1]],
-    plus: [
-      'Nejnižší latence k českým zákazníkům, česká fakturace v Kč a podpora v češtině.',
-      'Data fyzicky v ČR nebo SR, což může být argument u klientů z veřejné správy.',
-    ],
-    minus: [
-      'Pro 4 vCPU a 8 GB stojí 870 až 1 280 Kč měsíčně, tedy 3,5× až 5× víc než rozpočet.',
-      'Websupport má v doporučeném tarifu jen 4 GB RAM, 8 GB je možné jen v individuální konfiguraci za vyšší cenu.',
-      'VEDOS účtuje každý GB disku zvlášť (3,99 Kč), růst dat je u něj nejdražší.',
-    ],
+    plus: ['Nejnižší latence, data v ČR/SR, fakturace v Kč.'],
+    minus: ['870–1 280 Kč měsíčně, 3,5–5× nad rozpočtem.'],
   },
 ];
 
 export const steps: { tag: string; title: string; text: string }[] = [
-  { tag: 'Den 1', title: 'Změřit, než se stěhuje', text: 'Spusťte fio s náhodným zápisem 4K (iodepth 32), pgbench a 30 minut sledujte CPU steal přes vmstat 5. Steal trvale nad 5 % nebo latence zápisu v desítkách ms znamenají zrušit tarif a jít na OVH.' },
-  { tag: 'PostgreSQL', title: 'Pět clusterů sloučit na dva', text: 'Authentik, Outline, Nextcloud a Orbit mohou běžet v jednom clusteru PostgreSQL 17 s oddělenými databázemi a rolemi. Zephyron Cards nechte zvlášť kvůli TLS přístupu zvenku. Ušetříte RAM za sdílené buffery i souběžné checkpointy na disku.' },
-  { tag: 'Redis', title: 'Jedna instance místo pěti', text: 'Outline, Nextcloud a MCP Weather mohou sdílet jeden Redis 7 s ACL uživateli a vlastními prefixy. Authentik od verze 2025.10 Redis nepotřebuje, ověřte to u vaší verze 2026.5 a jeho Redis vypněte.' },
-  { tag: 'Limity', title: 'Paměť a logy pod kontrolou', text: 'Každému kontejneru dejte mem_limit, aby ClearWay s Celery nevyhladověl Authentik. Logy Dockeru omezte na max-size 10m, jinak sníží rezervu disku rychleji než data.' },
-  { tag: 'Zálohy', title: 'Zálohy mimo server', text: 'Snapshot u téhož poskytovatele není záloha. orbit-backup a noční pg_dump ostatních databází posílejte šifrovaně (restic) k jinému poskytovateli v EU a jednou za měsíc zkuste obnovu.' },
-  { tag: 'Monitoring', title: 'Hlídat zvenku', text: 'Uptime Kuma na stejném stroji výpadek celého serveru nenahlásí. Druhou instanci provozujte jinde, třeba na nejmenším VPS u jiného poskytovatele.' },
-  { tag: 'Přesun', title: 'Cutover bez výpadku certifikátů', text: 'Den předem snižte TTL DNS na 300 s. Přeneste acme.json z Traefiku, ať se nenarazí na limity Let’s Encrypt. Databáze přeneste přes pg_dump a obnovu, ne kopírováním volume mezi verzemi.' },
+  { tag: 'Den 1', title: 'Změřit disk a CPU', text: 'fio 4K random write, pgbench a 30 min vmstat. Steal nad 5 % znamená přejít na OVH.' },
+  { tag: 'PostgreSQL', title: 'Pět clusterů na dva', text: 'Authentik, Outline, Nextcloud a Orbit do jednoho PG 17. Cards zvlášť kvůli TLS zvenku.' },
+  { tag: 'Redis', title: 'Jedna instance', text: 'Sdílený Redis 7 s ACL. Authentik od 2025.10 Redis nepotřebuje.' },
+  { tag: 'Limity', title: 'mem_limit a rotace logů', text: 'Limit paměti na kontejner, logy Dockeru max-size 10m.' },
+  { tag: 'Zálohy', title: 'Mimo server', text: 'pg_dump a orbit-backup šifrovaně (restic) k jinému poskytovateli, měsíčně test obnovy.' },
+  { tag: 'Přesun', title: 'Cutover', text: 'TTL DNS 300 s předem, přenést acme.json, databáze přes pg_dump. Uptime Kuma pustit i mimo server.' },
 ];
 
 export const sources: { label: string; href: string }[] = [

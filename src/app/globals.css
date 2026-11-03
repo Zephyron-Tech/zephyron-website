@@ -194,6 +194,37 @@ section.section-y:not([class*='bg-']) + section.section-y:not([class*='bg-']),
 .rise-3 { animation-delay: 240ms; }
 .rise-4 { animation-delay: 320ms; }
 
+/* Page change in the admin: short and small, so tab switches feel quick. */
+@keyframes page-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: none; }
+}
+.page-in { animation: page-in 220ms var(--ease-out) both; }
+
+/* Bars that fill from the left: score and usage meters. */
+@keyframes grow-x {
+  from { transform: scaleX(0); }
+  to   { transform: none; }
+}
+.grow-x { transform-origin: left; animation: grow-x 900ms var(--ease-out) both; }
+
+/* Below the fold: rise as the block scrolls into view. Without scroll-driven
+   animations (Firefox) the block simply stands there, which is fine. */
+@supports (animation-timeline: view()) {
+  .reveal {
+    animation: rise linear both;
+    animation-duration: auto;
+    animation-timeline: view();
+    animation-range: entry 0% entry 35%;
+  }
+  .reveal .grow-x {
+    animation-duration: auto;
+    animation-timeline: view();
+    animation-range: entry 10% entry 60%;
+    animation-delay: 0ms;
+  }
+}
+
 /* ── Hero hourglass ─────────────────────────────────────────────────────────
    It is turned over once when the page opens: the clock starts. The tilt that
    follows the pointer is set from JS (HeroHourglass) on .hourglass-tilt. */
