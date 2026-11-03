@@ -1,7 +1,7 @@
 'use server';
 
 import { Resend } from 'resend';
-import { COMPANY_SIZES, TOPICS, type Topic } from '@/lib/contact-options';
+import { COMPANY_SIZES, TOPICS, TOPIC_LABELS, type Topic } from '@/lib/contact-options';
 import { enquiryEmailHtml } from '@/lib/contact-email';
 
 export interface ContactPayload {
@@ -22,15 +22,6 @@ export interface ContactResult {
 }
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-const TOPIC_LABELS: Record<Topic, string> = {
-  automatizace: 'Automatizace procesů',
-  system: 'Interní systém / aplikace',
-  support: 'IT podpora a správa',
-  web: 'Web / webová aplikace',
-  startup: 'Startup Support',
-  jine: 'Jiné',
-};
 
 const clean = (v: unknown, max: number) => (typeof v === 'string' ? v.trim().slice(0, max) : '');
 
@@ -74,6 +65,10 @@ export async function sendContact(data: ContactPayload): Promise<ContactResult> 
     sentAt: new Date(),
   });
 
+  // Kept for the admin dashboard. Never in the way of the e-mail: if the database
+  // is down (or the migration has not reached it yet), the enquiry still goes out.
+  const id = await saveEnquiry({ topic, name, email, phone, company, companySize, message });
+
   if (!process.env.RESEND_API_KEY) {
     // Local dev without Resend: log instead of failing.
     console.info('[sendContact] RESEND_API_KEY missing, would send:\n' + subject + '\n' + text);
@@ -91,9 +86,42 @@ export async function sendContact(data: ContactPayload): Promise<ContactResult> 
       html,
     });
     if (error) throw error;
+    if (id) await markEmailSent(id);
     return { success: true };
   } catch (err) {
     console.error('[sendContact] Resend error:', err);
     return { success: false, error: 'send' };
+  }
+}
+
+async function saveEnquiry(e: {
+  topic: Topic;
+  name: string;
+  email: string;
+  phone: string;
+  company: string;
+  companySize: string;
+  message: string;
+}): Promise<string | null> {
+  try {
+    // Imported here: the client throws at load without DATABASE_URL, and that must not take the form down.
+    const { prisma } = await import('@/lib/prisma');
+    const row = await prisma.enquiry.create({
+      data: { ...e, phone: e.phone || null, company: e.company || null, companySize: e.companySize || null },
+      select: { id: true },
+    });
+    return row.id;
+  } catch (err) {
+    console.error('[sendContact] could not store the enquiry:', err);
+    return null;
+  }
+}
+
+async function markEmailSent(id: string) {
+  try {
+    const { prisma } = await import('@/lib/prisma');
+    await prisma.enquiry.update({ where: { id }, data: { emailSent: true } });
+  } catch {
+    // The row stays emailSent=false; the e-mail itself went out.
   }
 }

@@ -25,7 +25,7 @@ const sections = [
   },
   {
     heading: 'Zpracovatelé',
-    body: 'E-maily z formuláře doručuje služba Resend. Rezervace konzultací zajišťuje Cal.com. Web běží na platformě Vercel.',
+    body: 'E-maily z formuláře doručuje služba Resend. Kopii poptávky ukládáme do vlastní databáze na našem serveru v EU, aby se k ní dostal jen náš tým. Rezervace konzultací zajišťuje Cal.com. Web běží na platformě Vercel.',
   },
   {
     heading: 'Cookies a měření návštěvnosti',
@@ -47,5 +47,5 @@ const sections = [
 
 export default async function PrivacyPage({ params }: { params: Promise<{ locale: string }> }) {
   setRequestLocale((await params).locale);
-  return <LegalPage title="Ochrana osobních údajů" updated="Aktualizováno: říjen 2026" sections={sections} />;
+  return <LegalPage title="Ochrana osobních údajů" updated="Aktualizováno: listopad 2026" sections={sections} />;
 }

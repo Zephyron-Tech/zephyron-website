@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 
-import { btnPrimary, btnSecondary } from './ui';
+import { btnPrimary, btnSecondary } from '../ui';
 
 // A failed load or action in the cards admin: say so in Czech and offer a way on.
 export default function AdminError({ reset }: { error: Error; reset: () => void }) {

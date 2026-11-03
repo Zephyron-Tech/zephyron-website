@@ -47,3 +47,22 @@ model Scan {
 
   @@index([memberId, scannedAt])
 }
+
+// An enquiry from the website's contact form. The e-mail to hello@ stays the main
+// channel; this row is what the admin dashboard lists. Kept at most 2 years
+// (see /ochrana-osobnich-udaju), purged when the dashboard loads.
+model Enquiry {
+  id          String    @id @default(cuid())
+  createdAt   DateTime  @default(now())
+  topic       String
+  name        String
+  email       String
+  phone       String?
+  company     String?
+  companySize String?
+  message     String
+  emailSent   Boolean   @default(false)
+  handledAt   DateTime?
+
+  @@index([createdAt])
+}

@@ -5,7 +5,7 @@ import { Check } from 'lucide-react';
 
 import { saveMember, type SaveState } from './actions';
 import { PhotoInput } from './PhotoInput';
-import { btnPrimary, field, fieldErr, label } from './ui';
+import { btnPrimary, field, fieldErr, label } from '../ui';
 
 interface Props {
   isAdmin: boolean;

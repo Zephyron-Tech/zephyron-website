@@ -6,7 +6,7 @@ import { authOptions, type Role } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { DeleteButton, ResetScansButton } from './DeleteButton';
 import { ScanStats } from './ScanStats';
-import { btnPrimary } from './ui';
+import { btnPrimary } from '../ui';
 
 const DAY = 24 * 60 * 60 * 1000;
 

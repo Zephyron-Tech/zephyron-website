@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { ImagePlus, Loader2, Minus, Plus, Trash2 } from 'lucide-react';
 
-import { btnPrimary, btnSecondary } from './ui';
+import { btnPrimary, btnSecondary } from '../ui';
 
 const OUT = 400; // stored portrait, px
 const FRAME = 288; // crop frame on screen, px
