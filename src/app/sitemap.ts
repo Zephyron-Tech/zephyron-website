@@ -7,7 +7,7 @@ import { glossary } from '@/content/glossary';
 // When the page content last changed. A fixed date, not the build time: a
 // sitemap that claims every page changed on every deploy teaches Google to
 // ignore lastmod. Bump it when the copy of these pages changes.
-const CONTENT_UPDATED = '2026-10-22';
+const CONTENT_UPDATED = '2026-11-05';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const entry = (

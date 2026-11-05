@@ -90,6 +90,17 @@ export default async function ServicePage({ params }: { params: Promise<Params> 
 
       <section className="section-y">
         <div className="container-page grid gap-8 sm:gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+          <SectionHeader title={s.intro.title} className="lg:sticky lg:top-28 lg:self-start" />
+          <div className="prose-z max-w-[68ch]">
+            {s.intro.body.map((p) => (
+              <p key={p}>{p}</p>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section-y">
+        <div className="container-page grid gap-8 sm:gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
           <SectionHeader title="Kdy dává smysl se ozvat" className="lg:sticky lg:top-28 lg:self-start" />
           <ul className="space-y-5 rounded-2xl bg-card p-6 sm:p-8">
             {s.pains.map((p) => (

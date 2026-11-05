@@ -14,6 +14,11 @@ export interface Service {
   metaDescription: string;
   heroTitle: string;
   heroLead: string;
+  /**
+   * Plain description under the hero. The hero title is a slogan, so this is
+   * where the page says what people search for ("interní systém na míru").
+   */
+  intro: { title: string; body: string[] };
   pains: string[];
   deliverables: { title: string; text: string }[];
   examples: string[];
@@ -35,12 +40,19 @@ export const services: Service[] = [
     art: 'hourglass',
     short:
       'Propojíme systémy, které spolu nemluví, a zbavíme vás ručního přepisování dat mezi e-mailem, Excelem a účetnictvím.',
-    metaTitle: 'Automatizace firemních procesů',
+    metaTitle: 'Automatizace procesů a vytěžování dokumentů',
     metaDescription:
-      'Automatizace objednávek, faktur, reportů a notifikací nad nástroji, které už používáte. Propojení účetnictví, CRM, e-shopu a bankovnictví. Plzeň a celá ČR.',
+      'Automatizace firemních procesů a vytěžování faktur a dokumentů. Propojíme účetnictví, CRM, e-shop a banku, aby data nikdo nepřepisoval. Plzeň a celá ČR.',
     heroTitle: 'Opakovanou ruční práci ať dělá software.',
     heroLead:
       'Objednávky z e-mailu do systému, faktury do účetnictví, report pro vedení každé pondělí. Najdeme kroky, které vaši lidé dělají ručně, a necháme je běžet samy. Programy, které už používáte, měnit nemusíte.',
+    intro: {
+      title: 'Automatizace firemních procesů na míru',
+      body: [
+        'Automatizace procesů znamená, že opakované kroky mezi programy dělá software místo lidí. Typicky jde o přepisování objednávek, párování plateb s fakturami, posílání upomínek nebo skládání reportů z několika tabulek. Stavíme ji nad nástroji, které už používáte, a propojujeme je přes API.',
+        'Součástí bývá i vytěžování dokumentů. Z faktur, objednávek a e-mailů se automaticky přečtou údaje jako dodavatel, částky nebo splatnost a zapíšou se tam, kam patří. Když si systém není jistý, pošle dokument člověku ke kontrole.',
+      ],
+    },
     pains: [
       'Data z jednoho systému ručně přepisujete do druhého.',
       'Report pro vedení skládá někdo každý týden z několika tabulek.',
@@ -98,12 +110,19 @@ export const services: Service[] = [
     art: 'macintosh',
     short:
       'Evidence zakázek, plánování, sklad nebo klientský portál. Aplikace postavená podle toho, jak opravdu pracujete.',
-    metaTitle: 'Interní systémy a aplikace na zakázku',
+    metaTitle: 'Vývoj interních systémů na míru',
     metaDescription:
-      'Vývoj interních systémů pro firmy, které přerostly Excel: evidence zakázek, plánování, sklad, klientský portál. Dodávka po etapách a podpora i po spuštění.',
+      'Tvorba interních systémů a firemních aplikací na míru: evidence zakázek, plánování, sklad, klientský portál. Pro firmy, které přerostly Excel. Po etapách.',
     heroTitle: 'Když krabicový software nestačí a Excel už vůbec ne.',
     heroLead:
       'Stavíme interní systémy pro firmy, které přerostly tabulky, ale nepotřebují ERP za miliony. Dodáváme po etapách, takže první část používáte za pár týdnů, ne za rok.',
+    intro: {
+      title: 'Tvorba interního systému na míru',
+      body: [
+        'Interní systém je aplikace, ve které firma vede to, co dnes leží v tabulkách, e-mailech a hlavách lidí: zakázky, kapacity, sklad, servisní požadavky nebo dokumenty pro klienty. Na rozdíl od krabicového softwaru ho stavíme podle toho, jak váš provoz skutečně funguje.',
+        'Vývoj začíná analýzou a návrhem obrazovek, potom pokračuje po etapách. Systém běží v prohlížeči na počítači, tabletu i mobilu. Napojíme ho na účetnictví, e-shop nebo banku, aby se data zadávala jen jednou.',
+      ],
+    },
     pains: [
       'Firma běží na desítkách sdílených tabulek a nikdo neví, která verze platí.',
       'Krabicový systém pokryje polovinu provozu, zbytek se obchází.',
@@ -161,12 +180,19 @@ export const services: Service[] = [
     art: 'wrench',
     short:
       'Účty, zálohy, zabezpečení, Microsoft 365 nebo Google Workspace. Jeden kontakt, který za vaše IT odpovídá.',
-    metaTitle: 'IT podpora a správa IT pro firmy',
+    metaTitle: 'IT podpora pro firmy a správa IT',
     metaDescription:
-      'Správa IT pro malé a střední firmy: Microsoft 365, Google Workspace, zálohy, zabezpečení a servery. Jeden kontakt pro celé IT.',
+      'IT podpora a správa IT pro malé a střední firmy: Microsoft 365, Google Workspace, zálohy, zabezpečení a servery. Jeden kontakt za celé IT. Plzeň a celá ČR.',
     heroTitle: 'IT, na které nemusíte myslet.',
     heroLead:
       'V hodně firmách se o IT stará ten, kdo zrovna nejvíc rozumí počítačům. Převezmeme účty, zařízení, zálohy a zabezpečení, aby se vaši lidé mohli věnovat své práci.',
+    intro: {
+      title: 'IT podpora pro firmy',
+      body: [
+        'IT podpora pro firmu znamená, že za účty, zařízení, zálohy a zabezpečení odpovídá někdo konkrétní. Převezmeme správu Microsoft 365 nebo Google Workspace, nastavíme dvoufázové ověření a pravidelné zálohy a budeme vědět, kdo má k čemu přístup.',
+        'Začínáme úvodním auditem, ze kterého vznikne seznam rizik seřazený podle důležitosti. Pak se domluvíme, jestli chcete pravidelnou správu, jednorázové práce, nebo obojí.',
+      ],
+    },
     pains: [
       'Nikdo přesně neví, kdo má k čemu přístup.',
       'Zálohy možná běží. Obnovu ale nikdo nezkoušel.',
@@ -220,12 +246,19 @@ export const services: Service[] = [
     art: 'radio',
     short:
       'Firemní weby, které se rychle načítají, jsou dohledatelné na Googlu a dají se spravovat bez programátora.',
-    metaTitle: 'Firemní weby a webové aplikace',
+    metaTitle: 'Weby a webové aplikace na míru',
     metaDescription:
-      'Firemní weby a webové aplikace bez šablon: rychlé načítání, technické SEO, správa obsahu přes CMS, hosting a údržba.',
+      'Firemní weby a webové aplikace na míru v Next.js: rychlé načítání, technické SEO, obsah si spravujete sami přes CMS, hosting a údržba. Bez šablon.',
     heroTitle: 'Web, který pro firmu pracuje.',
     heroLead:
       'Navrhneme a postavíme web nebo webovou aplikaci bez šablon. Rychlé načítání, technické SEO, obsah, který si upravíte sami, a provoz, o který se nemusíte starat.',
+    intro: {
+      title: 'Web na míru v Next.js',
+      body: [
+        'Web na míru stavíme bez šablon, podle vaší značky a toho, co má web pro firmu dělat. Používáme Next.js, takže se stránky načtou rychle i na mobilu. Technické SEO řešíme od začátku: strukturovaná data, sitemapu, rychlost a napojení na Google Search Console.',
+        'Webová aplikace jde dál než prezentace: přihlášky, rezervace, klientská zóna nebo napojení na interní systém. Stavíme ji na stejném základu, takže web i aplikace můžou růst spolu.',
+      ],
+    },
     pains: [
       'Web vypadá zastarale a na mobilu se rozpadá.',
       'Každou změnu textu objednáváte u agentury.',
@@ -269,7 +302,7 @@ export const services: Service[] = [
         a: 'Ano. Obsah spravujete přes CMS. Programátora potřebujete jen na nové funkce.',
       },
     ],
-    relatedCases: ['autoskola-falar', 'esn-uwb'],
+    relatedCases: ['autoskola-falar', 'esn-uwb', 'gridtime'],
     pricing: [], // TODO(Jan): orientační ceny
   },
 ];
