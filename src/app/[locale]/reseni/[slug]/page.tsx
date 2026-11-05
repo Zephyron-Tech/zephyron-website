@@ -19,7 +19,7 @@ import { CaseCards } from '@/components/CaseCards';
 import { Faq } from '@/components/Faq';
 import { FinalCta } from '@/components/FinalCta';
 import { JsonLd } from '@/components/JsonLd';
-import { breadcrumbSchema, faqSchema } from '@/lib/schema';
+import { breadcrumbSchema, faqSchema, webPageSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
 
 type Params = { locale: string; slug: string };
@@ -69,6 +69,15 @@ export default async function SolutionPage({ params }: { params: Promise<Params>
         ])}
       />
       <JsonLd data={faqSchema(s.faq)} />
+      <JsonLd
+        data={webPageSchema({
+          path: `/reseni/${s.slug}`,
+          name: s.metaTitle,
+          description: s.metaDescription,
+          updated: s.updated,
+          author: 'jan-vandlicek',
+        })}
+      />
 
       <PageHero
         art={s.art}
@@ -79,11 +88,21 @@ export default async function SolutionPage({ params }: { params: Promise<Params>
         ]}
         title={s.title}
         lead={s.lead}
+        updated={s.updated}
       >
         <Button href="/kontakt" size="lg" arrow track={`cta_solution_${s.slug}`} className="w-full sm:w-auto">
           Domluvit konzultaci
         </Button>
       </PageHero>
+
+      <section className="section-y">
+        <div className="container-page grid gap-8 sm:gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+          <SectionHeader title={s.answer.q} className="lg:sticky lg:top-28 lg:self-start" />
+          <div className="prose-z max-w-[68ch]">
+            <p>{s.answer.a}</p>
+          </div>
+        </div>
+      </section>
 
       <section className="section-y">
         <div className="container-page">

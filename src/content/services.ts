@@ -16,7 +16,9 @@ export interface Service {
   heroLead: string;
   /**
    * Plain description under the hero. The hero title is a slogan, so this is
-   * where the page says what people search for ("interní systém na míru").
+   * where the page says what people search for. The title is the question a
+   * person would ask, the first paragraph answers it on its own (AI answers
+   * and snippets quote it without the rest of the page).
    */
   intro: { title: string; body: string[] };
   pains: string[];
@@ -30,7 +32,11 @@ export interface Service {
    *   { title: 'Úvodní audit', price: 'od 9 900 Kč', note: 'Jednorázově' }
    */
   pricing?: { title: string; price: string; note?: string }[];
+  /** Last content change (ISO date), shown on the page and in the sitemap. */
+  updated: string;
 }
+
+const UPDATED = '2026-11-05';
 
 export const services: Service[] = [
   {
@@ -47,7 +53,7 @@ export const services: Service[] = [
     heroLead:
       'Objednávky z e-mailu do systému, faktury do účetnictví, report pro vedení každé pondělí. Najdeme kroky, které vaši lidé dělají ručně, a necháme je běžet samy. Programy, které už používáte, měnit nemusíte.',
     intro: {
-      title: 'Automatizace firemních procesů na míru',
+      title: 'Co je automatizace firemních procesů?',
       body: [
         'Automatizace procesů znamená, že opakované kroky mezi programy dělá software místo lidí. Typicky jde o přepisování objednávek, párování plateb s fakturami, posílání upomínek nebo skládání reportů z několika tabulek. Stavíme ji nad nástroji, které už používáte, a propojujeme je přes API.',
         'Součástí bývá i vytěžování dokumentů. Z faktur, objednávek a e-mailů se automaticky přečtou údaje jako dodavatel, částky nebo splatnost a zapíšou se tam, kam patří. Když si systém není jistý, pošle dokument člověku ke kontrole.',
@@ -102,6 +108,7 @@ export const services: Service[] = [
     ],
     relatedCases: ['clearway', 'gridtime'],
     pricing: [], // TODO(Jan): orientační ceny
+    updated: UPDATED,
   },
   {
     slug: 'interni-systemy',
@@ -117,7 +124,7 @@ export const services: Service[] = [
     heroLead:
       'Stavíme interní systémy pro firmy, které přerostly tabulky, ale nepotřebují ERP za miliony. Dodáváme po etapách, takže první část používáte za pár týdnů, ne za rok.',
     intro: {
-      title: 'Tvorba interního systému na míru',
+      title: 'Co je interní systém na míru?',
       body: [
         'Interní systém je aplikace, ve které firma vede to, co dnes leží v tabulkách, e-mailech a hlavách lidí: zakázky, kapacity, sklad, servisní požadavky nebo dokumenty pro klienty. Na rozdíl od krabicového softwaru ho stavíme podle toho, jak váš provoz skutečně funguje.',
         'Vývoj začíná analýzou a návrhem obrazovek, potom pokračuje po etapách. Systém běží v prohlížeči na počítači, tabletu i mobilu. Napojíme ho na účetnictví, e-shop nebo banku, aby se data zadávala jen jednou.',
@@ -172,6 +179,7 @@ export const services: Service[] = [
     ],
     relatedCases: ['clearway'],
     pricing: [], // TODO(Jan): orientační ceny
+    updated: UPDATED,
   },
   {
     slug: 'it-podpora',
@@ -187,7 +195,7 @@ export const services: Service[] = [
     heroLead:
       'V hodně firmách se o IT stará ten, kdo zrovna nejvíc rozumí počítačům. Převezmeme účty, zařízení, zálohy a zabezpečení, aby se vaši lidé mohli věnovat své práci.',
     intro: {
-      title: 'IT podpora pro firmy',
+      title: 'Co zahrnuje IT podpora pro firmy?',
       body: [
         'IT podpora pro firmu znamená, že za účty, zařízení, zálohy a zabezpečení odpovídá někdo konkrétní. Převezmeme správu Microsoft 365 nebo Google Workspace, nastavíme dvoufázové ověření a pravidelné zálohy a budeme vědět, kdo má k čemu přístup.',
         'Začínáme úvodním auditem, ze kterého vznikne seznam rizik seřazený podle důležitosti. Pak se domluvíme, jestli chcete pravidelnou správu, jednorázové práce, nebo obojí.',
@@ -238,6 +246,7 @@ export const services: Service[] = [
     ],
     relatedCases: [],
     pricing: [], // TODO(Jan): orientační ceny
+    updated: UPDATED,
   },
   {
     slug: 'weby-a-aplikace',
@@ -253,9 +262,9 @@ export const services: Service[] = [
     heroLead:
       'Navrhneme a postavíme web nebo webovou aplikaci bez šablon. Rychlé načítání, technické SEO, obsah, který si upravíte sami, a provoz, o který se nemusíte starat.',
     intro: {
-      title: 'Web na míru v Next.js',
+      title: 'Co je web na míru?',
       body: [
-        'Web na míru stavíme bez šablon, podle vaší značky a toho, co má web pro firmu dělat. Používáme Next.js, takže se stránky načtou rychle i na mobilu. Technické SEO řešíme od začátku: strukturovaná data, sitemapu, rychlost a napojení na Google Search Console.',
+        'Web na míru je firemní web navržený a postavený bez šablony, podle vaší značky a toho, co má pro firmu dělat. Stavíme ho v Next.js, takže se stránky načtou rychle i na mobilu. Technické SEO řešíme od začátku: strukturovaná data, sitemapu, rychlost a napojení na Google Search Console.',
         'Webová aplikace jde dál než prezentace: přihlášky, rezervace, klientská zóna nebo napojení na interní systém. Stavíme ji na stejném základu, takže web i aplikace můžou růst spolu.',
       ],
     },
@@ -304,6 +313,7 @@ export const services: Service[] = [
     ],
     relatedCases: ['autoskola-falar', 'esn-uwb', 'gridtime'],
     pricing: [], // TODO(Jan): orientační ceny
+    updated: UPDATED,
   },
 ];
 

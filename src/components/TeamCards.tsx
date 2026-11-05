@@ -46,6 +46,16 @@ export function TeamCards() {
             <div className="sm:self-end">
               <h3 className="text-xl text-ink sm:text-2xl">{p.name}</h3>
               <div className="mt-1 text-sm font-medium text-accent">{p.role}</div>
+              {p.linkedin && (
+                <a
+                  href={p.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer me"
+                  className="tap mt-1 inline-block text-sm text-ink-2 underline-offset-4 hover:text-ink hover:underline"
+                >
+                  LinkedIn<span className="sr-only"> {p.name} (otevře se v novém okně)</span>
+                </a>
+              )}
             </div>
             <div className="col-span-2 sm:col-span-1 sm:col-start-2 sm:self-start">
               <div className="text-sm text-muted">Na co se ho ptát</div>

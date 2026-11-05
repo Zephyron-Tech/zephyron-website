@@ -13,7 +13,7 @@ import { SolutionLinkTile } from '@/components/SolutionLinkTile';
 import { solutions as allSolutions } from '@/content/solutions';
 import { FinalCta } from '@/components/FinalCta';
 import { JsonLd } from '@/components/JsonLd';
-import { breadcrumbSchema, definedTermSchema } from '@/lib/schema';
+import { breadcrumbSchema, definedTermSchema, webPageSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
 
 type Params = { locale: string; slug: string };
@@ -59,10 +59,20 @@ export default async function TermPage({ params }: { params: Promise<Params> }) 
         ])}
       />
       <JsonLd data={definedTermSchema(t)} />
+      <JsonLd
+        data={webPageSchema({
+          path: `/slovnik/${t.slug}`,
+          name: termQuestion(t),
+          description: t.short,
+          updated: t.updated,
+          author: 'jan-rychlik',
+        })}
+      />
       <PageHero
         crumbs={[{ name: 'Slovník pojmů', href: '/slovnik' }, { name: t.term }]}
         title={`${termQuestion(t)}?`}
         lead={t.short}
+        updated={t.updated}
       >
         {t.aka && t.aka.length > 0 && (
           <p className="text-[15px] text-muted">

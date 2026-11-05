@@ -20,6 +20,11 @@ export interface Solution {
   /** One line for tiles. */
   short: string;
   lead: string;
+  /**
+   * The question people ask and a self-contained answer (40–70 words) right
+   * under the hero; search snippets and AI answers quote it on its own.
+   */
+  answer: { q: string; a: string };
   art: PrintArtKey;
   /** How it works today, as the owner would describe it. */
   today: string[];
@@ -29,7 +34,11 @@ export interface Solution {
   faq: { q: string; a: string }[];
   relatedCases?: string[];
   relatedTerms?: string[];
+  /** Last content change (ISO date), shown on the page and in the sitemap. */
+  updated: string;
 }
+
+const UPDATED = '2026-11-05';
 
 export const solutions: Solution[] = [
   {
@@ -42,6 +51,10 @@ export const solutions: Solution[] = [
       'Systém pro evidenci zakázek od poptávky po fakturu: kdo na čem pracuje, co se zpožďuje a co se má fakturovat. Postavený podle toho, jak pracujete vy.',
     short: 'Od poptávky po fakturu na jednom místě, s přehledem, kdo na čem pracuje.',
     lead: 'Zakázky dnes žijí v tabulkách, e-mailech a v hlavách lidí. Postavíme systém, ve kterém je každá zakázka od poptávky po fakturu na jednom místě a stav vidí každý, kdo ho potřebuje.',
+    answer: {
+      q: 'Co je evidence zakázek na míru?',
+      a: 'Evidence zakázek na míru je interní systém, ve kterém má každá zakázka jedno místo od poptávky po fakturu: stav, odpovědného člověka, termíny, dokumenty a historii změn. Na rozdíl od tabulky ji upravuje více lidí najednou bez přepisování a na rozdíl od krabicového programu kopíruje postup, jakým zakázky ve vaší firmě skutečně probíhají.',
+    },
     art: 'macintosh',
     today: [
       'Stav zakázky zjišťujete telefonem nebo na chodbě.',
@@ -88,6 +101,7 @@ export const solutions: Solution[] = [
       },
     ],
     relatedTerms: ['interni-system', 'erp', 'integrace-systemu'],
+    updated: UPDATED,
   },
   {
     slug: 'planovani-kapacit',
@@ -99,6 +113,10 @@ export const solutions: Solution[] = [
       'Systém pro plánování kapacit, směn a lidí na zakázky. Uvidíte vytížení dopředu, termíny slibujete podle reality a změny se propíšou všem najednou.',
     short: 'Vytížení lidí a strojů dopředu, termíny podle reality, ne podle odhadu.',
     lead: 'Plán v tabulce funguje, dokud se nic nezmění. Postavíme plánování, ve kterém vidíte vytížení lidí a strojů dopředu a změna se propíše všem, kterých se týká.',
+    answer: {
+      q: 'Jak funguje plánování kapacit na míru?',
+      a: 'Plánování kapacit na míru je systém, který ukazuje vytížení lidí, strojů nebo vozidel dopředu a počítá ho ze skutečných směn, nepřítomností a zakázek. Plánovač v něm přiřazuje práci, systém hlídá kolize a přetížení a při změně upozorní všechny, kterých se týká. Termín zákazníkovi tak slibujete podle volné kapacity, ne odhadem.',
+    },
     art: 'hourglass',
     today: [
       'Plán žije v tabulce, kterou umí upravovat jeden člověk.',
@@ -141,6 +159,7 @@ export const solutions: Solution[] = [
       },
     ],
     relatedTerms: ['interni-system', 'webova-aplikace', 'mobilni-aplikace'],
+    updated: UPDATED,
   },
   {
     slug: 'klientsky-portal',
@@ -152,6 +171,10 @@ export const solutions: Solution[] = [
       'Klientský portál, kde zákazník vidí stav objednávky, dokumenty a faktury. Méně dotazů e-mailem a telefonem, data přímo z vašeho interního systému.',
     short: 'Stav objednávek, dokumenty a faktury pro zákazníky na jednom místě.',
     lead: 'Část práce vašich lidí tvoří odpovědi na otázku „jak to vypadá s naší objednávkou“. Klientský portál zákazníkovi ukáže stav, dokumenty a faktury sám, s daty přímo z vašeho systému.',
+    answer: {
+      q: 'Co je klientský portál?',
+      a: 'Klientský portál je zabezpečená webová aplikace, kde zákazník po přihlášení vidí stav svých objednávek, stahuje dokumenty a faktury a nahrává podklady. Data čte přímo z vašeho interního systému, takže ukazuje stejný stav jako vašim lidem a nic se nepřepisuje. Ubývá tím dotazů e-mailem a telefonem na to, jak objednávka vypadá.',
+    },
     art: 'key',
     today: [
       'Zákazníci volají a píšou, jak je na tom jejich objednávka.',
@@ -194,6 +217,7 @@ export const solutions: Solution[] = [
       },
     ],
     relatedTerms: ['klientsky-portal', 'webova-aplikace', 'api'],
+    updated: UPDATED,
   },
   {
     slug: 'vytezovani-faktur',
@@ -205,6 +229,10 @@ export const solutions: Solution[] = [
       'Automatické vytěžování faktur, objednávek a dalších dokumentů: údaje se přečtou, zkontrolují a zapíšou do účetnictví nebo systému. Nejisté případy jdou k člověku.',
     short: 'Údaje z faktur a objednávek se přečtou a zapíšou samy, sporné jdou ke kontrole.',
     lead: 'Přijaté faktury, objednávky a dodací listy dnes někdo přepisuje ručně. Nastavíme vytěžování, které údaje přečte, zkontroluje a zapíše tam, kam patří. Kde si systém není jistý, pošle dokument člověku.',
+    answer: {
+      q: 'Jak funguje vytěžování faktur?',
+      a: 'Vytěžování faktur znamená, že software z přijaté faktury v PDF, skenu nebo e-mailu sám přečte dodavatele, IČO, částky, DPH, splatnost a položky, ověří je proti tomu, co už znáte, a zapíše je do účetnictví nebo interního systému. Dokumenty, u kterých si není jistý, pošle člověku ke kontrole, takže chybný údaj neprojde bez povšimnutí.',
+    },
     art: 'typewriter',
     today: [
       'Někdo přepisuje přijaté faktury do účetního programu.',
@@ -251,6 +279,7 @@ export const solutions: Solution[] = [
       },
     ],
     relatedTerms: ['vytezovani-dokumentu', 'umela-inteligence', 'api'],
+    updated: UPDATED,
   },
   {
     slug: 'parovani-plateb-a-upominky',
@@ -262,6 +291,10 @@ export const solutions: Solution[] = [
       'Automatické párování plateb z banky s fakturami a upomínky na neuhrazené faktury. Každé ráno víte, kdo zaplatil, a nikdo nemusí kontrolovat výpisy ručně.',
     short: 'Výpisy se každé ráno spárují s fakturami a na neuhrazené odejde upomínka.',
     lead: 'Kontrola, kdo zaplatil, se dělá ručně nad výpisem a seznamem faktur. Nastavíme párování plateb, které proběhne každé ráno samo, a upomínky, které odejdou včas.',
+    answer: {
+      q: 'Jak funguje automatické párování plateb?',
+      a: 'Automatické párování plateb každý den načte pohyby na firemním účtu a přiřadí je k vystaveným fakturám podle variabilního symbolu, částky a protistrany. Faktury, které zůstanou neuhrazené, dostanou v nastavených termínech připomínku nebo upomínku. Platby, u kterých shoda není jistá, systém navrhne a potvrdí je člověk.',
+    },
     art: 'abacus',
     today: [
       'Někdo ručně porovnává výpis z banky se seznamem faktur.',
@@ -304,6 +337,7 @@ export const solutions: Solution[] = [
       },
     ],
     relatedTerms: ['integrace-systemu', 'api', 'webhook'],
+    updated: UPDATED,
   },
   {
     slug: 'reporty-pro-vedeni',
@@ -315,6 +349,10 @@ export const solutions: Solution[] = [
       'Automatické reporty z účetnictví, e-shopu, skladu a CRM: čísla pro vedení chodí e-mailem nebo jsou v přehledu, vždy aktuální a bez ručního skládání tabulek.',
     short: 'Data z účetnictví, e-shopu a skladu v jednom reportu, který se počítá sám.',
     lead: 'Report pro vedení dnes někdo skládá z exportů a tabulek a než je hotový, čísla už neplatí. Propojíme zdroje dat tak, aby se report počítal sám a byl vždy aktuální.',
+    answer: {
+      q: 'Co jsou automatické reporty pro vedení?',
+      a: 'Automatické reporty pro vedení jsou přehledy, které se samy počítají z dat v účetnictví, e-shopu, skladu nebo CRM a přicházejí e-mailem, případně jsou kdykoliv aktuální v prohlížeči. Výpočty jako marže, obrat nebo vytížení jsou jednou definované a platí pro všechny, takže čísla nezávisí na tom, kdo report zrovna skládá.',
+    },
     art: 'radio',
     today: [
       'Report skládá někdo každý týden z několika exportů.',
@@ -357,6 +395,7 @@ export const solutions: Solution[] = [
       },
     ],
     relatedTerms: ['datova-pipeline', 'sber-dat', 'integrace-systemu'],
+    updated: UPDATED,
   },
 ];
 

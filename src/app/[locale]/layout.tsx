@@ -9,7 +9,8 @@ import { Footer } from '@/components/Footer';
 import { MobileCtaBar } from '@/components/MobileCtaBar';
 import { TrackClicks } from '@/components/TrackClicks';
 import { JsonLd } from '@/components/JsonLd';
-import { webSiteSchema } from '@/lib/schema';
+import { personId, webSiteSchema } from '@/lib/schema';
+import { team } from '@/content/team';
 
 type Locale = (typeof routing.locales)[number];
 
@@ -77,7 +78,22 @@ const orgSchema = {
     addressCountry: 'CZ',
   },
   areaServed: 'CZ',
+  description:
+    'Softwarové studio z Plzně. Automatizace firemních procesů, interní systémy na míru, IT správa a weby pro malé a střední firmy.',
   identifier: { '@type': 'PropertyValue', name: 'IČO', value: SITE.ico },
+  // The people behind the firm, described in full on /o-nas.
+  founder: team.map((p) => ({ '@id': personId(p.slug) })),
+  employee: team.map((p) => ({ '@id': personId(p.slug) })),
+  knowsAbout: [
+    'Automatizace firemních procesů',
+    'Interní systémy na míru',
+    'Vytěžování faktur a dokumentů',
+    'Integrace systémů a API',
+    'Klientské portály',
+    'IT správa pro firmy',
+    'Webové aplikace v Next.js',
+    'PostgreSQL a PostGIS',
+  ],
   ...(SITE.sameAs.length > 0 && { sameAs: SITE.sameAs }),
 };
 

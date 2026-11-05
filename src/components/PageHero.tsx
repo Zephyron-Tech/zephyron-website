@@ -12,10 +12,12 @@ interface PageHeroProps {
   crumbs?: { name: string; href?: string }[];
   /** Printed object set beside the heading on wide screens. */
   art?: PrintArtKey;
+  /** ISO date of the last content change, shown as "Aktualizováno …". */
+  updated?: string;
   children?: React.ReactNode;
 }
 
-export function PageHero({ title, lead, crumbs = [], art, children }: PageHeroProps) {
+export function PageHero({ title, lead, crumbs = [], art, updated, children }: PageHeroProps) {
   return (
     <section data-hero className="page-hero relative overflow-hidden">
       <div className="container-page relative pb-16 pt-10 md:pb-24 md:pt-14">
@@ -61,6 +63,14 @@ export function PageHero({ title, lead, crumbs = [], art, children }: PageHeroPr
             <SectionHeader as="h1" title={title} lead={lead} className="rise" />
             {children && <div className="rise rise-2 mt-9">{children}</div>}
             <TrustRow className="rise rise-2 mt-6" />
+            {updated && (
+              <p className="rise rise-2 mt-6 text-[13px] text-muted">
+                Aktualizováno{' '}
+                <time dateTime={updated}>
+                  {new Date(updated).toLocaleDateString('cs-CZ', { day: 'numeric', month: 'long', year: 'numeric' })}
+                </time>
+              </p>
+            )}
           </div>
           {art === 'bulb' ? (
             // The one header object that does something: it switches on.

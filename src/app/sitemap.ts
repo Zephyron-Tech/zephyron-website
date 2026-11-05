@@ -26,8 +26,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     entry('/', 1),
     entry('/sluzby', 0.9),
-    ...services.map((s) => entry(`/sluzby/${s.slug}`, 0.9)),
-    ...solutions.map((s) => entry(`/reseni/${s.slug}`, 0.8)),
+    ...services.map((s) => entry(`/sluzby/${s.slug}`, 0.9, 'monthly', s.updated)),
+    ...solutions.map((s) => entry(`/reseni/${s.slug}`, 0.8, 'monthly', s.updated)),
     entry('/reference', 0.8),
     ...detailedCaseStudies.map((c) => entry(`/reference/${c.slug}`, 0.7)),
     entry('/startup-support', 0.8),

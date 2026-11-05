@@ -26,6 +26,56 @@ export function breadcrumbSchema(items: { name: string; path: string }[]) {
   };
 }
 
+export const ORG_ID = `${SITE.url}/#organization`;
+export const personId = (slug: string) => `${SITE.url}/o-nas#${slug}`;
+
+/** A founder as a schema.org Person, tied to the organisation by @id. */
+export function personSchema(p: {
+  slug: string;
+  name: string;
+  role: string;
+  photo?: string;
+  email?: string;
+  linkedin?: string;
+  knowsAbout: string[];
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    '@id': personId(p.slug),
+    name: p.name.replace(/^Ing\.\s*/, ''),
+    honorificPrefix: p.name.startsWith('Ing.') ? 'Ing.' : undefined,
+    jobTitle: p.role,
+    url: `${SITE.url}/o-nas`,
+    ...(p.photo ? { image: `${SITE.url}${p.photo}` } : {}),
+    ...(p.email ? { email: p.email } : {}),
+    ...(p.linkedin ? { sameAs: [p.linkedin] } : {}),
+    worksFor: { '@id': ORG_ID },
+    knowsAbout: p.knowsAbout,
+  };
+}
+
+/**
+ * The page itself: when it last changed and who answers for its content. Lets
+ * search and AI answers show a date and tie the text to a named person.
+ */
+export function webPageSchema(p: { path: string; name: string; description: string; updated: string; author?: string }) {
+  const url = `${SITE.url}${p.path}`;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    '@id': `${url}#webpage`,
+    url,
+    name: p.name,
+    description: p.description,
+    inLanguage: 'cs',
+    isPartOf: { '@id': `${SITE.url}/#website` },
+    publisher: { '@id': ORG_ID },
+    dateModified: p.updated,
+    ...(p.author ? { author: { '@id': personId(p.author) } } : {}),
+  };
+}
+
 export function webSiteSchema() {
   return {
     '@context': 'https://schema.org',

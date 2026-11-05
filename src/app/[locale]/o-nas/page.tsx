@@ -8,7 +8,8 @@ import { ContactTile } from '@/components/ContactTile';
 import { TeamCards } from '@/components/TeamCards';
 import { FinalCta } from '@/components/FinalCta';
 import { JsonLd } from '@/components/JsonLd';
-import { breadcrumbSchema } from '@/lib/schema';
+import { breadcrumbSchema, personSchema } from '@/lib/schema';
+import { team } from '@/content/team';
 import { pageMetadata } from '@/lib/seo';
 
 export const metadata = pageMetadata({
@@ -49,6 +50,9 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
   return (
     <>
       <JsonLd data={breadcrumbSchema([{ name: 'O nás', path: '/o-nas' }])} />
+      {team.map((p) => (
+        <JsonLd key={p.slug} data={personSchema(p)} />
+      ))}
       <PageHero
         art="draftingTools"
         crumbs={[{ name: 'O nás' }]}

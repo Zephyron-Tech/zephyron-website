@@ -38,8 +38,8 @@ export const config = {
     // - api (API routes), v (business card endpoint, handled by Hono)
     // - _next/static (static files)
     // - _next/image (image optimization files)
-    // - favicon.ico, sitemap.xml, robots.txt, llms.txt, llms-full.txt, seznam-wmt-*.txt (metadata and verification files)
+    // - favicon.ico, sitemap.xml, robots.txt, llms.txt, llms-full.txt, seznam-wmt-*.txt, <IndexNow key>.txt (metadata and verification files)
     // - opengraph-image routes, so social previews load without a locale redirect
-    '/((?!api|v/|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|llms.txt|llms-full.txt|seznam-wmt-[A-Za-z0-9]+\\.txt|fonts|.*\\.png|.*\\.jpg|.*\\.webp|.*\\.svg|.*\\.ico|.*\\.webmanifest|.*opengraph-image).*)',
+    '/((?!api|v/|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|llms.txt|llms-full.txt|seznam-wmt-[A-Za-z0-9]+\\.txt|[a-f0-9]{32}\\.txt|fonts|.*\\.png|.*\\.jpg|.*\\.webp|.*\\.svg|.*\\.ico|.*\\.webmanifest|.*opengraph-image).*)',
   ],
 };

@@ -20,7 +20,7 @@ import { PainCarousel } from '@/components/home/PainCarousel';
 import { Faq } from '@/components/Faq';
 import { FinalCta } from '@/components/FinalCta';
 import { JsonLd } from '@/components/JsonLd';
-import { breadcrumbSchema, faqSchema } from '@/lib/schema';
+import { breadcrumbSchema, faqSchema, webPageSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
 
 type Params = { locale: string; slug: string };
@@ -68,12 +68,22 @@ export default async function ServicePage({ params }: { params: Promise<Params> 
         ])}
       />
       <JsonLd data={faqSchema(s.faq)} />
+      <JsonLd
+        data={webPageSchema({
+          path: `/sluzby/${s.slug}`,
+          name: s.metaTitle,
+          description: s.metaDescription,
+          updated: s.updated,
+          author: 'jan-vandlicek',
+        })}
+      />
 
       <PageHero
         art={s.art}
         crumbs={[{ name: 'Služby', href: '/sluzby' }, { name: s.title }]}
         title={s.heroTitle}
         lead={s.heroLead}
+        updated={s.updated}
       >
         {/* One action; work samples are a text link, as on the other pages. */}
         <div className="flex flex-col items-stretch gap-4 sm:flex-row sm:items-center sm:gap-8">
