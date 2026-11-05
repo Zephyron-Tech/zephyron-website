@@ -9,6 +9,8 @@ import { getCaseStudy } from '@/content/case-studies';
 import { routing } from '@/i18n/routing';
 import { PageHero } from '@/components/PageHero';
 import { ServiceLinkTile } from '@/components/ServiceLinkTile';
+import { SolutionLinkTile } from '@/components/SolutionLinkTile';
+import { solutions as allSolutions } from '@/content/solutions';
 import { FinalCta } from '@/components/FinalCta';
 import { JsonLd } from '@/components/JsonLd';
 import { breadcrumbSchema, definedTermSchema } from '@/lib/schema';
@@ -44,6 +46,9 @@ export default async function TermPage({ params }: { params: Promise<Params> }) 
   const services = (t.related.services ?? []).map(getService).filter((s) => !!s);
   const cases = (t.related.cases ?? []).map(getCaseStudy).filter((c) => !!c);
   const terms = (t.related.terms ?? []).map(getTerm).filter((x) => !!x);
+  // Solutions that list this term, so a reader who came for a definition sees
+  // the concrete problem it solves.
+  const solutionsHere = allSolutions.filter((x) => x.relatedTerms?.includes(t.slug));
 
   return (
     <>
@@ -96,6 +101,16 @@ export default async function TermPage({ params }: { params: Promise<Params> }) 
 
           {/* What to read next: services, projects and neighbouring terms. */}
           <aside className="flex flex-col gap-8 lg:sticky lg:top-28 lg:self-start">
+            {solutionsHere.length > 0 && (
+              <div>
+                <h2 className="text-sm font-medium text-ink-2">Kde to řešíme</h2>
+                <div className="mt-3 grid gap-2">
+                  {solutionsHere.map((x) => (
+                    <SolutionLinkTile key={x.slug} solution={x} compact />
+                  ))}
+                </div>
+              </div>
+            )}
             {services.length > 0 && (
               <div>
                 <h2 className="text-sm font-medium text-ink-2">Související služby</h2>

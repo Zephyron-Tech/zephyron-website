@@ -93,3 +93,9 @@ export const processes: Process[] = [
     autoNote: 'Report se spočítá a chodí sám, vždy s aktuálními čísly.',
   },
 ];
+
+/** Hours a month the calculator says automation saves for `n` units of process `p`. */
+export function savedHours(p: Process, n: number) {
+  const manual = p.steps.reduce((s, x) => s + x.min, 0);
+  return ((manual - p.auto) * n) / 60;
+}

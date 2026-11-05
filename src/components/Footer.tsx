@@ -2,6 +2,7 @@ import { getTranslations } from 'next-intl/server';
 import { Link } from '@/navigation';
 import { NAV, SITE } from '@/content/site';
 import { services } from '@/content/services';
+import { solutions } from '@/content/solutions';
 import { Logo } from './ui/Logo';
 import { CopyLink } from './CopyLink';
 
@@ -17,7 +18,7 @@ export async function Footer() {
   return (
     <footer data-cta-zone className="bg-night text-white">
       {/* Phones: the two link lists sit side by side under the brand, not three tall stacks. */}
-      <div className="container-page grid grid-cols-2 gap-x-6 gap-y-10 py-16 md:grid-cols-[1.6fr_1fr_1fr] md:gap-12">
+      <div className="container-page grid grid-cols-2 gap-x-6 gap-y-10 py-16 md:grid-cols-[1.4fr_1fr_1fr_1fr] md:gap-12">
         <div className="col-span-2 max-w-xs md:col-span-1">
           <Logo dark height={30} />
           <p className="mt-5 text-sm leading-relaxed text-white/60">{t('tagline')}</p>
@@ -33,6 +34,19 @@ export async function Footer() {
               <li key={s.slug}>
                 <Link href={`/sluzby/${s.slug}`} className={link}>
                   {s.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <h2 className={heading}>Řešení</h2>
+          <ul className="mt-3 text-sm">
+            {solutions.map((s) => (
+              <li key={s.slug}>
+                <Link href={`/reseni/${s.slug}`} className={link}>
+                  {s.name}
                 </Link>
               </li>
             ))}

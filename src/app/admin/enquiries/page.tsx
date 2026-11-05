@@ -1,5 +1,6 @@
 import Link from 'next/link';
 
+import { describeAttribution } from '@/lib/attribution';
 import { TOPIC_LABELS, type Topic } from '@/lib/contact-options';
 import { prisma } from '@/lib/prisma';
 import { ago, dateTime } from '../format';
@@ -59,6 +60,9 @@ export default async function EnquiriesPage({ searchParams }: { searchParams: Pr
             e.phone && ['Telefon', e.phone],
             e.company && ['Firma', e.company],
             e.companySize && ['Velikost firmy', sizeLabel(e.companySize)],
+            // Enquiries from before attribution existed have no landing page; show nothing for them.
+            e.landingPage && ['Zdroj', describeAttribution({ source: e.source ?? undefined, medium: e.medium ?? undefined, campaign: e.campaign ?? undefined, referrer: e.referrer ?? undefined })],
+            e.landingPage && ['Vstupní stránka', e.landingPage],
             ['Odesláno', dateTime(e.createdAt)],
           ].filter(Boolean) as [string, string][];
           return (

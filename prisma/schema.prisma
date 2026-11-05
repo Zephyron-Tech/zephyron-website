@@ -63,6 +63,12 @@ model Enquiry {
   message     String
   emailSent   Boolean   @default(false)
   handledAt   DateTime?
+  // First touch, from the zt_src cookie (src/lib/attribution.ts).
+  source      String?
+  medium      String?
+  campaign    String?
+  landingPage String?
+  referrer    String?
 
   @@index([createdAt])
 }

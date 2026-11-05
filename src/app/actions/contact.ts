@@ -1,6 +1,8 @@
 'use server';
 
+import { cookies } from 'next/headers';
 import { Resend } from 'resend';
+import { ATTRIBUTION_COOKIE, describeAttribution, parseAttribution, type Attribution } from '@/lib/attribution';
 import { COMPANY_SIZES, TOPICS, TOPIC_LABELS, type Topic } from '@/lib/contact-options';
 import { enquiryEmailHtml } from '@/lib/contact-email';
 
@@ -41,6 +43,9 @@ export async function sendContact(data: ContactPayload): Promise<ContactResult> 
     return { success: false, error: 'invalid' };
   }
 
+  const attribution = parseAttribution((await cookies()).get(ATTRIBUTION_COOKIE)?.value);
+  const source = describeAttribution(attribution);
+
   const subject = `${topic === 'startup' ? 'Startup Support' : 'Poptávka'}: ${company || name}`;
   // Plain-text version for clients that do not show HTML. Optional fields that
   // were left empty are dropped, so no blank lines are left in their place.
@@ -51,6 +56,8 @@ export async function sendContact(data: ContactPayload): Promise<ContactResult> 
     company && `Firma: ${company}`,
     companySize && `Velikost: ${companySize}`,
     `Téma: ${TOPIC_LABELS[topic]}`,
+    `Zdroj: ${source}`,
+    attribution.landingPage && `Vstupní stránka: ${attribution.landingPage}`,
   ].filter(Boolean);
   const text = `${fields.join('\n')}\n\n${message}`;
   const html = enquiryEmailHtml({
@@ -63,11 +70,13 @@ export async function sendContact(data: ContactPayload): Promise<ContactResult> 
     companySize,
     message,
     sentAt: new Date(),
+    source,
+    landingPage: attribution.landingPage,
   });
 
   // Kept for the admin dashboard. Never in the way of the e-mail: if the database
   // is down (or the migration has not reached it yet), the enquiry still goes out.
-  const id = await saveEnquiry({ topic, name, email, phone, company, companySize, message });
+  const id = await saveEnquiry({ topic, name, email, phone, company, companySize, message }, attribution);
 
   if (!process.env.RESEND_API_KEY) {
     // Local dev without Resend: log instead of failing.
@@ -102,12 +111,22 @@ async function saveEnquiry(e: {
   company: string;
   companySize: string;
   message: string;
-}): Promise<string | null> {
+}, a: Attribution): Promise<string | null> {
   try {
     // Imported here: the client throws at load without DATABASE_URL, and that must not take the form down.
     const { prisma } = await import('@/lib/prisma');
     const row = await prisma.enquiry.create({
-      data: { ...e, phone: e.phone || null, company: e.company || null, companySize: e.companySize || null },
+      data: {
+        ...e,
+        phone: e.phone || null,
+        company: e.company || null,
+        companySize: e.companySize || null,
+        source: a.source ?? null,
+        medium: a.medium ?? null,
+        campaign: a.campaign ?? null,
+        landingPage: a.landingPage ?? null,
+        referrer: a.referrer ?? null,
+      },
       select: { id: true },
     });
     return row.id;

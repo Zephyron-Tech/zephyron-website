@@ -3,6 +3,7 @@ import { Link } from '@/navigation';
 import { SectionHeader } from './ui/SectionHeader';
 import { PrintObject } from './PrintObject';
 import { LitBulb } from './home/LitBulb';
+import { TrustRow } from './TrustRow';
 import type { PrintArtKey } from '@/content/print-art';
 
 interface PageHeroProps {
@@ -59,6 +60,7 @@ export function PageHero({ title, lead, crumbs = [], art, children }: PageHeroPr
           <div>
             <SectionHeader as="h1" title={title} lead={lead} className="rise" />
             {children && <div className="rise rise-2 mt-9">{children}</div>}
+            <TrustRow className="rise rise-2 mt-6" />
           </div>
           {art === 'bulb' ? (
             // The one header object that does something: it switches on.

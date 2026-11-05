@@ -3,6 +3,7 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import { track } from '@vercel/analytics';
 import { processes } from '@/content/calculator';
+import { Link } from '@/navigation';
 
 /** Czech plural for hours, to the half hour under ten: 0 hodin, 1 hodina, 3 hodiny, 3,5 hodiny, 12 hodin. */
 function hoursLabel(h: number) {
@@ -188,6 +189,16 @@ export function TimeCalculator() {
       </details>
 
       <p className="mt-4 text-[13px] text-muted">Ilustrativní odhad. Skutečné časy změříme u vás.</p>
+
+      {/* The estimate travels to the form, so nobody has to retype it. */}
+      <Link
+        href={`/kontakt?proces=${pid}&pocet=${n}`}
+        data-track="calculator_to_contact"
+        className="tap group mt-5 inline-flex items-center gap-2 text-[15px] font-medium text-accent"
+      >
+        Probrat tenhle odhad s námi
+        <span aria-hidden className="transition-transform duration-200 group-hover:translate-x-1">→</span>
+      </Link>
     </figure>
   );
 }

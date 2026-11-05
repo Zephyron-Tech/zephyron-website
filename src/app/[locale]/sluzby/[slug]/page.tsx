@@ -11,6 +11,8 @@ import { PageHero } from '@/components/PageHero';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import { ServiceLinkTile } from '@/components/ServiceLinkTile';
 import { termsForService } from '@/content/glossary';
+import { solutionsForService } from '@/content/solutions';
+import { SolutionLinkTile } from '@/components/SolutionLinkTile';
 import { Button } from '@/components/ui/Button';
 import { CaseCards } from '@/components/CaseCards';
 import { Process } from '@/components/Process';
@@ -44,6 +46,7 @@ export default async function ServicePage({ params }: { params: Promise<Params> 
   const related = caseStudies.filter((c) => s.relatedCases.includes(c.slug));
   const others = services.filter((o) => o.slug !== s.slug);
   const terms = termsForService(s.slug);
+  const solutionsHere = solutionsForService(s.slug);
 
   return (
     <>
@@ -133,6 +136,19 @@ export default async function ServicePage({ params }: { params: Promise<Params> 
           </div>
         </div>
       </section>
+
+      {solutionsHere.length > 0 && (
+        <section className="section-y">
+          <div className="container-page">
+            <SectionHeader title="Konkrétní řešení" />
+            <div className="mt-10 grid gap-3 sm:mt-14 md:grid-cols-2 lg:grid-cols-3">
+              {solutionsHere.map((o) => (
+                <SolutionLinkTile key={o.slug} solution={o} />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       <Process />
 

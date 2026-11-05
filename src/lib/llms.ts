@@ -1,5 +1,6 @@
 import { SITE } from '@/content/site';
 import { services } from '@/content/services';
+import { solutions } from '@/content/solutions';
 import { caseStudies } from '@/content/case-studies';
 import { glossary, termQuestion } from '@/content/glossary';
 import { homeFaq } from '@/content/faq';
@@ -44,6 +45,10 @@ export function llmsTxt(): string {
     '',
     ...services.map((s) => `- [${s.title}](${url(`/sluzby/${s.slug}`)}): ${oneLine(s.short)}`),
     `- [Přehled služeb](${url('/sluzby')}): všechny služby na jedné stránce`,
+    '',
+    '## Řešení',
+    '',
+    ...solutions.map((s) => `- [${s.metaTitle}](${url(`/reseni/${s.slug}`)}): ${oneLine(s.short)}`),
     '',
     '## Startup Support',
     '',
@@ -99,6 +104,31 @@ export function llmsFullTxt(): string {
       'Typické zakázky:',
       '',
       ...s.examples.map((e) => `- ${e}`),
+      '',
+      ...faq(s.faq),
+    );
+  }
+
+  out.push('## Řešení', '');
+  for (const s of solutions) {
+    out.push(
+      `### ${s.metaTitle}`,
+      '',
+      `Stránka: ${url(`/reseni/${s.slug}`)}`,
+      '',
+      oneLine(s.lead),
+      '',
+      'Dnes:',
+      '',
+      ...s.today.map((p) => `- ${p}`),
+      '',
+      'Se systémem:',
+      '',
+      ...s.withSystem.map((p) => `- ${p}`),
+      '',
+      'Co systém umí:',
+      '',
+      ...s.capabilities.map((c) => `- **${c.title}:** ${c.text}`),
       '',
       ...faq(s.faq),
     );

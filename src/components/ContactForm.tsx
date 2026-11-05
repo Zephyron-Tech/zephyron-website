@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useTransition } from 'react';
+import { useEffect, useRef, useState, useTransition } from 'react';
 import { useTranslations } from 'next-intl';
 import { track } from '@vercel/analytics';
 import { ArrowRight, Check } from 'lucide-react';
@@ -8,6 +8,7 @@ import { Link } from '@/navigation';
 import { Button } from './ui/Button';
 import { sendContact } from '@/app/actions/contact';
 import { COMPANY_SIZES, TOPICS, type Topic } from '@/lib/contact-options';
+import { processes, savedHours } from '@/content/calculator';
 
 // Fields are a tone inside the white card, not boxes drawn with lines; focus
 // lifts them to the card colour with a single accent border.
@@ -33,6 +34,23 @@ export function ContactForm({ defaultTopic = 'automatizace' }: { defaultTopic?: 
   const [pending, startTransition] = useTransition();
   const isStartup = topic === 'startup';
   const [errors, setErrors] = useState<Errors>({});
+  const messageRef = useRef<HTMLTextAreaElement>(null);
+
+  // Coming from the home page calculator (/kontakt?proces=faktura&pocet=80):
+  // start the message with the estimate. Read after mount, so the page stays static.
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search);
+    const p = processes.find((x) => x.id === q.get('proces'));
+    const n = Number(q.get('pocet'));
+    if (!p || !Number.isFinite(n) || n < p.min || n > p.max) return;
+    setTopic('automatizace');
+    const el = messageRef.current;
+    if (el && !el.value) {
+      const h = Math.max(1, Math.round(savedHours(p, n)));
+      const hours = `${h} ${h === 1 ? 'hodina' : h <= 4 ? 'hodiny' : 'hodin'}`;
+      el.value = `Z kalkulačky na webu: ${p.label.toLocaleLowerCase('cs')}, ${n} ${p.unit(n)} měsíčně, odhad úspory zhruba ${hours} měsíčně.\n\n`;
+    }
+  }, []);
 
   // Our own checks instead of the browser's bubbles: the message sits under
   // the field in the site's type, and clears as soon as the field is edited.
@@ -190,6 +208,7 @@ export function ContactForm({ defaultTopic = 'automatizace' }: { defaultTopic?: 
           {t('message')}
           <textarea
             {...fieldProps('message')}
+            ref={messageRef}
             rows={5}
             placeholder={isStartup ? t('messagePlaceholderStartup') : t('messagePlaceholder')}
             className={`${field} resize-y ${errors.message ? fieldErr : ''}`}

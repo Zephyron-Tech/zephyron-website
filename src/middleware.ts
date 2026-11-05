@@ -3,6 +3,7 @@ import { withAuth } from 'next-auth/middleware';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { routing } from './i18n/routing';
+import { ATTRIBUTION_COOKIE, ATTRIBUTION_MAX_AGE, attributionFrom } from './lib/attribution';
 
 const intlMiddleware = createMiddleware(routing);
 
@@ -17,7 +18,18 @@ export default function middleware(req: NextRequest) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (adminMiddleware as any)(req);
   }
-  return intlMiddleware(req);
+  const res = intlMiddleware(req);
+  // First touch only: an existing cookie is never overwritten.
+  if (!req.cookies.has(ATTRIBUTION_COOKIE)) {
+    res.cookies.set(ATTRIBUTION_COOKIE, JSON.stringify(attributionFrom(req.nextUrl, req.headers.get('referer'))), {
+      maxAge: ATTRIBUTION_MAX_AGE,
+      httpOnly: true,
+      sameSite: 'lax',
+      secure: process.env.NODE_ENV === 'production',
+      path: '/',
+    });
+  }
+  return res;
 }
 
 export const config = {

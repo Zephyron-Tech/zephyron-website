@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { SITE } from '@/content/site';
 import { services } from '@/content/services';
+import { solutions } from '@/content/solutions';
 import { detailedCaseStudies } from '@/content/case-studies';
 import { glossary } from '@/content/glossary';
 
@@ -26,6 +27,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     entry('/', 1),
     entry('/sluzby', 0.9),
     ...services.map((s) => entry(`/sluzby/${s.slug}`, 0.9)),
+    ...solutions.map((s) => entry(`/reseni/${s.slug}`, 0.8)),
     entry('/reference', 0.8),
     ...detailedCaseStudies.map((c) => entry(`/reference/${c.slug}`, 0.7)),
     entry('/startup-support', 0.8),

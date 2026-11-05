@@ -26,6 +26,10 @@ export interface EnquiryEmail {
   message: string;
   /** When the form was sent. */
   sentAt: Date;
+  /** Where the visitor first came from, e.g. "google / cpc" or "přímý vstup". */
+  source?: string;
+  /** The first page they landed on. */
+  landingPage?: string;
 }
 
 export function enquiryEmailHtml(e: EnquiryEmail): string {
@@ -54,6 +58,8 @@ export function enquiryEmailHtml(e: EnquiryEmail): string {
     e.companySize
       ? row('Velikost firmy', esc(e.companySize === 'startup' ? 'Startup' : `${e.companySize.replace('-', '–')} lidí`))
       : '',
+    e.source ? row('Zdroj', esc(e.source)) : '',
+    e.landingPage ? row('Vstupní stránka', esc(e.landingPage)) : '',
   ].join('');
 
   const reply = `mailto:${e.email}?subject=${encodeURIComponent(`Re: ${e.subject}`)}`;

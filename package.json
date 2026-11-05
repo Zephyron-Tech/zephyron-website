@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "check:content": "node scripts/check-placeholders.mjs",
+    "prebuild": "node scripts/check-placeholders.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",

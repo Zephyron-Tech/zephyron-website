@@ -64,6 +64,13 @@ function CaseCard({ item, wide, showMeta }: { item: CaseStudy; wide: boolean; sh
         <h3 className={`text-ink transition-colors duration-300 group-hover:text-accent ${wide ? 'text-3xl' : 'text-2xl'}`}>{item.name}</h3>
         <p className="mt-1 text-sm text-muted">{item.kicker}</p>
         <p className="mt-3 max-w-2xl leading-relaxed text-ink-2">{item.summary}</p>
+        {/* The first measured outcome, when the case has one. */}
+        {item.facts?.[0] && (
+          <p className="mt-4 flex items-baseline gap-2">
+            <span className="font-display text-2xl font-semibold tracking-tight text-accent">{item.facts[0].value}</span>
+            <span className="text-sm text-ink-2">{item.facts[0].label}</span>
+          </p>
+        )}
         {item.detail && (
           <span className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-ink transition-colors duration-300 group-hover:text-accent">
             Celá případová studie

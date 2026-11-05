@@ -20,6 +20,13 @@ export interface CaseStudy {
   metaDescription?: string;
   image?: string;
   tags: string[];
+  /**
+   * Measured outcomes shown as big numbers ("6 týdnů" / "od zadání po provoz").
+   * Only real, client-confirmed figures; leave out rather than estimate.
+   */
+  facts?: { value: string; label: string }[];
+  /** A client's own words, with their consent. */
+  quote?: { text: string; name: string; role: string };
   /** Projects without detail content render as a card only (no /reference/[slug] page). */
   detail?: {
     problem: string[];

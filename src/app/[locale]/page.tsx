@@ -5,6 +5,7 @@ import { Hero } from '@/components/home/Hero';
 import { TrustStrip } from '@/components/home/TrustStrip';
 import { PainPoints } from '@/components/home/PainPoints';
 import { Services } from '@/components/home/Services';
+import { Solutions } from '@/components/home/Solutions';
 import { Comparison } from '@/components/home/Comparison';
 import { Process } from '@/components/Process';
 import { CaseStudies } from '@/components/home/CaseStudies';
@@ -34,6 +35,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       <TrustStrip />
       <PainPoints />
       <Services />
+      <Solutions />
       <Comparison />
       <Process />
       <CaseStudies />

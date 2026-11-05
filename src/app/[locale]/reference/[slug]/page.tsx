@@ -149,6 +149,19 @@ export default async function CasePage({ params }: { params: Promise<Params> }) 
               </ol>
             )}
           </Block>
+          {c.facts && c.facts.length > 0 && (
+            <Block label="V číslech">
+              <dl className="not-prose grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {c.facts.map((f) => (
+                  // Label first for screen readers, number first on screen.
+                  <div key={f.label} className="flex flex-col-reverse rounded-2xl bg-card p-6">
+                    <dt className="mt-2 text-sm text-ink-2">{f.label}</dt>
+                    <dd className="font-display text-4xl font-semibold tracking-tight text-accent">{f.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            </Block>
+          )}
           {d.result && (
             <Block label="Výsledek">
               {/* The point of the story: the one card in the accent, white type on it. */}
@@ -157,6 +170,16 @@ export default async function CasePage({ params }: { params: Promise<Params> }) 
                   <p key={p}>{p}</p>
                 ))}
               </div>
+            </Block>
+          )}
+          {c.quote && (
+            <Block label="Slovo klienta">
+              <figure className="rounded-2xl bg-card p-6 sm:p-8">
+                <blockquote className="text-lg text-pretty text-ink">„{c.quote.text}“</blockquote>
+                <figcaption className="mt-4 text-sm text-ink-2">
+                  <span className="font-medium text-ink">{c.quote.name}</span>, {c.quote.role}
+                </figcaption>
+              </figure>
             </Block>
           )}
           <Block label="Technologie">

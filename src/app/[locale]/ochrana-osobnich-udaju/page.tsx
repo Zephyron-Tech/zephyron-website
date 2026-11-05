@@ -29,7 +29,7 @@ const sections = [
   },
   {
     heading: 'Cookies a měření návštěvnosti',
-    body: 'Web nepoužívá reklamní ani sledovací cookies. Návštěvnost měříme nástrojem Vercel Web Analytics, který pracuje bez cookies a s anonymizovanými, souhrnnými daty.',
+    body: 'Web nepoužívá reklamní ani sledovací cookies. Návštěvnost měříme nástrojem Vercel Web Analytics, který pracuje bez cookies a s anonymizovanými, souhrnnými daty. Jedinou vlastní cookie je zt_src: při první návštěvě si na 30 dní zapamatuje, odkud jste přišli (například vyhledávač nebo odkaz z kampaně) a na kterou stránku. Nikomu ji nepředáváme a použijeme ji, jen když nám pošlete poptávku, abychom věděli, který kanál funguje.',
   },
   {
     heading: 'Jak dlouho údaje uchováváme',

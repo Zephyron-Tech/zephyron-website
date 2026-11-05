@@ -21,6 +21,9 @@ export const SITE = {
   // Cal.com event slug, e.g. "zephyron/konzultace". Without it the contact
   // page falls back to the form only.
   calLink: process.env.NEXT_PUBLIC_CAL_LINK ?? '',
+  // Public review profile (e.g. the Google Business Profile). Set it once there
+  // are real reviews; until then no rating appears anywhere on the site.
+  reviews: null as { url: string; label: string; rating: number; count: number } | null,
 } as const;
 
 export const NAV = [
