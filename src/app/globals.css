@@ -225,6 +225,10 @@ section.section-y:not([class*='bg-']) + section.section-y:not([class*='bg-']),
   }
 }
 
+/* Gust report: the edge of the current step in the architecture diagram. */
+@keyframes gust-dash { to { stroke-dashoffset: -26; } }
+.gust-flow { animation: gust-dash 900ms linear infinite; }
+
 /* ── Hero hourglass ─────────────────────────────────────────────────────────
    It is turned over once when the page opens: the clock starts. The tilt that
    follows the pointer is set from JS (HeroHourglass) on .hourglass-tilt. */

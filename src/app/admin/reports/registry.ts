@@ -10,6 +10,12 @@ export interface Report {
 
 export const reports: Report[] = [
   {
+    slug: 'gust',
+    title: 'Gust: náhrada Vercelu',
+    description: 'Specifikace vlastní deploy platformy: ukázka na Macu a iPhonu, architektura, API, bezpečnost, design a milníky.',
+    date: '2026-11-07',
+  },
+  {
     slug: 'vps',
     title: 'Výběr VPS po Hetzneru',
     description: 'Srovnání evropských VPS pro náš stack s 26 kontejnery: ceny, disk, síť a doporučení.',
