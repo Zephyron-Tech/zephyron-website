@@ -80,10 +80,18 @@ export async function Footer() {
 
       <div className="bg-night-2">
         <div className="container-page flex flex-col gap-3 pb-[max(24px,env(safe-area-inset-bottom))] pt-6 text-[13px] text-white/50 sm:flex-row sm:items-center sm:justify-between">
-          {/* Company details sit on one line here instead of stretching the contact column. */}
+          {/* NAP block: brand, legal name, company ID, phone, e-mail and service area.
+              No street here: the company is a service-area business without a public office. */}
           <span>
-            © {new Date().getFullYear()} {t('copyright')} · {SITE.address.street}, {SITE.address.zip}{' '}
-            {SITE.address.city} · {t('ico')} {SITE.ico}
+            © {new Date().getFullYear()} Zephyron Tech · {t('copyright')} · {t('ico')} {SITE.ico} ·{' '}
+            <a href={`tel:${SITE.phone.replace(/\s/g, '')}`} className="tap hover:text-white">
+              {SITE.phone}
+            </a>{' '}
+            ·{' '}
+            <a href={`mailto:${SITE.email}`} className="tap hover:text-white">
+              {SITE.email}
+            </a>{' '}
+            · {SITE.area}
           </span>
           <div className="flex flex-wrap gap-x-5 gap-y-1">
             <Link href="/ochrana-osobnich-udaju" className="tap hover:text-white">

@@ -15,7 +15,8 @@ import { startupCriteria, startupFaq, startupOffer, startupSteps } from '@/conte
 
 const url = (path: string) => `${SITE.url}${path}`;
 const oneLine = (s: string) => s.replace(/\s+/g, ' ').trim();
-const address = `${SITE.address.street}, ${SITE.address.zip} ${SITE.address.city}`;
+// City only: the registered seat is not a public office (service-area business).
+const address = SITE.address.city;
 
 const SUMMARY =
   'Zephyron Tech je softwarové studio z Plzně. Automatizujeme ruční práci, stavíme interní systémy na zakázku, staráme se o firemní IT a děláme weby a webové aplikace pro malé a střední firmy, které přerostly Excel, ale nepotřebují ERP za miliony. Startupům bez technického týmu děláme dlouhodobého technického partnera.';
@@ -23,7 +24,7 @@ const SUMMARY =
 const FACTS = [
   `- Firma: ${SITE.legalName}, IČO ${SITE.ico}, ${address}, Česko`,
   `- Kontakt: ${SITE.email}, ${SITE.phone}, ${url('/kontakt')}`,
-  '- Působnost: celá Česká republika',
+  `- Působnost: ${SITE.area}`,
   '- Jak pracujeme: úvodní konzultace zdarma, dodávka po etapách s cenou každé etapy známou předem, podpora i po spuštění',
   `- Tým: ${team.map((p) => `${p.name} (${p.role})`).join(', ')}`,
 ];

@@ -14,7 +14,7 @@ import { pageMetadata } from '@/lib/seo';
 export const metadata = pageMetadata({
   title: 'Kontakt a nezávazná konzultace',
   description:
-    'Domluvte si úvodní konzultaci zdarma nebo nám napište. Ozveme se do dvou pracovních dnů. Zephyron Tech s.r.o., Čermákova 2587/60, Plzeň.',
+    'Domluvte si úvodní konzultaci zdarma nebo nám napište. Ozveme se do dvou pracovních dnů. Zephyron Tech s.r.o., Plzeň, Praha a celá ČR.',
   path: '/kontakt',
 });
 
@@ -132,9 +132,9 @@ function DirectContact() {
       <ContactTile
         tone="card"
         icon={MapPin}
-        label="Sídlo"
+        label="Firma"
         value={SITE.legalName}
-        lines={[`${SITE.address.street}, ${SITE.address.zip} ${SITE.address.city}`, `IČO ${SITE.ico}`]}
+        lines={[`IČO ${SITE.ico}`, `Působnost: ${SITE.area}`]}
       />
     </div>
   );

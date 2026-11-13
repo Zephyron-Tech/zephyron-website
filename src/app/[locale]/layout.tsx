@@ -59,28 +59,60 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   };
 }
 
+// One organisation entity for the whole site: every page's schema points at it
+// through this @id. Combining Organization and ProfessionalService binds the B2B
+// brand to its local service areas.
 const orgSchema = {
   '@context': 'https://schema.org',
-  '@type': 'ProfessionalService',
+  '@type': ['Organization', 'ProfessionalService'],
   '@id': `${SITE.url}/#organization`,
+  // Short brand name first, so the Knowledge Panel does not need the legal suffix.
   name: SITE.name,
+  // Exact registered name, bridging the entity listed in the company registry.
   legalName: SITE.legalName,
+  alternateName: ['Zephyron', SITE.legalName],
   url: SITE.url,
-  logo: `${SITE.url}/mark-color.png`,
+  // Square 512x512 PNG of the mark (the only square logo asset in /public).
+  logo: {
+    '@type': 'ImageObject',
+    url: `${SITE.url}/web-app-manifest-512x512.png`,
+    width: 512,
+    height: 512,
+  },
   image: `${SITE.url}/opengraph-image`,
   email: SITE.email,
-  telephone: SITE.phone,
+  // Same number as in Google Business Profile.
+  telephone: '+420722635417',
+  taxID: SITE.ico,
+  identifier: { '@type': 'PropertyValue', name: 'IČO', value: SITE.ico },
+  description:
+    'B2B softwarové studio zaměřené na vývoj webových aplikací na míru, datových systémů a firemní automatizace.',
+  // City level only, consistent with the hidden address of a service-area business.
   address: {
     '@type': 'PostalAddress',
-    streetAddress: SITE.address.street,
-    addressLocality: SITE.address.city,
-    postalCode: SITE.address.zip,
+    addressLocality: 'Plzeň',
+    addressRegion: 'Plzeňský kraj',
     addressCountry: 'CZ',
   },
-  areaServed: 'CZ',
-  description:
-    'Softwarové studio z Plzně. Automatizace firemních procesů, interní systémy na míru, IT správa a weby pro malé a střední firmy.',
-  identifier: { '@type': 'PropertyValue', name: 'IČO', value: SITE.ico },
+  // Mirrors the service areas configured in Google Business Profile.
+  areaServed: [
+    { '@type': 'City', name: 'Plzeň' },
+    { '@type': 'AdministrativeArea', name: 'Plzeňský kraj' },
+    { '@type': 'City', name: 'Praha' },
+    { '@type': 'AdministrativeArea', name: 'Středočeský kraj' },
+    { '@type': 'AdministrativeArea', name: 'Jihočeský kraj' },
+  ],
+  // Service catalog aligned with the Services section of Google Business Profile.
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Vývoj softwaru a IT služby',
+    itemListElement: [
+      'Vývoj webových aplikací na míru',
+      'Datové systémy a backendová architektura',
+      'Automatizace firemních procesů a AI integrace',
+      'Technické konzultace, audit kódu a DevOps',
+    ].map((name) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name } })),
+  },
   // The people behind the firm, described in full on /o-nas.
   founder: team.map((p) => ({ '@id': personId(p.slug) })),
   employee: team.map((p) => ({ '@id': personId(p.slug) })),
@@ -94,6 +126,7 @@ const orgSchema = {
     'Webové aplikace v Next.js',
     'PostgreSQL a PostGIS',
   ],
+  // TODO: add the verified Google Business Profile share URL (via SITE.sameAs) once verification completes.
   ...(SITE.sameAs.length > 0 && { sameAs: SITE.sameAs }),
 };
 

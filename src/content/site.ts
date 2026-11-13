@@ -5,6 +5,10 @@ export const SITE = {
   email: 'hello@zephyron.tech',
   phone: '+420 722 635 417',
   ico: '23793538',
+  // Where we work. The company is a service-area business: the registered
+  // seat below belongs in billing and legal text only, never as a public office.
+  area: 'Plzeň, Praha a celá ČR',
+  // Registered seat (billing / legal information only).
   address: {
     street: 'Čermákova 2587/60',
     district: 'Jižní Předměstí',
